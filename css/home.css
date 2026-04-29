@@ -1,0 +1,129 @@
+/* =========================
+   HOME HERO ONLY
+========================= */
+.hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #555;
+  max-width: 480px;
+  margin-bottom: 30px;
+}
+
+.hero .cta {
+  display: inline-block;
+  padding: 14px 24px;
+  background: #6366f1;
+  color: #fff;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.22);
+}
+
+.hero .cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(99, 102, 241, 0.28);
+}
+
+.hero img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* =========================
+   MAIN NAV PILL SYSTEM
+========================= */
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.main-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  color: #2563eb;
+  transition: all 0.2s ease;
+}
+
+.main-nav a:hover {
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.main-nav a.active {
+  background: #3b82f6;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.25);
+}
+
+/* FINAL FOOTER STYLE */
+.sch-footer {
+  width: 100%;
+  padding: 20px;
+  border-top: 1px solid var(--line-soft, var(--line));
+  margin-top: 20px;
+}
+
+.sch-footer-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.sch-footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.sch-footer-brand a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sch-logo {
+  height: 30px;
+  width: auto;
+  display: block;
+}
+
+.sch-footer-copy {
+  font-size: 0.85rem;
+  color: #5f6b7a;
+  margin: 0;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.sch-footer-subtitle,
+.sch-powered {
+  display: none;
+}
