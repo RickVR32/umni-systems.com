@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Setup Guide — Umniality Systems</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/products.css">
+  <style>
+    .guide-wrap {max-width: 1180px; margin: 0 auto; padding: 44px 22px 84px; box-sizing: border-box;}
+    .page-intro {text-align:center; margin-bottom:52px;}
+    .page-intro h1 {color:#3B82F6; font-size:52px; margin:0 0 16px;}
+    .page-intro p {max-width:780px; margin:0 auto; font-size:18px; color:var(--text-muted); line-height:1.75;}
+    .guide-grid {display:grid; grid-template-columns: 1.15fr .85fr; gap:28px; align-items:start;}
+    .panel {background:#fff; border:1px solid rgba(0,0,0,.08); border-radius:24px; padding:28px; box-sizing:border-box; box-shadow:0 20px 40px rgba(0,0,0,.05);}
+    .panel h2 {margin:0 0 18px; color:#2563eb; font-size:30px;}
+    .panel h3 {margin:24px 0 10px; font-size:21px; color:#111;}
+    .panel p, .panel li {line-height:1.75; color:#1f2937;}
+    .step-list {display:grid; gap:18px; margin-top:16px;}
+    .step-card {border:1px solid rgba(0,0,0,.08); border-radius:18px; padding:20px; background:linear-gradient(180deg,#fff 0%,#f8fbff 100%);}
+    .step-number {display:inline-block; margin-bottom:10px; font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#1f6fff;}
+    .pill-row {display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;}
+    .pill {display:inline-block; padding:11px 15px; border-radius:999px; background:rgba(31,111,255,.08); color:#1f6fff; font-weight:600;}
+    .req-list, .check-list {margin:14px 0 0 18px;}
+    .note {margin-top:16px; padding:16px 18px; border-radius:16px; background:#f8fbff; border:1px solid rgba(31,111,255,.12);}
+    .cta-box {margin-top:24px; padding:22px; border-radius:20px; background:#fff; border:1px solid rgba(0,0,0,.08);}
+    .cta-box a {font-weight:600;}
+    @media (max-width: 980px) { .guide-grid {grid-template-columns:1fr;} .page-intro h1 {font-size:42px;} }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="brand"><img src="images/logo.png" alt="Umniality Systems" class="brand-logo"></a>
+    <nav class="main-nav">
+      <a href="products.html">Products</a>
+      <a href="licensing.html">Licensing</a>
+      <a href="subscriptions.html">Subscriptions</a>
+      <a href="support.html" class="active">Support</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+<main class="guide-wrap">
+  <section class="page-intro">
+    <h1>Setup Guide</h1>
+    <p>Everything needed to get a UMNi product running cleanly. This guide keeps the launch path simple: install the platform, connect Telegram, attach the product, then verify live delivery before moving into regular use.</p>
+  </section>
+
+  <section class="guide-grid">
+    <div class="panel">
+      <h2>Quick start</h2>
+      <div class="step-list">
+        <article class="step-card">
+          <span class="step-number">Step 01</span>
+          <h3>Prepare your trading platform</h3>
+          <p>Install MetaTrader 5 for the current UMNi product range. If you are testing a dedicated MT4 build, use the matching MetaTrader 4 version instead. Log in to your broker or demo account and confirm the platform is connected.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-number">Step 02</span>
+          <h3>Install Telegram</h3>
+          <p>Install Telegram on your phone or desktop, create your account, and open the destination chat or bot you want the product to use for notifications and command delivery.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-number">Step 03</span>
+          <h3>Load the UMNi product</h3>
+          <p>Place the product in the correct platform folder, restart the terminal if needed, and attach it to the intended chart. Match the product build to the platform version you are running: MT5 build for MetaTrader 5, MT4 build for MetaTrader 4.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-number">Step 04</span>
+          <h3>Enter your Telegram details</h3>
+          <p>Open the product inputs, add your Telegram settings, then save the configuration. Once attached, the system should begin sending online, heartbeat, or status output depending on the product tier.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-number">Step 05</span>
+          <h3>Verify live output</h3>
+          <p>Run a test on demo first. Confirm that Telegram messages arrive, the platform stays connected, and the product is reporting the correct account or chart environment before using it in a live setting.</p>
+        </article>
+      </div>
+
+      <div class="note">
+        <strong>Best practice:</strong> Start on a demo account, confirm the full message flow, then move to your live environment only when everything is stable.
+      </div>
+    </div>
+
+    <div style="display:grid; gap:24px;">
+      <div class="panel">
+        <h2>Requirements</h2>
+        <ul class="req-list">
+          <li>MetaTrader 5 account for the current live UMNi range</li>
+          <li>Telegram account for message delivery and command control</li>
+          <li>Stable internet connection</li>
+          <li>Broker connection active inside the trading terminal</li>
+          <li>Basic understanding of attaching an EA or utility to a chart</li>
+        </ul>
+        <div class="pill-row">
+          <span class="pill">MT5 required now</span>
+          <span class="pill">MT4 build matched separately</span>
+          <span class="pill">Telegram required</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Platform notes</h2>
+        <h3>UMNi-NTFY™</h3>
+        <p>Notification layer focused on clean Telegram delivery from your trading platform.</p>
+        <h3>UMNi-ALRT™</h3>
+        <p>Expanded awareness layer with deeper event visibility and richer reporting.</p>
+        <h3>UMNi-CMND™</h3>
+        <p>Command layer designed for structured remote interaction alongside live monitoring.</p>
+      </div>
+
+      <div class="panel">
+        <h2>Before going live</h2>
+        <ul class="check-list">
+          <li>Check that AutoTrading is enabled where required</li>
+          <li>Check that Telegram messages are arriving in the correct chat</li>
+          <li>Check the correct symbol and timeframe are selected</li>
+          <li>Check your lot sizing and safety settings before deployment</li>
+          <li>Check your VPS or local machine will remain online</li>
+        </ul>
+        <div class="cta-box">
+          <p><strong>Need product access?</strong> Purchase through the official marketplace, then return here to complete the setup flow.</p>
+          <p style="display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;">
+            <a href="https://www.mql5.com/en/market/product/171240" target="_blank" rel="noopener" style="display:inline-block;margin:18px 12px 0 0;padding:12px 18px;border-radius:999px;background:#111;color:#fff;text-decoration:none;font-weight:600;letter-spacing:.01em;">Buy UMNi-NTFY on MQL5</a>
+            <a href="https://www.mql5.com/en/market/product/171329" target="_blank" rel="noopener" style="display:inline-block;margin:18px 12px 0 0;padding:12px 18px;border-radius:999px;background:#111;color:#fff;text-decoration:none;font-weight:600;letter-spacing:.01em;">Buy UMNi-ALRT on MQL5</a>
+            <a href="https://www.mql5.com/en/users/mrrickielee/seller" target="_blank" rel="noopener" style="display:inline-block;margin:18px 12px 0 0;padding:12px 18px;border-radius:999px;border:1px solid rgba(0,0,0,.14);color:#111;text-decoration:none;font-weight:600;letter-spacing:.01em;background:#fff;">View seller profile</a>
+            <a href="products.html" style="display:inline-block;margin:18px 12px 0 0;padding:12px 18px;border-radius:999px;border:1px solid rgba(0,0,0,.14);color:#111;text-decoration:none;font-weight:600;letter-spacing:.01em;background:#fff;">View products</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="sch-footer">
+  <div class="sch-footer-inner">
+    <div class="sch-footer-brand">
+      <a href="https://sourcecodeholdings.org" target="_blank" rel="noopener noreferrer" aria-label="Source Code Holdings">
+        <img class="sch-logo" src="images/sch_logo_light.png" alt="Source Code Holdings logo">
+      </a>
+    </div>
+    <p class="sch-footer-copy">© 2026 Source Code Holdings™. All rights reserved.</p>
+  </div>
+</footer>
+</body>
+</html>
