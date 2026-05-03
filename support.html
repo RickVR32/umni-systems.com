@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Support — Umniality Systems</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/products.css">
+  <style>
+    .page-wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 40px 22px 80px;
+      box-sizing: border-box;
+    }
+
+    .page-intro {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .page-intro h1 {
+      color: #3B82F6;
+      font-size: 52px;
+      margin: 0 0 16px;
+    }
+
+    .page-intro p {
+      max-width: 760px;
+      margin: 0 auto;
+      font-size: 18px;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    .support-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .panel {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 22px;
+      padding: 28px;
+      box-sizing: border-box;
+      box-shadow: 0 10px 30px rgba(0,0,0,.04);
+    }
+
+    .panel h2 {
+      margin: 0 0 18px;
+      color: #2563eb;
+      font-size: 28px;
+    }
+
+    .faq-item + .faq-item {
+      border-top: 1px solid rgba(0,0,0,.08);
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+
+    .faq-item h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      color: #111827;
+    }
+
+    .faq-item p,
+    .contact-card p,
+    .contact-card li {
+      color: #1f2937;
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .contact-stack {
+      display: grid;
+      gap: 20px;
+    }
+
+    .contact-card {
+      background: rgba(255,255,255,.95);
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .contact-card + .contact-card {
+      margin-top: 18px;
+    }
+
+    .contact-card h3 {
+      margin: 0 0 10px;
+      color: #2563eb;
+      font-size: 20px;
+    }
+
+    .contact-card a {
+      color: #1f6fff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .contact-card a:hover {
+      text-decoration: underline;
+    }
+
+    .contact-card ul {
+      margin: 12px 0 0 18px;
+      padding: 0;
+    }
+
+    .quick-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .quick-links a {
+      display: inline-block;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(31,111,255,.08);
+      color: #1f6fff;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background .2s ease, transform .2s ease;
+    }
+
+    .quick-links a:hover {
+      background: rgba(31,111,255,.14);
+      transform: translateY(-1px);
+    }
+
+    .contact-email {
+      font-size: 18px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .support-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-intro h1 {
+        font-size: 42px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-wrap {
+        padding: 28px 16px 64px;
+      }
+
+      .page-intro h1 {
+        font-size: 36px;
+      }
+
+      .panel {
+        padding: 22px;
+      }
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:'Geist Mono',monospace;font-weight:300;-webkit-font-smoothing:antialiased;background:#fff}
+    h1,h2,h3{font-family:'Cormorant',serif;font-weight:300;letter-spacing:-0.01em}
+    .site-header{background:rgba(255,255,255,0.94)!important;border-bottom:1px solid rgba(15,23,42,0.07)!important}
+    .main-nav a{font-family:'Geist Mono',monospace!important;font-weight:300!important;font-size:0.75rem!important;letter-spacing:0.1em!important;text-transform:uppercase!important;color:var(--text-muted)!important}
+    .main-nav a:hover{color:var(--umni-blue)!important;background:rgba(31,111,255,0.06)!important}
+    .main-nav a.active{background:var(--umni-blue)!important;color:#fff!important}
+    p,li{font-family:'Geist Mono',monospace;font-weight:300;font-size:0.78rem;line-height:1.85}
+    .page-intro h1,.intro h1{font-size:clamp(2.4rem,5vw,4rem)!important;color:var(--text-main)!important;letter-spacing:-0.02em!important;line-height:0.96!important}
+    .page-intro p,.intro p{font-family:'Geist Mono',monospace!important;font-weight:300!important;font-size:0.82rem!important;line-height:1.9!important}
+    h1{color:var(--text-main)!important}
+    h2{color:var(--text-main)!important}
+    h3{color:var(--text-main)!important}
+    .kicker,.badge,.tag,.product-kicker{font-family:'Geist Mono',monospace!important;font-weight:300!important;font-size:0.65rem!important;letter-spacing:0.2em!important;text-transform:uppercase!important;background:rgba(31,111,255,0.06)!important;color:var(--umni-blue)!important;border-radius:999px!important;padding:5px 12px!important;display:inline-block!important}
+    .card,.panel,.plan,.info-card,.contact-card,.tier-box,.hero-card,.setup-card,.screenshot-card,.step-card{background:#fff!important;border:1px solid rgba(15,23,42,0.07)!important;border-radius:20px!important;box-shadow:none!important}
+    .mql-button{font-family:'Geist Mono',monospace!important;font-weight:300!important;font-size:0.72rem!important;letter-spacing:0.1em!important;text-transform:uppercase!important;background:#111827!important;color:#fff!important;border:none!important;box-shadow:none!important;border-radius:999px!important;padding:11px 20px!important;display:inline-flex!important;align-items:center!important}
+    .quick-links a{font-family:'Geist Mono',monospace!important;font-weight:300!important;font-size:0.72rem!important;letter-spacing:0.1em!important;text-transform:uppercase!important;background:rgba(31,111,255,0.08)!important;color:var(--umni-blue)!important;border-radius:999px!important}
+    .pill,.tag{background:rgba(31,111,255,0.06)!important;color:var(--umni-blue)!important;font-family:'Geist Mono',monospace!important;font-weight:300!important;font-size:0.65rem!important}
+    .note,.cta-box{background:#f7f9fc!important;border:1px solid rgba(15,23,42,0.06)!important;border-radius:16px!important;box-shadow:none!important}
+    .step-number{color:var(--umni-blue)!important;font-family:'Geist Mono',monospace!important;font-weight:300!important;font-size:0.65rem!important;letter-spacing:0.15em!important}
+    .requirement-list li{background:#f7f9fc!important;border:1px solid rgba(15,23,42,0.06)!important;font-size:0.75rem!important;letter-spacing:0.02em!important}
+    .sch-footer{border-top:1px solid rgba(15,23,42,0.07)!important;margin-top:60px!important;padding:40px 20px 28px!important}
+    .sch-footer-inner{max-width:1200px!important;margin:0 auto!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:14px!important;text-align:center!important}
+    .sch-footer-brand{display:none!important}
+    .sch-footer-copy{font-family:'Geist Mono',monospace!important;font-weight:300!important;font-size:0.6rem!important;letter-spacing:0.16em!important;text-transform:uppercase!important;color:var(--text-muted)!important;opacity:0.4!important;margin:0!important}
+    .sch-footer-label{font-family:'Geist Mono',monospace;font-weight:300;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);opacity:0.55}
+    .sch-logo-link{display:inline-flex;align-items:center;justify-content:center;opacity:0.7;transition:opacity 0.2s}
+    .sch-logo-link:hover{opacity:1}
+    .sch-logo{height:34px!important;width:auto!important}
+    .footer-socials{display:flex;gap:16px;align-items:center;margin-bottom:4px}
+    .footer-socials a{opacity:0.45;transition:opacity 0.2s;color:var(--text-main)}
+    .footer-socials a:hover{opacity:0.9}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <img src="images/logo.png" alt="Umniality Systems" class="brand-logo">
+      </a>
+      <nav class="main-nav">
+      <a href="products.html">Products</a>
+      <a href="licensing.html">Licensing</a>
+      <a href="subscriptions.html">Subscriptions</a>
+      <a href="support.html">Support</a>
+      <a href="about.html">About</a>
+      <a href="https://t.me/UmniSystems" target="_blank" rel="noopener">Telegram</a>
+    </nav>
+    </div>
+  </header>
+
+  <main class="page-wrap">
+    <section class="page-intro">
+      <h1>Support</h1>
+      <p>
+        One place for common questions, licensing guidance, commercial enquiries,
+        and direct contact. This support hub replaces separate FAQ and contact pages
+        with a clearer single-point structure.
+      </p>
+    </section>
+
+    <section class="support-grid">
+      <div class="panel">
+        <h2>Frequently asked questions</h2>
+
+        <div class="faq-item">
+          <h3>Are profits guaranteed?</h3>
+          <p>
+            No. Trading involves risk and losses can occur. Umniality Systems provides
+            governed execution tools and automation, not financial guarantees.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Is this financial advice?</h3>
+          <p>
+            No. Umniality Systems products are execution and information systems only.
+            They do not provide financial, investment, or trading advice.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Do UMNi products trade automatically?</h3>
+          <p>
+            Supported UMNi systems can operate automatically under predefined rules,
+            session controls, and risk parameters. Exact behaviour depends on the
+            product tier and deployment setup.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Can I run the products on a demo account?</h3>
+          <p>
+            Yes. Demo deployment is strongly recommended before moving to any live
+            trading environment.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>What is the difference between NTFY, ALRT, and CMND?</h3>
+          <p>
+            NTFY is the notification layer, ALRT expands into deeper live awareness
+            and structured event reporting, and CMND extends the system with governed
+            remote interaction and command capability.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>How is licensing structured?</h3>
+          <p>
+            Licensing is handled per account and follows a tier-based structure.
+            You can review licensing on the Licensing page and current access options
+            on the Subscriptions page.
+          </p>
+        </div>
+
+        <div class="quick-links">
+          <a href="licensing.html">View Licensing</a>
+          <a href="subscriptions.html">View Subscriptions</a>
+          <a href="setup-guide.html">Setup Guide</a>
+          <a href="products.html">Explore Products</a>
+        </div>
+      </div>
+
+      <div class="contact-stack">
+        <div class="panel">
+          <h2>Contact</h2>
+
+          <div class="contact-card">
+            <h3>Direct contact</h3>
+            <p>
+              All enquiries, including product access, licensing, commercial use,
+              and support, are handled through a single contact channel.
+            </p>
+            <p class="contact-email">
+              <a href="mailto:admin@umni-systems.com">admin@umni-systems.com</a>
+            </p>
+          </div>
+
+          <div class="contact-card">
+            <h3>What to include</h3>
+            <p>
+              To help speed up support and routing, include relevant context where possible:
+            </p>
+            <ul>
+              <li>Product (NTFY, ALRT, CMND)</li>
+              <li>Account type (demo / live)</li>
+              <li>Platform (MT5 / environment)</li>
+              <li>Request type (support, licensing, commercial)</li>
+            </ul>
+          </div>
+
+          <div class="contact-card">
+            <h3>Setup & documentation</h3>
+            <p>
+              Most setup steps and system structure are already documented.
+              Review the relevant pages before requesting support.
+            </p>
+            <p style="margin-top:14px;"><a href="setup-guide.html">Open setup guide →</a></p>
+            <p style="margin-top:10px;"><a href="licensing.html">Review licensing & support tiers →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+<footer class="sch-footer">
+  <div class="sch-footer-inner">
+    <div class="footer-socials">
+      <a href="https://t.me/UmniSystems" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 13.617l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.942z"/></svg></a>
+      <a href="https://www.tiktok.com/@UmniSystems" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.19 8.19 0 004.79 1.53V6.75a4.85 4.85 0 01-1.02-.06z"/></svg></a>
+      <a href="https://www.instagram.com/UmniSystems" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    </div>
+    <span class="sch-footer-label">Branded by</span>
+    <a href="https://sourcecodeholdings.org" target="_blank" rel="noopener noreferrer" class="sch-logo-link"><img class="sch-logo" src="images/sch_logo_light.png" alt="Source Code Holdings"></a>
+    <p class="sch-footer-copy">© 2026 Source Code Holdings™ — All rights reserved</p>
+  </div>
+</footer>
+</body>
+</html>
