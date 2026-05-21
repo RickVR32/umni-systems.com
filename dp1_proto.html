@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP-1 — Core Processor · UMNi Labs</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+  :root {
+    --bg: #0D0D0B;
+    --bg2: #141412;
+    --bg3: #1C1C19;
+    --border: #2C2C28;
+    --border2: #3A3A35;
+    --text: #E8E7E0;
+    --text2: #9A9990;
+    --text3: #5A5A55;
+    --amber: #EF9F27;
+    --amber-dim: #BA7517;
+    --coral: #D85A30;
+    --teal: #1D9E75;
+    --purple: #534AB7;
+    --pink: #D4537E;
+    --blue: #378ADD;
+    --blue-dim: #185FA5;
+    --green: #1D9E75;
+    --red: #E24B4A;
+    --mono: 'Space Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* SCAN LINE TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* HEADER */
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: rgba(13,13,11,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+  }
+
+  .logo strong {
+    color: var(--text);
+    font-size: 14px;
+  }
+
+  .status-pill {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--teal);
+    border: 1px solid var(--teal);
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .status-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--teal);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* LAYOUT */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    grid-template-rows: auto 1fr;
+    gap: 0;
+    min-height: calc(100vh - 57px);
+  }
+
+  /* LEFT COLUMN */
+  .left-col {
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* SCHEMATIC SECTION */
+  .schematic-wrap {
+    padding: 28px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* PIPELINE VISUALISER */
+  .pipeline {
+    padding: 28px 32px;
+    flex: 1;
+  }
+
+  .pipeline-stages {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 16px;
+  }
+
+  .stage {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stage::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--border2);
+    transition: background 0.3s ease;
+  }
+
+  .stage.active {
+    border-color: var(--border2);
+    background: var(--bg3);
+  }
+
+  .stage.active::before { background: var(--amber); }
+  .stage.done::before { background: var(--teal); }
+  .stage.done { border-color: rgba(29,158,117,0.2); }
+
+  .stage-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    min-width: 16px;
+  }
+
+  .stage-name {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text2);
+    flex: 1;
+  }
+
+  .stage.active .stage-name { color: var(--text); }
+  .stage.done .stage-name { color: var(--teal); }
+
+  .stage-val {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    text-align: right;
+    min-width: 80px;
+  }
+
+  .stage.done .stage-val { color: var(--teal); }
+
+  .stage-connector {
+    width: 1px;
+    height: 10px;
+    background: var(--border);
+    margin-left: 27px;
+  }
+
+  /* OUTPUT CARDS */
+  .output-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .out-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    transition: all 0.4s ease;
+  }
+
+  .out-card.lit {
+    border-color: var(--border2);
+    box-shadow: 0 0 20px rgba(55,138,221,0.08);
+  }
+
+  .out-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .out-val {
+    font-family: var(--mono);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text3);
+    transition: color 0.4s ease;
+    line-height: 1;
+  }
+
+  .out-val.lit { color: var(--blue); }
+  .out-sub {
+    font-size: 10px;
+    color: var(--text3);
+    margin-top: 4px;
+    font-family: var(--mono);
+  }
+
+  /* RIGHT COLUMN */
+  .right-col {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 57px);
+    position: sticky;
+    top: 57px;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+  }
+
+  .tab {
+    flex: 1;
+    padding: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-align: center;
+    color: var(--text3);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .tab:hover { color: var(--text2); }
+  .tab.active { color: var(--text); border-bottom-color: var(--amber); }
+
+  /* FORM PANEL */
+  .form-panel {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .form-panel::-webkit-scrollbar { width: 4px; }
+  .form-panel::-webkit-scrollbar-track { background: transparent; }
+  .form-panel::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--text3);
+    text-transform: uppercase;
+  }
+
+  .field-hint {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: -3px;
+  }
+
+  .slider-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  input[type=range] {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 4px;
+    background: var(--border2);
+    border-radius: 2px;
+    outline: none;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--amber);
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+  .slider-val {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text);
+    min-width: 28px;
+    text-align: right;
+  }
+
+  textarea, select {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 10px 12px;
+    outline: none;
+    resize: none;
+    transition: border-color 0.2s;
+  }
+
+  textarea:focus, select:focus { border-color: var(--border2); }
+
+  select option { background: var(--bg3); }
+
+  .run-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--amber);
+    color: #1a1400;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 4px;
+  }
+
+  .run-btn:hover { background: #f5b340; transform: translateY(-1px); }
+  .run-btn:active { transform: translateY(0); }
+  .run-btn:disabled { background: var(--border2); color: var(--text3); cursor: not-allowed; transform: none; }
+
+  /* CHAT PANEL */
+  .chat-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  .msg {
+    display: flex;
+    gap: 10px;
+    animation: msg-in 0.25s ease;
+  }
+
+  @keyframes msg-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .msg-avatar {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    min-width: 32px;
+    padding-top: 3px;
+    text-align: right;
+    letter-spacing: 0.06em;
+  }
+
+  .msg.user .msg-avatar { color: var(--amber); }
+  .msg.dp1 .msg-avatar { color: var(--blue); }
+
+  .msg-body {
+    flex: 1;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text2);
+  }
+
+  .msg.user .msg-body { color: var(--text); }
+
+  .msg-body pre {
+    font-family: var(--mono);
+    font-size: 11px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-top: 8px;
+    overflow-x: auto;
+    color: var(--text2);
+    white-space: pre-wrap;
+  }
+
+  .typing-indicator {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 4px 0;
+  }
+
+  .typing-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--blue);
+    animation: typing 1.2s ease-in-out infinite;
+  }
+
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typing {
+    0%,60%,100% { opacity: 0.2; transform: scale(0.8); }
+    30% { opacity: 1; transform: scale(1); }
+  }
+
+  .chat-input-area {
+    border-top: 1px solid var(--border);
+    padding: 12px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .chat-input {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 8px 12px;
+    outline: none;
+    resize: none;
+    height: 40px;
+    transition: border-color 0.2s;
+  }
+
+  .chat-input:focus { border-color: var(--border2); }
+
+  .send-btn {
+    padding: 0 14px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text2);
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+    height: 40px;
+  }
+
+  .send-btn:hover { border-color: var(--amber); color: var(--amber); }
+  .send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* SCHEMATIC SVG */
+  .schematic-svg-wrap {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 4px;
+  }
+
+  /* OBSERVER CODE BARS */
+  .oc-bars { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
+  .oc-row { display: flex; align-items: center; gap: 8px; }
+  .oc-name { font-family: var(--mono); font-size: 9px; color: var(--text3); min-width: 32px; }
+  .oc-track { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .oc-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+  .oc-pct { font-family: var(--mono); font-size: 9px; color: var(--text3); min-width: 28px; text-align: right; }
+
+  /* PANEL HIDDEN */
+  .panel { display: none; }
+  .panel.visible { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border); margin: 4px 0; }
+
+  /* CHIP BADGE */
+  .chip-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 8px;
+    letter-spacing: 0.08em;
+  }
+
+  .chip-badge-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--teal); }
+
+  /* FLASH ANIMATION */
+  @keyframes flash-stage {
+    0% { background: var(--bg3); }
+    30% { background: rgba(239,159,39,0.08); }
+    100% { background: var(--bg3); }
+  }
+
+  .stage.active { animation: flash-stage 1.2s ease forwards; }
+
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    UMNi-Tech &nbsp;·&nbsp; <strong>DP-1</strong> &nbsp;·&nbsp; Core Processor — UMNi Labs
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="chip-badge">
+      <div class="chip-badge-dot"></div>
+      UMNi Labs · In Development
+    </div>
+    <div class="status-pill">
+      <div class="status-dot"></div>
+      CLAUDE API CONNECTED
+    </div>
+  </div>
+</header>
+<div style="background:#0a0a0a;border-bottom:1px solid rgba(220,38,38,0.2);padding:0.5rem 1.5rem;display:flex;align-items:center;justify-content:space-between;">
+  <a href="https://umni-systems.com/tech.html" style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:#DC2626;text-decoration:none;">← UMNi-Tech</a>
+  <span style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.14em;text-transform:uppercase;color:#444440;">UMNi Labs · Prototype · Confidential</span>
+  <a href="https://umni-systems.com" style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:#444440;text-decoration:none;">umni-systems.com</a>
+</div>
+
+<div class="main">
+
+  <!-- LEFT: SCHEMATIC + PIPELINE -->
+  <div class="left-col">
+
+    <div class="schematic-wrap">
+      <div class="section-label">chip schematic — DP-1 v1.0</div>
+      <div class="schematic-svg-wrap">
+        <svg width="100%" viewBox="0 0 680 520" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="#5F5E5A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+          <!-- Chip package -->
+          <rect x="130" y="50" width="360" height="400" rx="12" fill="#1C1C19" stroke="#2C2C28" stroke-width="2"/>
+          <!-- Left pins -->
+          <rect x="108" y="86" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="104" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="122" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="140" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="158" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="176" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="194" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="212" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="230" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="248" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="266" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="284" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="302" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="320" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="338" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="356" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="374" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="392" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="108" y="410" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <!-- Right pins -->
+          <rect x="490" y="86" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="104" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="122" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="140" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="158" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="176" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="194" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="212" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="230" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="248" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="266" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="284" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="302" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="320" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="338" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="356" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="374" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <rect x="490" y="392" width="22" height="8" rx="2" fill="#5A5A55"/>
+          <!-- Stage 1: Input Ingestion -->
+          <rect x="160" y="68" width="300" height="52" rx="4" fill="#141412" stroke="#2C2C28" stroke-width="0.8"/>
+          <text x="310" y="89" text-anchor="middle" font-size="9" fill="#5A5A55" font-family="monospace" letter-spacing="0.1em">STAGE 1</text>
+          <text x="310" y="107" text-anchor="middle" font-size="11" fill="#9A9990" font-family="monospace">INPUT INGESTION</text>
+          <!-- Stage 2: Dual YY -->
+          <rect x="160" y="132" width="145" height="70" rx="4" fill="#141412" stroke="#2C2C28" stroke-width="0.8"/>
+          <text x="232" y="152" text-anchor="middle" font-size="8" fill="#5A5A55" font-family="monospace" letter-spacing="0.1em">STAGE 2</text>
+          <text x="232" y="167" text-anchor="middle" font-size="10" fill="#9A9990" font-family="monospace">DUAL YIN-YANG</text>
+          <text x="232" y="182" text-anchor="middle" font-size="9" fill="#5A5A55" font-family="monospace">CONSCIOUS</text>
+          <text x="232" y="195" text-anchor="middle" font-size="9" fill="#5A5A55" font-family="monospace">SUBCONSCIOUS</text>
+          <!-- Stage 3: OC Ratio -->
+          <rect x="315" y="132" width="145" height="70" rx="4" fill="#141412" stroke="#2C2C28" stroke-width="0.8"/>
+          <text x="387" y="152" text-anchor="middle" font-size="8" fill="#5A5A55" font-family="monospace" letter-spacing="0.1em">STAGE 3</text>
+          <text x="387" y="167" text-anchor="middle" font-size="10" fill="#9A9990" font-family="monospace">OBSERVER CODE</text>
+          <text x="387" y="182" text-anchor="middle" font-size="10" fill="#9A9990" font-family="monospace">RATIO ENGINE</text>
+          <text x="387" y="196" text-anchor="middle" font-size="8" fill="#3A3A35" font-family="monospace">NARC·YARC·CIST·Øll</text>
+          <!-- Stage 4: Drift -->
+          <rect x="160" y="216" width="300" height="52" rx="4" fill="#141412" stroke="#2C2C28" stroke-width="0.8"/>
+          <text x="310" y="237" text-anchor="middle" font-size="9" fill="#5A5A55" font-family="monospace" letter-spacing="0.1em">STAGE 4</text>
+          <text x="310" y="255" text-anchor="middle" font-size="11" fill="#9A9990" font-family="monospace">DRIFT CALCULATION · D = |C − S|</text>
+          <!-- Stage 5: Balance Scale -->
+          <rect x="160" y="282" width="300" height="52" rx="4" fill="#0C2A4A" stroke="#185FA5" stroke-width="0.8"/>
+          <text x="310" y="303" text-anchor="middle" font-size="9" fill="#378ADD" font-family="monospace" letter-spacing="0.1em" opacity="0.6">STAGE 5</text>
+          <text x="310" y="321" text-anchor="middle" font-size="11" fill="#B5D4F4" font-family="monospace">BALANCE SCALE OUTPUT  −5 ——— 0 ——— +5</text>
+          <!-- Connector lines between stages -->
+          <line x1="310" y1="120" x2="310" y2="132" stroke="#2C2C28" stroke-width="1"/>
+          <line x1="310" y1="202" x2="310" y2="216" stroke="#2C2C28" stroke-width="1"/>
+          <line x1="310" y1="268" x2="310" y2="282" stroke="#2C2C28" stroke-width="1"/>
+          <!-- Inner connector: S2 → S3 -->
+          <line x1="305" y1="167" x2="315" y2="167" stroke="#2C2C28" stroke-width="1"/>
+          <!-- External labels -->
+          <line x1="490" y1="96" x2="530" y2="96" stroke="#3A3A35" stroke-width="0.5" stroke-dasharray="3 2"/>
+          <text x="535" y="100" font-size="10" fill="#5A5A55" font-family="monospace">data in</text>
+          <line x1="490" y1="170" x2="530" y2="170" stroke="#3A3A35" stroke-width="0.5" stroke-dasharray="3 2"/>
+          <text x="535" y="174" font-size="10" fill="#5A5A55" font-family="monospace">C-YY bus</text>
+          <line x1="490" y1="210" x2="530" y2="210" stroke="#3A3A35" stroke-width="0.5" stroke-dasharray="3 2"/>
+          <text x="535" y="214" font-size="10" fill="#5A5A55" font-family="monospace">SC-YY bus</text>
+          <line x1="490" y1="257" x2="530" y2="257" stroke="#3A3A35" stroke-width="0.5" stroke-dasharray="3 2"/>
+          <text x="535" y="261" font-size="10" fill="#5A5A55" font-family="monospace">OC ratio</text>
+          <line x1="490" y1="308" x2="530" y2="308" stroke="#3A3A35" stroke-width="0.5" stroke-dasharray="3 2"/>
+          <text x="535" y="312" font-size="10" fill="#5A5A55" font-family="monospace">drift score</text>
+          <line x1="490" y1="365" x2="530" y2="365" stroke="#378ADD" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.5"/>
+          <text x="535" y="369" font-size="10" fill="#378ADD" font-family="monospace" opacity="0.7">BS output</text>
+          <!-- Chip label -->
+          <text x="310" y="372" text-anchor="middle" font-size="18" fill="#2C2C28" font-family="monospace" font-weight="bold">DP-1</text>
+          <text x="310" y="390" text-anchor="middle" font-size="8" fill="#2C2C28" font-family="monospace" letter-spacing="0.12em">SOURCE CODE HOLDINGS LTD</text>
+          <!-- Device dispatch bottom -->
+          <rect x="160" y="405" width="88" height="30" rx="4" fill="#141412" stroke="#2C2C28" stroke-width="0.8"/>
+          <text x="204" y="424" text-anchor="middle" font-size="9" fill="#5A5A55" font-family="monospace">→ NES</text>
+          <rect x="256" y="405" width="108" height="30" rx="4" fill="#141412" stroke="#2C2C28" stroke-width="0.8"/>
+          <text x="310" y="424" text-anchor="middle" font-size="9" fill="#5A5A55" font-family="monospace">→ ABFS</text>
+          <rect x="372" y="405" width="88" height="30" rx="4" fill="#141412" stroke="#2C2C28" stroke-width="0.8"/>
+          <text x="416" y="424" text-anchor="middle" font-size="9" fill="#5A5A55" font-family="monospace">→ TCE</text>
+          <line x1="310" y1="334" x2="310" y2="405" stroke="#2C2C28" stroke-width="0.8" stroke-dasharray="4 2"/>
+          <line x1="204" y1="405" x2="416" y2="405" stroke="#2C2C28" stroke-width="0.8"/>
+          <!-- Highlight active stage (animated by JS) -->
+          <rect id="schematic-highlight" x="160" y="68" width="300" height="52" rx="4" fill="none" stroke="transparent" stroke-width="1.5" opacity="0"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- PIPELINE STAGE TRACKER -->
+    <div class="pipeline">
+      <div class="section-label">processing pipeline</div>
+
+      <div class="pipeline-stages" id="pipeline-stages">
+        <div class="stage" id="s1">
+          <span class="stage-num">01</span>
+          <span class="stage-name">Input Ingestion</span>
+          <span class="stage-val" id="s1-val">—</span>
+        </div>
+        <div class="stage-connector"></div>
+        <div class="stage" id="s2">
+          <span class="stage-num">02</span>
+          <span class="stage-name">Dual Yin-Yang Scoring</span>
+          <span class="stage-val" id="s2-val">—</span>
+        </div>
+        <div class="stage-connector"></div>
+        <div class="stage" id="s3">
+          <span class="stage-num">03</span>
+          <span class="stage-name">Observer Code Ratio</span>
+          <span class="stage-val" id="s3-val">—</span>
+        </div>
+        <div class="stage-connector"></div>
+        <div class="stage" id="s4">
+          <span class="stage-num">04</span>
+          <span class="stage-name">Drift Calculation</span>
+          <span class="stage-val" id="s4-val">—</span>
+        </div>
+        <div class="stage-connector"></div>
+        <div class="stage" id="s5">
+          <span class="stage-num">05</span>
+          <span class="stage-name">Balance Scale Output</span>
+          <span class="stage-val" id="s5-val">—</span>
+        </div>
+      </div>
+
+      <!-- OUTPUT CARDS -->
+      <div class="output-grid">
+        <div class="out-card" id="card-bs">
+          <div class="out-label">Balance Scale</div>
+          <div class="out-val" id="out-bs">—</div>
+          <div class="out-sub" id="out-bs-state">awaiting input</div>
+        </div>
+        <div class="out-card" id="card-drift">
+          <div class="out-label">Drift Score</div>
+          <div class="out-val" id="out-drift">—</div>
+          <div class="out-sub" id="out-drift-state">D = |C − S|</div>
+        </div>
+        <div class="out-card" id="card-oc" style="grid-column: span 2;">
+          <div class="out-label">Observer Code Ratio</div>
+          <div class="oc-bars">
+            <div class="oc-row">
+              <span class="oc-name">NARC</span>
+              <div class="oc-track"><div class="oc-fill" id="oc-narc" style="width:25%;background:#D85A30;"></div></div>
+              <span class="oc-pct" id="pct-narc">25%</span>
+            </div>
+            <div class="oc-row">
+              <span class="oc-name">YARC</span>
+              <div class="oc-track"><div class="oc-fill" id="oc-yarc" style="width:25%;background:#1D9E75;"></div></div>
+              <span class="oc-pct" id="pct-yarc">25%</span>
+            </div>
+            <div class="oc-row">
+              <span class="oc-name">CIST</span>
+              <div class="oc-track"><div class="oc-fill" id="oc-cist" style="width:25%;background:#534AB7;"></div></div>
+              <span class="oc-pct" id="pct-cist">25%</span>
+            </div>
+            <div class="oc-row">
+              <span class="oc-name">Øll</span>
+              <div class="oc-track"><div class="oc-fill" id="oc-oll" style="width:25%;background:#D4537E;"></div></div>
+              <span class="oc-pct" id="pct-oll">25%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT COLUMN: TABS + PANELS -->
+  <div class="right-col">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('form')" id="tab-form">Input Form</button>
+      <button class="tab" onclick="switchTab('chat')" id="tab-chat">Chat Mode</button>
+    </div>
+
+    <!-- FORM PANEL -->
+    <div class="panel visible" id="panel-form">
+      <div class="form-panel">
+        <div style="font-size:11px;color:var(--text3);line-height:1.5;padding:8px 10px;background:var(--bg3);border-radius:6px;border:1px solid var(--border);">
+          Enter self-report and simulated biometric data. The DP-1 will process through all 5 stages and output scored results.
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Self-report — current state</div>
+          <div class="field-hint">Describe how you're thinking, feeling, or behaving right now</div>
+          <textarea id="f-selfreport" rows="4" placeholder="e.g. I feel calm and focused, but I notice I keep checking my phone compulsively and find it hard to listen to others without redirecting the conversation back to myself..."></textarea>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="field-group">
+          <div class="field-label">HRV — simulated</div>
+          <div class="field-hint">Heart rate variability. High = regulated. Low = stress.</div>
+          <div class="slider-wrap">
+            <input type="range" id="f-hrv" min="0" max="100" value="55" oninput="document.getElementById('hrv-val').textContent=this.value">
+            <span class="slider-val" id="hrv-val">55</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Skin Conductance (EDA) — simulated</div>
+          <div class="field-hint">Electrodermal activity. High spikes = subconscious activation.</div>
+          <div class="slider-wrap">
+            <input type="range" id="f-eda" min="0" max="100" value="40" oninput="document.getElementById('eda-val').textContent=this.value">
+            <span class="slider-val" id="eda-val">40</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Response Latency — simulated</div>
+          <div class="field-hint">Delay in reactions. High = cognitive load or avoidance.</div>
+          <div class="slider-wrap">
+            <input type="range" id="f-latency" min="0" max="100" value="30" oninput="document.getElementById('lat-val').textContent=this.value">
+            <span class="slider-val" id="lat-val">30</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Movement Pattern — simulated</div>
+          <div class="field-hint">Restlessness / stillness from accelerometer</div>
+          <select id="f-movement">
+            <option value="still">Still / calm</option>
+            <option value="moderate" selected>Moderate movement</option>
+            <option value="restless">Restless / frequent shifts</option>
+            <option value="erratic">Erratic / high</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Context (optional)</div>
+          <div class="field-hint">Situation, relationship, or event context</div>
+          <textarea id="f-context" rows="2" placeholder="e.g. during a team meeting, after a difficult phone call..."></textarea>
+        </div>
+
+        <button class="run-btn" id="run-btn" onclick="runDP1()">▶ RUN DP-1 PROCESSING</button>
+      </div>
+    </div>
+
+    <!-- CHAT PANEL -->
+    <div class="panel" id="panel-chat">
+      <div class="chat-messages" id="chat-messages">
+        <div class="msg dp1">
+          <div class="msg-avatar">DP-1</div>
+          <div class="msg-body">
+            Ready. Describe how you're feeling, what you're thinking, or a situation you're in — and I'll process it through the full 5-stage pipeline and return your scores.
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <textarea class="chat-input" id="chat-input" placeholder="Describe your state..." rows="1" onkeydown="handleChatKey(event)"></textarea>
+        <button class="send-btn" id="send-btn" onclick="sendChat()">↑</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Tab switching
+function switchTab(tab) {
+  document.getElementById('panel-form').classList.toggle('visible', tab === 'form');
+  document.getElementById('panel-chat').classList.toggle('visible', tab === 'chat');
+  document.getElementById('tab-form').classList.toggle('active', tab === 'form');
+  document.getElementById('tab-chat').classList.toggle('active', tab === 'chat');
+}
+
+// Pipeline animation
+const stageIds = ['s1','s2','s3','s4','s5'];
+function resetPipeline() {
+  stageIds.forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove('active','done');
+  });
+}
+
+function animatePipeline(results) {
+  resetPipeline();
+  stageIds.forEach((id, i) => {
+    setTimeout(() => {
+      document.getElementById(id).classList.add('active');
+    }, i * 420);
+    setTimeout(() => {
+      document.getElementById(id).classList.remove('active');
+      document.getElementById(id).classList.add('done');
+      // Update stage values as they complete
+      if (id === 's1') document.getElementById('s1-val').textContent = 'ingested';
+      if (id === 's2') document.getElementById('s2-val').textContent = 'scored';
+      if (id === 's3') document.getElementById('s3-val').textContent = results.dominant_code || '—';
+      if (id === 's4') document.getElementById('s4-val').textContent = results.drift !== undefined ? results.drift.toFixed(1) : '—';
+      if (id === 's5') document.getElementById('s5-val').textContent = results.balance_scale !== undefined ? (results.balance_scale > 0 ? '+' : '') + results.balance_scale.toFixed(1) : '—';
+    }, i * 420 + 380);
+  });
+
+  // Update output cards after pipeline completes
+  setTimeout(() => {
+    updateOutputCards(results);
+  }, stageIds.length * 420 + 100);
+}
+
+function updateOutputCards(r) {
+  if (r.balance_scale !== undefined) {
+    const bsEl = document.getElementById('out-bs');
+    bsEl.textContent = (r.balance_scale > 0 ? '+' : '') + r.balance_scale.toFixed(1);
+    const col = r.balance_scale > 0 ? '#1D9E75' : r.balance_scale < -2 ? '#D85A30' : '#EF9F27';
+    bsEl.style.color = col;
+    bsEl.classList.add('lit');
+    document.getElementById('out-bs-state').textContent = r.bs_state || '';
+    document.getElementById('card-bs').classList.add('lit');
+  }
+  if (r.drift !== undefined) {
+    const driftEl = document.getElementById('out-drift');
+    driftEl.textContent = r.drift.toFixed(1);
+    const col = r.drift < 1.5 ? '#1D9E75' : r.drift < 3 ? '#EF9F27' : '#D85A30';
+    driftEl.style.color = col;
+    driftEl.classList.add('lit');
+    document.getElementById('out-drift-state').textContent = r.drift_state || '';
+    document.getElementById('card-drift').classList.add('lit');
+  }
+  if (r.observer_codes) {
+    const oc = r.observer_codes;
+    ['narc','yarc','cist','oll'].forEach(code => {
+      const key = code === 'oll' ? 'oll' : code;
+      const pct = oc[code] || 25;
+      document.getElementById('oc-' + code).style.width = pct + '%';
+      document.getElementById('pct-' + code).textContent = pct + '%';
+    });
+    document.getElementById('card-oc').classList.add('lit');
+  }
+}
+
+// The core Claude API call
+async function callDP1(userInput, isFormMode, formData) {
+  const systemPrompt = `You are the DP-1 processor chip — the computational core of the UMNi-Tech · Source Code Holdings device suite. You process inputs through 5 sequential stages and output scored data. You are not a therapist or coach. You are a scoring engine. Your output is precise, clinical, and framework-native.
+
+THE FRAMEWORK:
+- 4 Observer Codes: NARC (extractive/competitive), YARC (giving/empathic), CIST (regulating/analytical), Øll (volatile/all-or-nothing)
+- Zero-Point = 25% each. That is the target state.
+- Drift = gap between Conscious and Subconscious layer scores (D = |C - S|). 0 = full alignment.
+- Balance Scale: -5 (collapse/Øll dominant) to +5 (full conscious awareness, 25/25/25/25). 0 = Zero-Point.
+- Drift score 0-5: 0-1 = aligned, 1-2.5 = moderate, 2.5-4 = high, 4-5 = critical.
+
+PROCESSING STAGES:
+1. Input Ingestion — accept self-report and biometric data
+2. Dual Yin-Yang Scoring — score Conscious and Subconscious layers independently
+3. Observer Code Ratio — resolve into NARC/YARC/CIST/Øll percentages (must sum to 100)
+4. Drift Calculation — D = |Conscious score - Subconscious score|
+5. Balance Scale Output — map to -5 to +5 axis
+
+RESPONSE FORMAT: Return ONLY valid JSON with this exact structure, no other text:
+{
+  "balance_scale": <number -5 to 5, one decimal place>,
+  "drift": <number 0 to 5, one decimal place>,
+  "bs_state": <short string: state label e.g. "Drift activated" / "Zero-Point" / "NARC rising" / "Emotional overload" / "Collapse">,
+  "drift_state": <short string e.g. "Moderate · rising" or "Aligned" or "Critical">,
+  "dominant_code": <"NARC" | "YARC" | "CIST" | "Øll">,
+  "observer_codes": {
+    "narc": <integer 0-100>,
+    "yarc": <integer 0-100>,
+    "cist": <integer 0-100>,
+    "oll": <integer 0-100>
+  },
+  "analysis": "<2-3 sentences of clinical framework analysis of what the inputs reveal about the conscious vs subconscious split, written in DP-1 style — precise, observational, no coaching language>"
+}
+
+observer_codes must always sum to exactly 100. Be precise and consistent. Ground your scores in what the inputs actually indicate.`;
+
+  let userMessage = '';
+  if (isFormMode) {
+    userMessage = `SELF-REPORT: ${formData.selfreport || 'None provided'}
+
+BIOMETRIC INPUTS:
+- HRV: ${formData.hrv}/100 (${formData.hrv > 65 ? 'high — regulated' : formData.hrv > 40 ? 'moderate' : 'low — stress response'})
+- EDA (skin conductance): ${formData.eda}/100 (${formData.eda > 60 ? 'high spikes — subconscious activation' : formData.eda > 35 ? 'moderate' : 'low — calm'})
+- Response latency: ${formData.latency}/100 (${formData.latency > 60 ? 'high — cognitive load/avoidance' : formData.latency > 30 ? 'moderate' : 'low — responsive'})
+- Movement pattern: ${formData.movement}
+
+${formData.context ? 'CONTEXT: ' + formData.context : ''}
+
+Process through all 5 stages and return scored output.`;
+  } else {
+    userMessage = userInput;
+  }
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userMessage }]
+    })
+  });
+
+  const data = await response.json();
+  const text = data.content?.[0]?.text || '';
+  // Strip any markdown fences
+  const clean = text.replace(/```json|```/g, '').trim();
+  return JSON.parse(clean);
+}
+
+// FORM MODE
+async function runDP1() {
+  const btn = document.getElementById('run-btn');
+  btn.disabled = true;
+  btn.textContent = '◌ PROCESSING...';
+
+  resetPipeline();
+  // Clear output cards
+  ['card-bs','card-drift','card-oc'].forEach(id => document.getElementById(id).classList.remove('lit'));
+  document.getElementById('out-bs').classList.remove('lit');
+  document.getElementById('out-drift').classList.remove('lit');
+
+  const formData = {
+    selfreport: document.getElementById('f-selfreport').value,
+    hrv: document.getElementById('f-hrv').value,
+    eda: document.getElementById('f-eda').value,
+    latency: document.getElementById('f-latency').value,
+    movement: document.getElementById('f-movement').value,
+    context: document.getElementById('f-context').value
+  };
+
+  try {
+    const results = await callDP1(null, true, formData);
+    animatePipeline(results);
+    // Switch to chat to show analysis
+    switchTab('chat');
+    addMsg('dp1', results.analysis + '\n\nScores dispatched to pipeline. Switch to Input Form to see full output.', true);
+  } catch(e) {
+    addMsg('dp1', 'Processing error. Check console for details.');
+    console.error(e);
+  }
+
+  btn.disabled = false;
+  btn.textContent = '▶ RUN DP-1 PROCESSING';
+}
+
+// CHAT MODE
+let chatHistory = [];
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  input.value = '';
+  document.getElementById('send-btn').disabled = true;
+
+  addMsg('user', msg);
+  chatHistory.push({ role: 'user', content: msg });
+
+  // Typing indicator
+  const typingId = 'typing-' + Date.now();
+  addTyping(typingId);
+
+  try {
+    const results = await callDP1(msg, false, null);
+    removeMsg(typingId);
+
+    animatePipeline(results);
+
+    const analysis = `${results.analysis}
+
+\`\`\`
+Balance Scale : ${(results.balance_scale > 0 ? '+' : '') + results.balance_scale.toFixed(1)}  (${results.bs_state})
+Drift Score   : ${results.drift.toFixed(1)}  (${results.drift_state})
+Dominant Code : ${results.dominant_code}
+
+NARC  ${results.observer_codes.narc}%
+YARC  ${results.observer_codes.yarc}%
+CIST  ${results.observer_codes.cist}%
+Øll   ${results.observer_codes.oll}%
+\`\`\``;
+
+    addMsg('dp1', analysis, true);
+    chatHistory.push({ role: 'assistant', content: analysis });
+  } catch(e) {
+    removeMsg(typingId);
+    addMsg('dp1', 'Processing error. Please try again.');
+    console.error(e);
+  }
+
+  document.getElementById('send-btn').disabled = false;
+}
+
+function addMsg(role, content, hasCode) {
+  const messages = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.id = 'msg-' + Date.now();
+
+  let bodyHtml = '';
+  if (hasCode && content.includes('```')) {
+    const parts = content.split('```');
+    bodyHtml = parts.map((p, i) => i % 2 === 0
+      ? `<span>${p.replace(/\n/g, '<br>')}</span>`
+      : `<pre>${p.replace(/^json\n?/, '')}</pre>`
+    ).join('');
+  } else {
+    bodyHtml = content.replace(/\n/g, '<br>');
+  }
+
+  div.innerHTML = `<div class="msg-avatar">${role === 'user' ? 'YOU' : 'DP-1'}</div><div class="msg-body">${bodyHtml}</div>`;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function addTyping(id) {
+  const messages = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg dp1';
+  div.id = id;
+  div.innerHTML = `<div class="msg-avatar">DP-1</div><div class="msg-body"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function removeMsg(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendChat();
+  }
+}
+</script>
+</body>
+</html>
