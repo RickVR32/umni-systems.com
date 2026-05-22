@@ -263,6 +263,7 @@ svg g[onmouseover]{pointer-events:all!important}
       <div class="ar-score" id="ar-score">—</div>
       <div class="ar-state" id="ar-state">—</div>
       <div class="ar-desc" id="ar-desc">—</div>
+      <div id="ar-cap-note"></div>
       <div class="ar-track"><div class="ar-fill" id="ar-fill" style="width:0%"></div></div>
       <button class="ar-generate-btn" id="ar-gen-btn" onclick="submitAssessment()">View my snapshot →</button>
     </div>
@@ -373,17 +374,41 @@ const LEVELS=[
   {level:4,name:'Aware',           col:'var(--narc)',desc:'Awareness of your own loops. First level where genuine change becomes possible.'},
   {level:5,name:'Choice',          col:'var(--cist)',desc:'The gap between stimulus and response has opened. Behaviour is beginning to be chosen.'},
   {level:6,name:'Integration',     col:'var(--cist)',desc:'Holding both sides of a polarity simultaneously without collapsing into either.'},
-  {level:7,name:'Expression',      col:'var(--yarc)',desc:'Conscious creation. Inner state reliably translates into outer reality.'},
+  {level:7,name:'Expression',      col:'var(--yarc)',desc:'Conscious creation. Inner state reliably translates into outer reality. Free test ceiling — subconscious layer required for levels 8–10.'},
   {level:8,name:'Connection',      col:'var(--yarc)',desc:'Genuine empathy without self-abandonment.'},
   {level:9,name:'Mastery',         col:'var(--yarc)',desc:'Living by intention rather than impulse. Emotion is information, not instruction.'},
   {level:10,name:'Creator/Source', col:'var(--yarc)',desc:'25/25/25/25. Both layers aligned. Peak expression threshold reached.'},
 ];
+
+// ── FREE TEST SCORE CAP ──────────────────────────────────────────
+// The free Awareness Test measures conscious surface behaviour only.
+// Levels 8, 9, and 10 require subconscious layer data — which is
+// only available through the full Awareness Assessment.
+// A 10/10 on a single sitting is structurally impossible:
+// true Zero-Point is validated across multiple nodes over time.
+// The cap is not a limitation of the test — it is the test being honest.
+const FREE_TEST_CAP = 7;
+
 function getLevel(bs){
   bs=parseFloat(bs);
   if(bs<=-4.5)return LEVELS[0];if(bs<=-2.5)return LEVELS[1];if(bs<=-0.5)return LEVELS[2];
   if(bs<=0.5)return LEVELS[3];if(bs<=1.5)return LEVELS[4];if(bs<=2.5)return LEVELS[5];
-  if(bs<=3.2)return LEVELS[6];if(bs<=3.8)return LEVELS[7];if(bs<=4.5)return LEVELS[8];
-  return LEVELS[9];
+  if(bs<=3.2)return LEVELS[6];
+  // Levels 8-10 require full assessment — cap at 7 for free test
+  if(bs<=3.8)return {...LEVELS[6], capped:true};
+  if(bs<=4.5)return {...LEVELS[6], capped:true};
+  return {...LEVELS[6], capped:true};
+}
+
+function getLevelCapNote(lvl){
+  if(!lvl.capped) return '';
+  return '<div style="margin-top:1.5rem;padding:1.2rem 1.4rem;border:1px solid rgba(255,255,255,0.1);border-radius:8px;background:rgba(255,255,255,0.02);font-size:0.8rem;color:var(--muted);line-height:1.8;">'
+       + '<strong style="color:var(--text);display:block;margin-bottom:0.5rem;font-size:0.85rem;">This is the conscious ceiling.</strong>'
+       + 'Level 7 is the highest score the free test can return — not because of a technical limit, but because it is scientifically honest. '
+       + 'Levels 8, 9 and 10 require subconscious layer data mapped across multiple nodes over time. '
+       + 'A single sitting cannot produce a genuine 10. A 10 that can be scored in one go is not a 10. '
+       + 'Your subconscious layer, drift calculation, shadow ratio and full awareness level are in the Awareness Assessment.'
+       + '</div>';
 }
 
 let scores={},currentStep=1,isDark=false,prevPulseEl=null;
@@ -518,6 +543,9 @@ function showReveal(){
   document.getElementById('ar-state').textContent=lvl.name+' · BS '+(bs>0?'+':'')+bs;
   document.getElementById('ar-state').style.color=lvl.col;
   document.getElementById('ar-desc').textContent=lvl.desc;
+  // Inject cap note if applicable
+  const capNote=document.getElementById('ar-cap-note');
+  if(capNote) capNote.innerHTML=getLevelCapNote(lvl);
   document.getElementById('ar-fill').style.width=(lvl.level/10*100)+'%';
   document.getElementById('ar-fill').style.background=lvl.col;
   document.getElementById('awareness-reveal').classList.add('visible');
