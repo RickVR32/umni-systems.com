@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="UMNi-Tech — Awareness technology and consciousness mapping. Powered by Source Code Holdings." />
+
   <title>UMNi-Tech — Awareness Technology</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,11 +13,14 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
+
     :root {
       --bg: #080808;
       --bg2: #0d0d0d;
+
       --text: #f0f0ee;
       --muted: #666660;
+
       --rule: rgba(255,255,255,0.07);
 
       --tech: #DC2626;
@@ -28,9 +32,9 @@
     }
 
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     html {
@@ -75,6 +79,7 @@
       top: 0;
       left: 0;
       right: 0;
+
       z-index: 99;
 
       display: flex;
@@ -105,8 +110,8 @@
 
     nav {
       display: flex;
-      gap: 2rem;
       align-items: center;
+      gap: 2rem;
     }
 
     nav a {
@@ -136,27 +141,27 @@
       flex-direction: column;
       justify-content: flex-end;
 
-      padding: 8rem 2.5rem 4rem;
-
       max-width: 900px;
       margin: 0 auto;
+
+      padding: 8rem 2.5rem 4rem;
 
       position: relative;
     }
 
     .hero-tag {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+
+      margin-bottom: 1.5rem;
+
+      color: var(--tech);
+
       font-family: var(--mono);
       font-size: 0.6rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-
-      color: var(--tech);
-
-      margin-bottom: 1.5rem;
-
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
     }
 
     .hero-tag::before {
@@ -170,8 +175,8 @@
     .hero-title {
       font-size: clamp(3rem, 8vw, 6.5rem);
       font-weight: 700;
-      letter-spacing: -0.03em;
       line-height: 0.95;
+      letter-spacing: -0.03em;
 
       margin-bottom: 2rem;
     }
@@ -184,9 +189,10 @@
     .hero-body {
       max-width: 480px;
 
+      color: var(--muted);
+
       font-size: 1.05rem;
       line-height: 1.8;
-      color: var(--muted);
 
       margin-bottom: 2.5rem;
     }
@@ -273,7 +279,6 @@
     .device-grid {
       display: grid;
       gap: 1px;
-
       background: var(--rule);
     }
 
@@ -293,10 +298,11 @@
     }
 
     .assessment-card {
-      text-decoration: none;
       display: flex;
       flex-direction: column;
       gap: 0.8rem;
+
+      text-decoration: none;
 
       transition: background 0.2s;
     }
@@ -308,22 +314,24 @@
     .assessment-card::before {
       content: '';
       position: absolute;
+
       top: 0;
       left: 0;
       right: 0;
 
       height: 2px;
       background: var(--tech);
+
       opacity: 0.4;
     }
 
     .card-tag {
+      color: var(--tech);
+
       font-family: var(--mono);
       font-size: 0.55rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-
-      color: var(--tech);
     }
 
     .card-title {
@@ -333,27 +341,29 @@
     }
 
     .card-price {
-      font-family: var(--mono);
       color: var(--tech);
+
+      font-family: var(--mono);
       font-weight: 700;
     }
 
     .card-body {
+      color: var(--muted);
+
       font-size: 0.85rem;
       line-height: 1.7;
-      color: var(--muted);
     }
 
     .card-list,
     .device-specs {
       list-style: none;
 
+      color: var(--muted);
+
       font-family: var(--mono);
       font-size: 0.58rem;
       letter-spacing: 0.06em;
       line-height: 2.2;
-
-      color: var(--muted);
     }
 
     .card-list li::before,
@@ -407,11 +417,11 @@
     }
 
     .device-name {
+      margin-bottom: 0.2rem;
+
       font-family: var(--mono);
       font-size: 1.6rem;
       font-weight: 700;
-
-      margin-bottom: 0.2rem;
     }
 
     .device-type {
@@ -426,10 +436,10 @@
     }
 
     .device-body {
+      color: var(--muted);
+
       font-size: 0.85rem;
       line-height: 1.7;
-
-      color: var(--muted);
 
       margin-bottom: 1.2rem;
     }
@@ -497,12 +507,12 @@
 
     .footer-l,
     .footer-r {
+      color: var(--muted);
+
       font-family: var(--mono);
       font-size: 0.6rem;
       letter-spacing: 0.1em;
       line-height: 2;
-
-      color: var(--muted);
     }
 
     .footer-r {
@@ -556,7 +566,9 @@
       .footer-r {
         text-align: left;
       }
+
     }
+
   </style>
 </head>
 
@@ -565,12 +577,15 @@
   <div class="hero-bg"></div>
 
   <header>
+
     <a class="logo" href="/index.html">
+
       <img src="/umni-sigil.png" class="logo-mark" alt="UMNi Logo" />
 
       <span style="font-family:'Space Mono',monospace;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;color:#f0f0ee;">
         UMNi-<span style="color:#DC2626;">Tech™</span>
       </span>
+
     </a>
 
     <nav>
@@ -578,6 +593,7 @@
       <a href="/fx.html">FX</a>
       <a href="/tech.html" class="active">Tech</a>
     </nav>
+
   </header>
 
   <!-- HERO -->
@@ -651,7 +667,7 @@
 
       </a>
 
-      <a href="/sch-check.html" class="assessment-card">
+      <a href="/awareness.html" class="assessment-card">
 
         <span class="card-tag">Full report · One-time</span>
 
@@ -803,6 +819,7 @@
     <div class="sch-block">
 
       <div>
+
         <p class="sch-label">
           The framework behind everything
         </p>
@@ -810,6 +827,7 @@
         <h3 class="sch-title">
           Source Code Holdings — IP, architecture, and licensing
         </h3>
+
       </div>
 
       <a href="https://sourcecodeholdings.org" target="_blank" class="btn-neutral">
@@ -827,6 +845,7 @@
     <div class="footer-l">
       UMNi-Tech™ by UMNi Systems<br>
       © 2026 Source Code Holdings Ltd<br>
+
       <span style="opacity:0.5;">
         umni-systems.com/tech
       </span>
