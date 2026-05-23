@@ -3,26 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="UMNi-Tech — Awareness technology and consciousness mapping. Powered by Source Code Holdings." />
-  <title>UMNi-Tech — Awareness Technology</title>
+  <meta name="description" content="UMNi Systems — Trading infrastructure and awareness technology. Built by Source Code Holdings." />
+  <title>UMNi Systems</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #080808;
-      --bg2: #0d0d0d;
+      --bg2: #111111;
+      --bg3: #161616;
       --text: #f0f0ee;
       --muted: #666660;
       --rule: rgba(255,255,255,0.07);
+      --fx: #2563EB;
+      --fx-glow: rgba(37,99,235,0.15);
       --tech: #DC2626;
-      --tech-soft: rgba(220,38,38,0.1);
-      --tech-border: rgba(220,38,38,0.3);
+      --tech-glow: rgba(220,38,38,0.15);
       --mono: 'Space Mono', monospace;
       --sans: 'DM Sans', sans-serif;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
     body {
@@ -30,25 +32,18 @@
       color: var(--text);
       font-family: var(--sans);
       font-weight: 300;
-      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     body::before {
       content: '';
       position: fixed;
       inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 1000;
       opacity: 0.4;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-    }
-
-    .hero-bg {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: radial-gradient(ellipse 70% 60% at 20% 80%, rgba(220,38,38,0.07) 0%, transparent 70%);
     }
 
     header {
@@ -59,7 +54,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 1.2rem 2.5rem;
-      background: rgba(8,8,8,0.9);
+      background: rgba(8,8,8,0.85);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--rule);
     }
@@ -75,6 +70,7 @@
       width: 36px;
       height: 36px;
       object-fit: cover;
+      flex-shrink: 0;
       display: block;
     }
 
@@ -85,598 +81,615 @@
     }
 
     nav a {
-      text-decoration: none;
-      color: var(--muted);
       font-family: var(--mono);
       font-size: 0.62rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
       transition: color 0.2s;
     }
 
     nav a:hover { color: var(--text); }
-    nav a.active { color: var(--tech); }
+    nav a.fx { color: var(--fx); }
+    nav a.tech { color: var(--tech); }
 
     .hero {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 8rem 2.5rem 4rem;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 5rem;
       position: relative;
     }
 
-    .hero-tag {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      margin-bottom: 1.5rem;
-      color: var(--tech);
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 25% 60%, var(--fx-glow) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 75% 40%, var(--tech-glow) 0%, transparent 70%);
+      pointer-events: none;
     }
 
-    .hero-tag::before {
-      content: '';
-      width: 24px;
-      height: 1px;
-      background: var(--tech);
-      display: block;
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      position: relative;
     }
 
     .hero-title {
-      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-size: clamp(3.5rem, 10vw, 8rem);
       font-weight: 700;
-      line-height: 0.95;
+      line-height: 0.92;
       letter-spacing: -0.03em;
-      margin-bottom: 2rem;
+      position: relative;
+      margin-bottom: 0.3rem;
     }
 
-    .hero-title .line2 {
+    .hero-title .umni { color: var(--text); }
+    .hero-title .systems {
       display: block;
-      color: var(--tech);
+      font-weight: 300;
+      font-size: 0.45em;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-top: 0.4rem;
     }
 
-    .hero-body {
-      max-width: 540px;
+    .hero-sub {
+      font-size: 1rem;
       color: var(--muted);
-      font-size: 1.05rem;
-      line-height: 1.8;
-      margin-bottom: 0.8rem;
-    }
-
-    .hero-body-sub {
-      max-width: 540px;
-      color: var(--muted);
-      font-size: 0.88rem;
+      max-width: 480px;
       line-height: 1.75;
-      margin-bottom: 2.5rem;
-      opacity: 0.75;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .btn-primary, .btn-ghost, .btn-neutral, .device-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .btn-primary {
-      background: var(--tech);
-      color: white;
-      padding: 0.85rem 1.6rem;
-    }
-
-    .btn-primary:hover { opacity: 0.85; }
-
-    .btn-ghost {
-      border: 1px solid var(--tech-border);
-      color: var(--tech);
-      padding: 0.85rem 1.6rem;
-    }
-
-    .btn-ghost:hover { background: var(--tech-soft); }
-
-    /* ── FRAMEWORK EXPLAINER ── */
-    .framework-explainer {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 2.5rem;
-    }
-
-    .explainer-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--rule);
-      margin-bottom: 5rem;
-    }
-
-    .explainer-cell {
-      background: var(--bg2);
-      padding: 1.6rem;
-    }
-
-    .explainer-term {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--tech);
-      margin-bottom: 0.6rem;
-    }
-
-    .explainer-def {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .section {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 2.5rem 5rem;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      padding: 3rem 0 2rem;
-      border-top: 1px solid var(--rule);
-    }
-
-    .section-label, .section-tag {
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      text-transform: uppercase;
-    }
-
-    .section-label { color: var(--muted); letter-spacing: 0.2em; }
-    .section-tag { color: var(--tech); letter-spacing: 0.1em; }
-
-    .assessment-grid, .device-grid {
-      display: grid;
-      gap: 1px;
-      background: var(--rule);
-    }
-
-    .assessment-grid { grid-template-columns: repeat(2, 1fr); }
-    .device-grid { grid-template-columns: repeat(2, 1fr); }
-
-    .assessment-card, .device-card {
-      background: var(--bg);
-      padding: 2rem;
+      margin: 2.5rem auto 3.5rem;
       position: relative;
     }
 
-    .assessment-card {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      text-decoration: none;
-      transition: background 0.2s;
+    .split-cta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      max-width: 720px;
+      width: 100%;
+      margin: 0 auto;
+      position: relative;
+      background: var(--rule);
     }
 
-    .assessment-card:hover { background: var(--tech-soft); }
+    .cta-card {
+      background: var(--bg);
+      padding: 2.5rem 2rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
 
-    .assessment-card::before {
+    .cta-card::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 2px;
-      background: var(--tech);
-      opacity: 0.4;
+      transition: opacity 0.3s;
     }
 
-    .card-tag {
-      color: var(--tech);
+    .cta-card.fx::before { background: var(--fx); opacity: 0.6; }
+    .cta-card.tech::before { background: var(--tech); opacity: 0.6; }
+    .cta-card.fx:hover { background: var(--fx-glow); }
+    .cta-card.tech:hover { background: var(--tech-glow); }
+    .cta-card.fx:hover::before,
+    .cta-card.tech:hover::before { opacity: 1; }
+
+    .cta-tag {
       font-family: var(--mono);
-      font-size: 0.55rem;
+      font-size: 0.58rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
     }
 
-    .card-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--text);
-    }
+    .cta-card.fx .cta-tag { color: var(--fx); }
+    .cta-card.tech .cta-tag { color: var(--tech); }
 
-    .card-price {
-      color: var(--tech);
-      font-family: var(--mono);
-      font-weight: 700;
-    }
-
-    .card-body {
-      color: var(--muted);
-      font-size: 0.85rem;
-      line-height: 1.7;
-    }
-
-    /* Assessment positioning note */
-    .card-positioning {
-      font-family: var(--mono);
-      font-size: 0.58rem;
-      letter-spacing: 0.1em;
-      color: var(--tech);
-      opacity: 0.7;
-      padding: 0.5rem 0.8rem;
-      border: 1px solid var(--tech-border);
-      background: var(--tech-soft);
-      margin-top: 0.2rem;
-    }
-
-    .card-list, .device-specs {
-      list-style: none;
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.58rem;
-      letter-spacing: 0.06em;
-      line-height: 2.2;
-    }
-
-    .card-list li::before,
-    .device-specs li::before { content: '— '; opacity: 0.5; }
-
-    .card-cta {
-      margin-top: auto;
-      padding-top: 0.8rem;
-      color: var(--tech);
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.12em;
-    }
-
-    .device-card::after {
-      content: 'UMNi Labs';
-      position: absolute;
-      top: 1rem; right: 1rem;
-      border: 1px solid var(--rule);
-      padding: 0.2rem 0.5rem;
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.52rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .device-link {
-      margin-bottom: 1rem;
-      color: var(--tech);
-      border: 1px solid var(--tech-border);
-      padding: 0.3rem 0.7rem;
-    }
-
-    .device-link:hover { background: var(--tech-soft); }
-
-    .device-name {
-      margin-bottom: 0.2rem;
-      font-family: var(--mono);
+    .cta-title {
       font-size: 1.6rem;
       font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      line-height: 1.1;
     }
 
-    .device-type {
-      margin-bottom: 1rem;
-      color: var(--tech);
+    .cta-body {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .cta-arrow {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      margin-top: auto;
+      padding-top: 1rem;
+    }
+
+    .cta-card.fx .cta-arrow { color: var(--fx); }
+    .cta-card.tech .cta-arrow { color: var(--tech); }
+
+    /* ── STATS BAR ── */
+    .stats {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      max-width: 900px;
+      margin: 5rem auto 0;
+    }
+
+    .stat {
+      padding: 2rem 1.5rem;
+      border-right: 1px solid var(--rule);
+    }
+
+    .stat:last-child { border-right: none; }
+
+    .stat-number {
+      font-family: var(--mono);
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-label {
       font-family: var(--mono);
       font-size: 0.58rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
+      color: var(--muted);
     }
 
-    .device-body {
+    /* ── ABOUT SECTION ── */
+    .about {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2rem 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      border-top: 1px solid var(--rule);
+    }
+
+    .about-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
       color: var(--muted);
-      font-size: 0.85rem;
-      line-height: 1.7;
       margin-bottom: 1.2rem;
     }
 
-    .device-status {
+    .about-title {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-body {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    .about-body p + p {
+      margin-top: 1rem;
+    }
+
+    .about-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding-top: 2.4rem;
+    }
+
+    .about-fact {
+      padding: 1.4rem 1.6rem;
+      background: var(--bg2);
+      border-left: 2px solid var(--rule);
+    }
+
+    .about-fact-label {
       font-family: var(--mono);
       font-size: 0.55rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      border: 1px solid var(--rule);
-      display: inline-block;
-      padding: 0.2rem 0.5rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .sch-link {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 2.5rem 6rem;
-    }
-
-    .sch-block {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 2rem;
-      padding: 2rem 2.5rem;
-      background: var(--bg2);
-      border: 1px solid var(--rule);
-      border-left: 3px solid var(--muted);
-    }
-
-    .sch-label {
-      margin-bottom: 0.4rem;
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.58rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-    }
-
-    .sch-title {
-      font-size: 1rem;
-      font-weight: 500;
-    }
-
-    .btn-neutral {
-      border: 1px solid var(--rule);
       color: var(--muted);
-      padding: 0.75rem 1.4rem;
+      margin-bottom: 0.4rem;
     }
 
-    .btn-neutral:hover {
+    .about-fact-value {
+      font-size: 0.92rem;
       color: var(--text);
-      border-color: rgba(255,255,255,0.2);
+      line-height: 1.6;
     }
 
-    .site-footer {
+    /* ── ECOSYSTEM ── */
+    .ecosystem {
       max-width: 900px;
       margin: 0 auto;
-      padding: 2.5rem;
-      border-top: 1px solid var(--rule);
+      padding: 5rem 2rem;
+    }
+
+    .eco-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .eco-title {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    .eco-body {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    .product-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      margin-bottom: 1px;
+    }
+
+    .product-cell {
+      background: var(--bg);
+      padding: 1.4rem 1.6rem;
       display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .product-emoji { font-size: 1.3rem; flex-shrink: 0; }
+
+    .product-name {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      margin-bottom: 0.15rem;
+    }
+
+    .product-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .product-cell.fx-product { border-left: 2px solid var(--fx); }
+    .product-cell.tech-product { border-left: 2px solid var(--tech); }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      border-top: 1px solid var(--rule);
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+      display: flex;
+      align-items: center;
       justify-content: space-between;
     }
 
-    .footer-l, .footer-r {
-      color: var(--muted);
+    .footer-l {
       font-family: var(--mono);
       font-size: 0.6rem;
       letter-spacing: 0.1em;
+      color: var(--muted);
       line-height: 2;
     }
 
-    .footer-r { text-align: right; }
-    .footer-r a { text-decoration: none; color: var(--muted); }
+    .footer-r {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-align: right;
+      line-height: 2;
+    }
+
+    .footer-r a { color: var(--muted); text-decoration: none; }
     .footer-r a:hover { color: var(--text); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow { animation: fadeUp 0.6s ease both; }
+    .hero-title { animation: fadeUp 0.6s 0.1s ease both; }
+    .hero-sub { animation: fadeUp 0.6s 0.2s ease both; }
+    .split-cta { animation: fadeUp 0.6s 0.3s ease both; }
 
     @media (max-width: 640px) {
       header { padding: 1rem 1.2rem; }
       nav { display: none; }
-      .hero { padding: 7rem 1.2rem 3rem; }
-      .section, .sch-link, .framework-explainer { padding-left: 1.2rem; padding-right: 1.2rem; }
-      .assessment-grid, .device-grid, .explainer-grid { grid-template-columns: 1fr; }
-      .sch-block { flex-direction: column; align-items: flex-start; }
-      .site-footer { flex-direction: column; gap: 1rem; }
+      .split-cta { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid var(--rule); }
+      .about { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.2rem 0; }
+      .product-row { grid-template-columns: 1fr; }
+      .site-footer { flex-direction: column; gap: 1.2rem; }
       .footer-r { text-align: left; }
     }
   </style>
 </head>
 <body>
 
-  <div class="hero-bg"></div>
-
   <header>
-    <a class="logo" href="/index.html">
-      <img src="/umni-sigil.png" class="logo-mark" alt="UMNi Logo" />
-      <span style="font-family:'Space Mono',monospace;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;color:#f0f0ee;">
-        UMNi-<span style="color:#DC2626;">Tech™</span>
-      </span>
+    <a class="logo" href="/">
+      <img src="umni-sigil.png" class="logo-mark" alt="" />
+      <span style="font-family:'Space Mono',monospace;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;color:#f0f0ee;">UMNi-<span style="color:#f0f0ee;">SYSTEMS™</span></span>
     </a>
     <nav>
-      <a href="/index.html">Systems</a>
-      <a href="/fx.html">FX</a>
-      <a href="/tech.html" class="active">Tech</a>
+      <a href="/index.html" class="active">Systems</a>
+      <a href="/fx.html" class="fx">FX</a>
+      <a href="/tech.html" class="tech">Tech</a>
     </nav>
   </header>
 
   <section class="hero">
-    <p class="hero-tag">UMNi-Tech — Awareness Technology</p>
+    <div class="hero-bg"></div>
+    <p class="hero-eyebrow">Powered by Source Code Holdings</p>
     <h1 class="hero-title">
-      Know where<br>
-      <span class="line2">you actually are.</span>
+      <span class="umni">UMNi</span>
+      <span class="systems">Systems</span>
     </h1>
-    <p class="hero-body">
-      Awareness assessment tools powered by the Source Code framework.
-      Free to start. Devices in development.
-      No prediction — only clarity.
+    <p class="hero-sub">
+      Two verticals. One ecosystem. Trading infrastructure built for discipline.
+      Awareness technology built for clarity.
     </p>
-    <p class="hero-body-sub">
-      The Source Code framework is a proprietary psychometric system built on 20 structured dimensions of self-awareness. It maps how a person observes, processes, and responds to their environment — returning a structured profile, not a personality type. Used to power both the assessment tools and the hardware device layer.
-    </p>
-    <div class="hero-actions">
-      <a href="/awareness.html" class="btn-primary">Begin assessment →</a>
-      <a href="https://sourcecodeholdings.org" target="_blank" class="btn-ghost">The framework</a>
+
+    <div class="split-cta">
+      <a href="/fx.html" class="cta-card fx">
+        <span class="cta-tag">UMNi-FX</span>
+        <h2 class="cta-title">Trading<br/>Infrastructure</h2>
+        <p class="cta-body">MT4 / MT5 telemetry, Telegram automation, algorithmic signals, and execution tools.</p>
+        <span class="cta-arrow">Enter FX →</span>
+      </a>
+      <a href="/tech.html" class="cta-card tech">
+        <span class="cta-tag">UMNi-Tech</span>
+        <h2 class="cta-title">Awareness<br/>Technology</h2>
+        <p class="cta-body">Psychometric assessment tools, consciousness mapping, and the SCH device ecosystem.</p>
+        <span class="cta-arrow">Enter Tech →</span>
+      </a>
     </div>
   </section>
 
-  <!-- FRAMEWORK GLOSSARY -->
-  <div class="framework-explainer">
-    <div class="explainer-grid">
-      <div class="explainer-cell">
-        <div class="explainer-term">Observer Codes</div>
-        <div class="explainer-def">Four primary modes of awareness processing. Each person holds a ratio across them — determining how they perceive, filter, and act on information.</div>
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-number">26</div>
+      <div class="stat-label">MQL Products</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">12+</div>
+      <div class="stat-label">Countries Reached</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">4</div>
+      <div class="stat-label">Hardware Prototypes</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">1</div>
+      <div class="stat-label">Framework</div>
+    </div>
+  </div>
+
+  <!-- ABOUT / MISSION -->
+  <div class="about" style="margin-top:5rem;">
+    <div class="about-left">
+      <p class="about-label">About UMNi Systems</p>
+      <h2 class="about-title">Built by a trader.<br/>Designed for clarity.</h2>
+      <div class="about-body">
+        <p>UMNi Systems is an independent technology company building tools for disciplined trading and structured self-awareness. Founded under Source Code Holdings, the company operates two product verticals: UMNi-FX, a suite of MT4/MT5 telemetry and execution tools published on MQL5; and UMNi-Tech, a proprietary psychometric framework and device ecosystem focused on awareness mapping.</p>
+        <p>Both verticals share a common design philosophy: replace noise with signal. No prediction, no hype — only structured feedback that lets the user see more clearly and act with greater precision.</p>
+        <p>Products are built by a solo founder with multi-year live trading experience across algorithmic and manual systems, with active deployment on XAGUSD and FX pairs.</p>
       </div>
-      <div class="explainer-cell">
-        <div class="explainer-term">Balance Scale</div>
-        <div class="explainer-def">A scored axis from −5 to +5 representing the degree of alignment between inner state and outer behaviour. The core output of every assessment.</div>
+    </div>
+    <div class="about-right">
+      <div class="about-fact">
+        <div class="about-fact-label">Structure</div>
+        <div class="about-fact-value">Independent company · Subsidiary of Source Code Holdings · UK-based</div>
       </div>
-      <div class="explainer-cell">
-        <div class="explainer-term">Drift</div>
-        <div class="explainer-def">The measurable gap between a person's baseline state and their current operating position. Drift accumulates silently — the tools are designed to surface it before it becomes visible in behaviour.</div>
+      <div class="about-fact">
+        <div class="about-fact-label">UMNi-FX Status</div>
+        <div class="about-fact-value">Live on MQL5 · MT4 &amp; MT5 · 26 products across signals, telemetry, and execution</div>
+      </div>
+      <div class="about-fact">
+        <div class="about-fact-label">UMNi-Tech Status</div>
+        <div class="about-fact-value">Psychometric assessments live · 4 hardware prototypes in active development (DP-1, TCE, NES, ABFS)</div>
+      </div>
+      <div class="about-fact">
+        <div class="about-fact-label">IP &amp; Licensing</div>
+        <div class="about-fact-value">Source Code framework IP held by Source Code Holdings · institutional and B2B licensing available by arrangement</div>
       </div>
     </div>
   </div>
 
-  <!-- ASSESSMENTS -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-label">Assessment tools</span>
-      <span class="section-tag">Powered by DP-1</span>
+  <!-- ECOSYSTEM OVERVIEW -->
+  <div class="ecosystem">
+    <p class="eco-label">The ecosystem</p>
+    <h2 class="eco-title">Everything connects.<br/>Nothing is standalone.</h2>
+    <p class="eco-body">
+      Three tiers. Signals. Execution. Infrastructure. Each one builds on the last.
+    </p>
+
+    <!-- TIER 1 — SIGNALS -->
+    <div style="margin-bottom:1px;">
+      <div style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:#10B981;padding:0.8rem 1.6rem;background:var(--bg2);border-left:2px solid #10B981;">
+        Tier 1 — Signals Access
+      </div>
+    </div>
+    <div class="product-row" style="margin-bottom:0.25rem;">
+      <div class="product-cell" style="border-left:2px solid #10B981;grid-column:span 3;">
+        <span class="product-emoji">⚡</span>
+        <div class="product-info">
+          <div class="product-name">UMNi Signals</div>
+          <div class="product-desc">Live trade signals via Telegram. Reformatted from institutional sources. Full entry, SL, TP levels. Trade manually or with your own EA.</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.75rem;font-weight:700;color:#10B981;white-space:nowrap;align-self:center;padding-left:1rem;">£30<span style="font-size:0.6rem;font-weight:400;opacity:0.6;">/mo</span></div>
+      </div>
+    </div>
+    <div style="font-family:var(--mono);font-size:0.6rem;color:var(--muted);padding:0.5rem 1.6rem 1.5rem;letter-spacing:0.05em;">
+      Entry tier · Telegram only · 7-day free trial · Available on Whop
     </div>
 
-    <div class="assessment-grid">
-
-      <a href="/awareness.html" class="assessment-card">
-        <span class="card-tag">Free · 3 minutes</span>
-        <h2 class="card-title">Awareness Test</h2>
-        <p class="card-price">Free</p>
-        <p class="card-body">
-          Sixteen questions mapped to the four Observer Codes.
-          Returns your Balance Scale position, Observer Code ratio,
-          and a plain-language interpretation.
-        </p>
-        <ul class="card-list">
-          <li>Balance Scale score — −5 to +5</li>
-          <li>Observer Code ratio</li>
-          <li>Drift score</li>
-          <li>Written interpretation</li>
-        </ul>
-        <span class="card-cta">Begin now →</span>
-      </a>
-
-      <a href="/awareness.html" class="assessment-card">
-        <span class="card-tag">Full report · One-time</span>
-        <h2 class="card-title">Awareness Assessment</h2>
-        <p class="card-price">£19.99</p>
-        <p class="card-body">
-          Twenty questions across all Source Codes.
-          Full architecture mapped with written interpretation.
-          The clinical-grade entry point to the framework — used as baseline data for the device layer.
-        </p>
-        <div class="card-positioning">B2B &amp; institutional licensing available by arrangement</div>
-        <ul class="card-list">
-          <li>All 20 Source Codes scored</li>
-          <li>Full architecture mapping</li>
-          <li>Drift analysis</li>
-          <li>Downloadable PDF</li>
-        </ul>
-        <span class="card-cta">Get full report →</span>
-      </a>
-
+    <!-- TIER 1+ — EA EXECUTION -->
+    <div style="margin-bottom:1px;">
+      <div style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:#F59E0B;padding:0.8rem 1.6rem;background:var(--bg2);border-left:2px solid #F59E0B;">
+        Tier 1+ — Automated Execution
+      </div>
     </div>
-  </section>
-
-  <!-- DEVICES -->
-  <section class="section" style="padding-top:0;">
-    <div class="section-header">
-      <span class="section-label">UMNi Labs — Device layer</span>
-      <span class="section-tag">4 prototypes in active development</span>
+    <div class="product-row" style="margin-bottom:0.25rem;">
+      <div class="product-cell" style="border-left:2px solid #F59E0B;grid-column:span 3;">
+        <span class="product-emoji">🤖</span>
+        <div class="product-info">
+          <div class="product-name">UMNi-EA</div>
+          <div class="product-desc">Execution agent. Runs directly off the UMNi Signals channel — no manual input required. Account-based safety, daily loss cap, consecutive loss halt, H1 bias filter. Set it, monitor it, let it work.</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.75rem;font-weight:700;color:#F59E0B;white-space:nowrap;align-self:center;padding-left:1rem;">£60<span style="font-size:0.6rem;font-weight:400;opacity:0.6;">/mo</span></div>
+      </div>
+    </div>
+    <div style="font-family:var(--mono);font-size:0.6rem;color:var(--muted);padding:0.5rem 1.6rem 1.5rem;letter-spacing:0.05em;">
+      Includes Signals access · MT4 &amp; MT5 · Requires Signals subscription
     </div>
 
-    <div class="device-grid">
-
-      <div class="device-card">
-        <span class="device-status">Prototype</span>
-        <a href="/dp1_proto.html" class="device-link">Try prototype →</a>
-        <p class="device-name">DP-1</p>
-        <p class="device-type">Core Processor</p>
-        <p class="device-body">
-          Intelligence engine behind all UMNi-Tech systems.
-          Software prototype ahead of ASIC implementation.
-        </p>
-        <ul class="device-specs">
-          <li>Observer Code engine</li>
-          <li>Balance Scale mapping</li>
-          <li>Drift architecture</li>
-        </ul>
+    <!-- TIER 2 — TRADE ASSISTANT -->
+    <div style="margin-bottom:1px;">
+      <div style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:#7C3AED;padding:0.8rem 1.6rem;background:var(--bg2);border-left:2px solid #7C3AED;">
+        Tier 2 — Trade Assistant
       </div>
-
-      <div class="device-card">
-        <span class="device-status">Prototype</span>
-        <a href="/tce_proto.html" class="device-link">Try prototype →</a>
-        <p class="device-name">TCE</p>
-        <p class="device-type">Smart Mirror</p>
-        <p class="device-body">
-          Awareness reflection interface.
-          Passive and active recalibration environment.
-        </p>
-        <ul class="device-specs">
-          <li>Mirror awareness layer</li>
-          <li>Observer overlay</li>
-          <li>Drift recalibration</li>
-        </ul>
-      </div>
-
-      <div class="device-card">
-        <span class="device-status">Prototype</span>
-        <a href="/nes_proto.html" class="device-link">Try prototype →</a>
-        <p class="device-name">NES</p>
-        <p class="device-type">Smartwatch</p>
-        <p class="device-body">
-          Continuous body-state awareness monitoring.
-          Detects drift before behavioural manifestation.
-        </p>
-        <ul class="device-specs">
-          <li>HRV + physiological signals</li>
-          <li>Haptic drift alerts</li>
-          <li>Baseline sync</li>
-        </ul>
-      </div>
-
-      <div class="device-card">
-        <span class="device-status">Prototype</span>
-        <a href="/abfs_proto.html" class="device-link">Try prototype →</a>
-        <p class="device-name">ABFS</p>
-        <p class="device-type">Room Sensor</p>
-        <p class="device-body">
-          Environmental collective-awareness mapping.
-          Room-level emotional architecture analysis.
-        </p>
-        <ul class="device-specs">
-          <li>Collective drift monitoring</li>
-          <li>Group state analysis</li>
-          <li>Ambient awareness sensing</li>
-        </ul>
-      </div>
-
     </div>
-  </section>
-
-  <section class="sch-link">
-    <div class="sch-block">
-      <div>
-        <p class="sch-label">The framework behind everything</p>
-        <h3 class="sch-title">Source Code Holdings — IP, architecture, and licensing</h3>
+    <div class="product-row" style="margin-bottom:0.25rem;">
+      <div class="product-cell" style="border-left:2px solid #7C3AED;">
+        <span class="product-emoji">🤖</span>
+        <div class="product-info">
+          <div class="product-name">UMNi-TA</div>
+          <div class="product-desc">Unified intelligence layer. All awareness modules in one EA — monitors your trading, never places trades for you.</div>
+        </div>
       </div>
-      <a href="https://sourcecodeholdings.org" target="_blank" class="btn-neutral">Visit SCH →</a>
+      <div class="product-cell" style="border-left:2px solid #7C3AED;opacity:0.45;">
+        <span class="product-emoji">🤖</span>
+        <div class="product-info">
+          <div class="product-name">UMNi-TA2</div>
+          <div class="product-desc">Signal bridge → Telegram → /accept /decline /auto. Human-in-the-loop execution.</div>
+        </div>
+      </div>
+      <div class="product-cell" style="border-left:2px solid #7C3AED;background:var(--bg);opacity:0.2;">
+        <span class="product-emoji" style="opacity:0.3">·</span>
+        <div class="product-info">
+          <div class="product-name" style="opacity:0.4">TA3</div>
+          <div class="product-desc" style="opacity:0.4">Future roadmap</div>
+        </div>
+      </div>
     </div>
-  </section>
+    <div style="font-family:var(--mono);font-size:0.6rem;color:var(--muted);padding:0.5rem 1.6rem 1.5rem;letter-spacing:0.05em;">
+      UMNi-TA in development · UMNi-TA2 roadmap · Utilities category · Not currently for sale
+    </div>
+
+    <!-- MQL CATALOGUE -->
+    <div style="margin-bottom:1px;">
+      <div style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--fx);padding:0.8rem 1.6rem;background:var(--bg2);border-left:2px solid var(--fx);">
+        MQL Catalogue — 26 products · MT5 &amp; MT4
+      </div>
+    </div>
+    <div class="product-row">
+      <div class="product-cell fx-product"><span class="product-emoji">📢</span><div class="product-info"><div class="product-name">UMNi-NTFY</div><div class="product-desc">Presence notification — Free</div></div></div>
+      <div class="product-cell fx-product"><span class="product-emoji">📡</span><div class="product-info"><div class="product-name">UMNi-ALRT</div><div class="product-desc">Session intelligence &amp; summaries</div></div></div>
+      <div class="product-cell fx-product"><span class="product-emoji">🛰️</span><div class="product-info"><div class="product-name">UMNi-CMND</div><div class="product-desc">Full telemetry &amp; remote control</div></div></div>
+    </div>
+    <div class="product-row">
+      <div class="product-cell fx-product"><span class="product-emoji">🌐</span><div class="product-info"><div class="product-name">UMNi-STATE</div><div class="product-desc">Market condition classifier</div></div></div>
+      <div class="product-cell fx-product"><span class="product-emoji">🩺</span><div class="product-info"><div class="product-name">UMNi-HLTH</div><div class="product-desc">Execution health monitor</div></div></div>
+      <div class="product-cell fx-product"><span class="product-emoji">⚠️</span><div class="product-info"><div class="product-name">UMNi-RSK</div><div class="product-desc">Risk visualisation system</div></div></div>
+    </div>
+    <div class="product-row">
+      <div class="product-cell fx-product"><span class="product-emoji">🕐</span><div class="product-info"><div class="product-name">UMNi-SESH</div><div class="product-desc">Session briefing &amp; open alerts</div></div></div>
+      <div class="product-cell fx-product"><span class="product-emoji">📰</span><div class="product-info"><div class="product-name">UMNi-NEWS</div><div class="product-desc">Economic calendar awareness</div></div></div>
+      <div class="product-cell fx-product"><span class="product-emoji">📋</span><div class="product-info"><div class="product-name">UMNi-LOG</div><div class="product-desc">Automated trade journal</div></div></div>
+    </div>
+    <div class="product-row" style="margin-bottom:2rem;">
+      <div class="product-cell fx-product"><span class="product-emoji">🔗</span><div class="product-info"><div class="product-name">UMNi-SYNC</div><div class="product-desc">Multi-account trade copier</div></div></div>
+      <div class="product-cell fx-product"><span class="product-emoji">🔲</span><div class="product-info"><div class="product-name">UMNi-GRID</div><div class="product-desc">Grid &amp; basket manager</div></div></div>
+      <div class="product-cell fx-product"><span class="product-emoji">🌊</span><div class="product-info"><div class="product-name">UMNi-FLOW</div><div class="product-desc">Order flow &amp; volume delta</div></div></div>
+    </div>
+
+    <!-- Tech products -->
+    <div style="margin-bottom:1px;">
+      <div style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--tech);padding:0.8rem 1.6rem;background:var(--bg2);border-left:2px solid var(--tech);">
+        UMNi-Tech — Awareness Technology
+      </div>
+    </div>
+    <div class="product-row">
+      <div class="product-cell tech-product">
+        <span class="product-emoji">🧠</span>
+        <div class="product-info">
+          <div class="product-name">Awareness Test</div>
+          <div class="product-desc">Observer Code profiling — free</div>
+        </div>
+      </div>
+      <div class="product-cell tech-product">
+        <span class="product-emoji">📋</span>
+        <div class="product-info">
+          <div class="product-name">Awareness Assessment</div>
+          <div class="product-desc">Full architecture report — £19.99</div>
+        </div>
+      </div>
+      <div class="product-cell tech-product">
+        <span class="product-emoji">⚙️</span>
+        <div class="product-info">
+          <div class="product-name">UMNi Labs</div>
+          <div class="product-desc">DP-1 · TCE · NES · ABFS</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <div class="footer-l">
-      UMNi-Tech™ by UMNi Systems<br>
-      © 2026 Source Code Holdings Ltd<br>
-      <span style="opacity:0.5;">umni-systems.com/tech</span>
+      UMNi Systems™<br/>
+      © 2026 All rights reserved<br/>
+      <span style="opacity:0.5;">umni-systems.com</span>
     </div>
     <div class="footer-r">
       <a href="https://t.me/UmniSystems" target="_blank">Telegram</a> ·
       <a href="https://www.tiktok.com/@UmniSystems" target="_blank">TikTok</a> ·
-      <a href="https://www.instagram.com/UmniSystems" target="_blank">Instagram</a><br>
+      <a href="https://www.instagram.com/UmniSystems" target="_blank">Instagram</a><br/>
       <a href="https://sourcecodeholdings.org" target="_blank">A Source Code Holdings company</a>
     </div>
   </footer>
