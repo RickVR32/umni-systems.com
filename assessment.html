@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>UMNi-Tech · Awareness Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+[data-theme="dark"]{--bg:#080808;--bg-soft:#111111;--panel:#161616;--panel-border:rgba(255,255,255,0.07);--line:rgba(255,255,255,0.06);--line-strong:rgba(255,255,255,0.15);--text:#f0f0ee;--muted:#666660;--dim:#333330;--input-bg:#111111}
+:root{--narc:#C4622D;--yarc:#1D9E75;--cist:#534AB7;--oll:#A0426B;--mono:'Space Mono',monospace;--serif:'DM Sans',sans-serif;--tech:#DC2626;--tech-soft:rgba(220,38,38,0.1);--tech-border:rgba(220,38,38,0.3)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);background-image:linear-gradient(180deg,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:44px 44px;color:var(--text);font-family:var(--mono);font-weight:300;-webkit-font-smoothing:antialiased;min-height:100vh;transition:background 0.4s,color 0.4s}
+[data-theme="dark"] body{background-image:linear-gradient(180deg,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px)}
+.container{width:min(1240px,calc(100% - 48px));margin:auto}
+nav{padding:18px 0;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo img{width:26px;height:auto;opacity:0.85}
+.nav-logo span{font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-back{font-size:0.66rem;letter-spacing:0.12em;color:var(--muted);text-decoration:none;text-transform:uppercase}
+.nav-back:hover{color:var(--text)}
+.dark-toggle{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid var(--line-strong);padding:4px 10px;border-radius:999px;transition:all 0.2s}
+.dark-toggle:hover{color:var(--text);border-color:var(--text)}
+.screen{display:none}.screen.active{display:block}
+/* INTRO */
+.intro{padding:64px 0;max-width:640px;margin:0 auto;text-align:center}
+.intro-label{font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.intro-title{font-family:var(--serif);font-weight:300;font-size:clamp(2.4rem,5vw,3.8rem);line-height:1.05;margin-bottom:24px}
+.intro-copy{font-size:0.8rem;line-height:1.85;color:var(--muted);margin-bottom:40px}
+.oc-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.oc-field-label{font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted)}
+.oc-input{font-family:var(--mono);font-weight:300;font-size:0.85rem;padding:11px 14px;border-radius:10px;border:1px solid var(--line-strong);background:var(--input-bg);color:var(--text);outline:none;transition:border-color 0.2s;width:100%}
+.oc-input:focus{border-color:var(--text)}
+.oc-input::placeholder{color:var(--muted);opacity:0.6}
+.intro-start-btn{font-family:var(--mono);font-weight:300;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;background:var(--text);color:var(--bg);padding:13px 40px;border:none;border-radius:999px;cursor:pointer;transition:opacity 0.2s;margin-top:8px}
+.intro-start-btn:hover{opacity:0.75}
+/* ASSESS */
+.assess-layout{display:grid;grid-template-columns:1fr 440px;min-height:calc(100vh - 63px)}
+.diagram-col{border-right:1px solid var(--line);padding:16px 20px;display:flex;flex-direction:column;gap:12px;position:sticky;top:63px;height:calc(100vh - 63px);overflow:hidden}
+.diag-header{display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.diag-label{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted)}
+.diag-progress-text{font-size:0.65rem;letter-spacing:0.1em;color:var(--muted)}
+.diag-svg-wrap{flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-height:0;overflow:hidden}
+#main-diagram,#sub-diagram{width:100%;height:100%;max-height:100%;display:block;overflow:visible}
+#sub-diagram{display:none}
+.show-sub #main-diagram{display:none}
+.show-sub #sub-diagram{display:block}
+#sub-diagram line{stroke-dasharray:4 6!important}
+#sub-diagram polygon,#sub-diagram ellipse{stroke-dasharray:3 4!important}
+/* PULSE ANIMATION */
+@keyframes node-pulse{0%{filter:drop-shadow(0 0 0px currentColor);opacity:0.6}50%{filter:drop-shadow(0 0 10px currentColor);opacity:1}100%{filter:drop-shadow(0 0 0px currentColor);opacity:0.6}}
+.node-active-pulse{animation:node-pulse 1.8s ease-in-out infinite}
+/* FLIP */
+@keyframes flip-out{0%{transform:rotateY(0)}100%{transform:rotateY(90deg)}}
+@keyframes flip-in{0%{transform:rotateY(90deg)}100%{transform:rotateY(0)}}
+.diag-flip-out{animation:flip-out 0.45s ease forwards}
+.diag-flip-in{animation:flip-in 0.45s ease forwards}
+.diag-layer-badge{font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);text-align:center;flex-shrink:0;transition:color 0.5s}
+/* OC STRIP */
+.oc-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;flex-shrink:0}
+.oc-mini{display:flex;flex-direction:column;gap:4px}
+.oc-mini-label{font-family:var(--mono);font-size:8px;letter-spacing:0.08em}
+.oc-mini-track{height:2px;background:var(--line);border-radius:1px;overflow:hidden}
+.oc-mini-fill{height:100%;border-radius:1px;transition:width 0.6s ease}
+.oc-mini-pct{font-family:var(--mono);font-size:8px;color:var(--muted)}
+/* Q COL */
+.q-col{display:flex;flex-direction:column;height:calc(100vh - 63px);position:sticky;top:63px;overflow:hidden}
+.q-progress-bar{height:2px;background:var(--line);flex-shrink:0}
+.q-progress-fill{height:100%;background:var(--text);transition:width 0.5s ease}
+.q-card-wrap{flex:1;overflow-y:auto;padding:28px;display:flex;flex-direction:column;justify-content:center}
+.q-card-wrap::-webkit-scrollbar{width:3px}
+.q-card-wrap::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:2px}
+@keyframes step-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.q-step{display:none;flex-direction:column;gap:16px}
+.q-step.active{display:flex;animation:step-in 0.3s ease}
+.q-meta-row{display:flex;align-items:center;gap:8px}
+.q-geo-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.q-code-label{font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase}
+.q-layer-label{font-size:0.65rem;color:var(--muted);margin-left:auto}
+.q-node-name{font-family:var(--serif);font-weight:300;font-size:1.8rem;line-height:1.2}
+.q-question{font-size:0.8rem;color:var(--muted);line-height:1.7}
+.q-answers{display:flex;flex-direction:column;gap:8px;margin:20px 0 24px}
+.q-answer-btn{display:flex;align-items:flex-start;gap:14px;width:100%;padding:13px 16px;background:var(--bg);border:1.5px solid var(--line);border-radius:12px;cursor:pointer;text-align:left;font-family:var(--serif);font-size:0.88rem;color:var(--text);line-height:1.5;transition:border-color 0.15s,background 0.15s}
+.q-answer-btn:hover{border-color:var(--text)}
+.q-answer-num{display:flex;align-items:center;justify-content:center;width:24px;height:24px;min-width:24px;border-radius:50%;background:var(--line);color:var(--muted);font-family:var(--mono);font-size:0.7rem;font-weight:600;transition:background 0.15s,color 0.15s;flex-shrink:0;margin-top:1px}
+.q-nav-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.q-btn{font-family:var(--mono);font-weight:300;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;padding:10px 24px;border-radius:999px;border:none;cursor:pointer;transition:all 0.2s}
+.q-btn-primary{background:var(--text);color:var(--bg)}.q-btn-primary:hover{opacity:0.75}
+.q-btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--line-strong)}.q-btn-ghost:hover{color:var(--text);border-color:var(--text)}
+/* REVEAL */
+.awareness-reveal{display:none;flex-direction:column;gap:16px;text-align:center;padding:28px;flex:1;justify-content:center}
+.awareness-reveal.visible{display:flex;animation:step-in 0.5s ease}
+.ar-score{font-family:var(--serif);font-weight:300;font-size:clamp(5rem,15vw,8rem);line-height:1;transition:color 0.5s}
+.ar-state{font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase}
+.ar-desc{font-size:0.78rem;color:var(--muted);line-height:1.7;max-width:320px;margin:0 auto}
+.ar-track{height:2px;background:var(--line);border-radius:1px;overflow:hidden}
+.ar-fill{height:100%;border-radius:1px;transition:width 0.8s ease}
+.ar-generate-btn{font-family:var(--mono);font-weight:300;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;background:var(--text);color:var(--bg);padding:12px 32px;border:none;border-radius:999px;cursor:pointer;transition:opacity 0.2s;margin:0 auto}
+.ar-generate-btn:hover{opacity:0.75}.ar-generate-btn:disabled{opacity:0.35;cursor:not-allowed}
+/* RESULTS */
+.results-wrap{padding:56px 0 80px;max-width:800px;margin:0 auto}
+.r-hero{text-align:center;margin-bottom:48px}
+.r-lbl{font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.r-score-big{font-family:var(--serif);font-weight:300;font-size:clamp(5rem,12vw,8rem);line-height:1}
+.r-state-lbl{font-size:0.82rem;letter-spacing:0.1em;color:var(--muted);margin-top:8px}
+.r-divider{width:32px;height:1px;background:var(--line-strong);margin:24px auto;opacity:0.4}
+.r-diagram-wrap{background:var(--panel);border:1px solid var(--panel-border);border-radius:18px;padding:24px;margin-bottom:14px}
+.r-diagram-lbl{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.r-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.r-card{background:var(--panel);border:1px solid var(--panel-border);border-radius:18px;padding:28px 24px}
+.r-card-lbl{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.r-oc-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.r-oc-name{font-family:var(--serif);font-size:1rem;min-width:50px}
+.r-oc-trk{flex:1;height:2px;background:var(--line);border-radius:1px;overflow:hidden}
+.r-oc-fill{height:100%;border-radius:1px;transition:width 1s ease}
+.r-oc-pct{font-family:var(--serif);font-size:1.1rem;font-weight:300;min-width:40px;text-align:right}
+.r-oc-desc{font-size:0.72rem;color:var(--muted);margin-bottom:14px;line-height:1.6;padding-left:60px}
+.r-interp{background:var(--panel);border:1px solid var(--panel-border);border-radius:18px;padding:32px;margin-bottom:14px}
+.r-interp-lbl{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.retake-row{text-align:center;padding:24px 0}
+.retake-lnk{font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:1px solid var(--line-strong);padding-bottom:2px}
+/* tooltip */
+svg g[onmouseover]{pointer-events:all!important}
+.node-tooltip{position:absolute;background:var(--panel);border:1px solid var(--line-strong);border-radius:12px;padding:14px 16px;font-size:12px;max-width:240px;display:none;z-index:50;box-shadow:0 8px 32px rgba(0,0,0,0.18);pointer-events:none;backdrop-filter:blur(8px)}
+#payment-wrap{display:none;margin-bottom:20px;background:var(--text);border-radius:16px;padding:28px;color:var(--bg)}
+@media(max-width:900px){.assess-layout{grid-template-columns:1fr}.diagram-col{display:none}.q-col{min-height:100vh;overflow-y:auto}.r-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+<nav>
+  <a class="nav-logo" href="tech.html"><img src="umni-sigil.png" alt="" style="width:28px;height:28px;object-fit:cover;"><span style="color:#f0f0ee;">UMNi-<span style="color:#DC2626;">Tech™</span></span></a>
+  <div class="nav-right">
+    <button class="dark-toggle" onclick="toggleDark()"><span id="theme-icon">◑</span> <span id="theme-label">Dark</span></button>
+    <a class="nav-back" href="tech.html">← UMNi-Tech</a>
+  </div>
+</nav>
+
+<!-- INTRO -->
+<div class="screen active" id="screen-intro">
+<div class="intro">
+  <div class="intro-label">Awareness Assessment</div>
+  <h1 class="intro-title">Your complete<br>awareness profile</h1>
+  <p class="intro-copy">56 questions across three layers — Source Codes, Apps, and Observer Codes — mapped across both the conscious and subconscious. Your complete awareness profile.</p>
+  <div class="oc-field"><div class="oc-field-label">Name</div><input class="oc-input" id="obs-name" type="text" placeholder="Your name" oninput="updateObsNode()"></div>
+  <div class="oc-field"><div class="oc-field-label">Age (optional)</div><input class="oc-input" id="obs-age" type="number" placeholder="Your age" min="1" max="120"></div>
+  <div class="oc-field"><div class="oc-field-label">Previous code (optional)</div><input class="oc-input" id="prev-code-input" type="text" placeholder="Paste to compare"></div>
+  <div id="payment-wrap">
+    <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;opacity:0.6">Secure payment</div>
+    <div style="font-family:var(--serif);font-size:1.6rem;font-weight:300;margin-bottom:4px">Personal Report — £19.99</div>
+    <div style="font-size:0.72rem;opacity:0.6;margin-bottom:20px">One-time · Report within 48 hours</div>
+    <input id="pay-email" type="email" placeholder="Email address" style="width:100%;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:var(--bg);font-family:var(--serif);font-size:0.9rem;margin-bottom:12px;box-sizing:border-box">
+    <div id="card-element" style="margin-bottom:12px;padding:12px;background:rgba(255,255,255,0.1);border-radius:8px;border:1px solid rgba(255,255,255,0.2);min-height:44px"></div>
+    <div id="card-errors" style="color:#ff6b6b;font-size:0.75rem;margin-bottom:8px"></div>
+    <button onclick="handlePayment()" style="width:100%;padding:14px;background:var(--bg);color:var(--text);border:none;border-radius:999px;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer">Pay £19.99 and begin →</button>
+    <div style="font-size:0.65rem;opacity:0.5;text-align:center;margin-top:10px">🔒 Secured by Stripe</div>
+  </div>
+  <button class="intro-start-btn" onclick="handleIntroCTA()">Continue →</button>
+
+</div>
+</div>
+
+<!-- ASSESSMENT -->
+<div class="screen" id="screen-assessment">
+<div class="assess-layout">
+  <div class="diagram-col">
+    <div class="diag-header">
+      <div class="diag-label">Source Code map</div>
+      <div class="diag-progress-text" id="diag-prog-text">—</div>
+    </div>
+    <div class="diag-svg-wrap" id="diag-svg-wrap">
+      <!-- CONSCIOUS FACE -->
+      <svg id="main-diagram" viewBox="120 120 660 660" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="450,302 598,450 450,598 302,450" fill="none" stroke="#B8B2A8" stroke-width="1.2" opacity="0.7"/>
+        <circle cx="450" cy="450" r="220" fill="none" stroke="#C8C4BC" stroke-width="0.6" stroke-dasharray="3 9" opacity="0.14"/>
+        <circle cx="450" cy="450" r="70" fill="none" stroke="#C8C4BC" stroke-width="0.5" opacity="0.25"/>
+        <line x1="450" y1="106" x2="450" y2="794" stroke="#C8C4BC" stroke-width="0.5" stroke-dasharray="4 8" opacity="0.35"/>
+        <line x1="106" y1="450" x2="794" y2="450" stroke="#C8C4BC" stroke-width="0.5" stroke-dasharray="4 8" opacity="0.35"/>
+        <!-- arm lines -->
+        <line x1="450" y1="302" x2="367.6" y2="246" stroke="#C4622D" stroke-width="1.2" opacity="0.35"/>
+        <line x1="367.6" y1="246" x2="286.6" y2="198.4" stroke="#C4622D" stroke-width="1" opacity="0.28"/>
+        <line x1="367.6" y1="246" x2="392.8" y2="155.5" stroke="#C4622D" stroke-width="1" opacity="0.28"/>
+        <line x1="450" y1="302" x2="532.4" y2="246" stroke="#C4622D" stroke-width="1.2" opacity="0.35"/>
+        <line x1="532.4" y1="246" x2="507.2" y2="155.5" stroke="#C4622D" stroke-width="1" opacity="0.28"/>
+        <line x1="532.4" y1="246" x2="613.4" y2="198.4" stroke="#C4622D" stroke-width="1" opacity="0.28"/>
+        <line x1="598" y1="450" x2="654" y2="367.6" stroke="#534AB7" stroke-width="1.2" opacity="0.35"/>
+        <line x1="654" y1="367.6" x2="701.6" y2="286.6" stroke="#534AB7" stroke-width="1" opacity="0.28"/>
+        <line x1="654" y1="367.6" x2="744.5" y2="392.8" stroke="#534AB7" stroke-width="1" opacity="0.28"/>
+        <line x1="598" y1="450" x2="654" y2="532.4" stroke="#534AB7" stroke-width="1.2" opacity="0.35"/>
+        <line x1="654" y1="532.4" x2="744.5" y2="507.2" stroke="#534AB7" stroke-width="1" opacity="0.28"/>
+        <line x1="654" y1="532.4" x2="701.6" y2="613.4" stroke="#534AB7" stroke-width="1" opacity="0.28"/>
+        <line x1="450" y1="598" x2="532.4" y2="654" stroke="#1D9E75" stroke-width="1.2" opacity="0.35"/>
+        <line x1="532.4" y1="654" x2="613.4" y2="701.6" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+        <line x1="532.4" y1="654" x2="507.2" y2="744.5" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+        <line x1="450" y1="598" x2="367.6" y2="654" stroke="#1D9E75" stroke-width="1.2" opacity="0.35"/>
+        <line x1="367.6" y1="654" x2="392.8" y2="744.5" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+        <line x1="367.6" y1="654" x2="286.6" y2="701.6" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+        <line x1="302" y1="450" x2="246" y2="532.4" stroke="#A0426B" stroke-width="1.2" opacity="0.35"/>
+        <line x1="246" y1="532.4" x2="198.4" y2="613.4" stroke="#A0426B" stroke-width="1" opacity="0.28"/>
+        <line x1="246" y1="532.4" x2="155.5" y2="507.2" stroke="#A0426B" stroke-width="1" opacity="0.28"/>
+        <line x1="302" y1="450" x2="246" y2="367.6" stroke="#A0426B" stroke-width="1.2" opacity="0.35"/>
+        <line x1="246" y1="367.6" x2="155.5" y2="392.8" stroke="#A0426B" stroke-width="1" opacity="0.28"/>
+        <line x1="246" y1="367.6" x2="198.4" y2="286.6" stroke="#A0426B" stroke-width="1" opacity="0.28"/>
+        <!-- LIVE CONNECTOR LINE — drawn before nodes so nodes render on top -->
+        <line id="con-line" x1="450" y1="450" x2="450" y2="450" stroke="none" stroke-width="1.2" stroke-dasharray="5 5" opacity="0" style="transition:opacity 0.3s"/>
+        <!-- centre -->
+        <circle cx="450" cy="450" r="52" fill="white" stroke="#B0ABA0" stroke-width="1.8"/>
+        <circle cx="450" cy="450" r="39" fill="none" stroke="#D4D0C8" stroke-width="0.5" opacity="0.4"/>
+        <circle cx="450" cy="450" r="3" fill="var(--muted)" opacity="0.4"/>
+        <text id="obs-label" x="450" y="455" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="monospace" opacity="0.7">—</text>
+        <!-- OC diamonds -->
+        <g id="node-narc" style="opacity:0.12;transition:opacity 0.5s" onclick="showTooltip('narc',event)" onmouseover="showTooltip('narc',event)" onmouseout="hideTooltip()"><polygon points="450,272 480,302 450,332 420,302" fill="transparent" fill-opacity="0" stroke="#C4622D" stroke-width="2.2"/><text x="450" y="301" text-anchor="middle" font-size="10" fill="#C4622D" font-family="monospace">NARC</text><text id="v-narc" x="450" y="315" text-anchor="middle" font-size="9" fill="#C4622D" font-family="monospace" opacity="0.7">—</text></g>
+        <g id="node-cist" style="opacity:0.12;transition:opacity 0.5s" onclick="showTooltip('cist',event)" onmouseover="showTooltip('cist',event)" onmouseout="hideTooltip()"><polygon points="598,420 628,450 598,480 568,450" fill="transparent" fill-opacity="0" stroke="#534AB7" stroke-width="2.2"/><text x="598" y="449" text-anchor="middle" font-size="10" fill="#534AB7" font-family="monospace">CIST</text><text id="v-cist" x="598" y="463" text-anchor="middle" font-size="9" fill="#534AB7" font-family="monospace" opacity="0.7">—</text></g>
+        <g id="node-yarc" style="opacity:0.12;transition:opacity 0.5s" onclick="showTooltip('yarc',event)" onmouseover="showTooltip('yarc',event)" onmouseout="hideTooltip()"><polygon points="450,568 480,598 450,628 420,598" fill="transparent" fill-opacity="0" stroke="#1D9E75" stroke-width="2.2"/><text x="450" y="597" text-anchor="middle" font-size="10" fill="#1D9E75" font-family="monospace">YARC</text><text id="v-yarc" x="450" y="611" text-anchor="middle" font-size="9" fill="#1D9E75" font-family="monospace" opacity="0.7">—</text></g>
+        <g id="node-oll" style="opacity:0.12;transition:opacity 0.5s" onclick="showTooltip('oll',event)" onmouseover="showTooltip('oll',event)" onmouseout="hideTooltip()"><polygon points="302,420 332,450 302,480 272,450" fill="transparent" fill-opacity="0" stroke="#A0426B" stroke-width="2.2"/><text x="302" y="449" text-anchor="middle" font-size="10" fill="#A0426B" font-family="monospace">Øll</text><text id="v-oll" x="302" y="463" text-anchor="middle" font-size="9" fill="#A0426B" font-family="monospace" opacity="0.7">—</text></g>
+        <!-- App slots -->
+        <g id="node-a1" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a1',event)" onmouseout="hideTooltip()"><ellipse fill="transparent" fill-opacity="0" cx="367.6" cy="246" rx="20" ry="11" transform="rotate(-22,367.6,246)" fill="transparent" fill-opacity="0" stroke="#C4622D" stroke-width="2.5"/><text x="367.6" y="250" text-anchor="middle" font-size="8.5" fill="#C4622D" font-family="monospace">A1</text></g>
+        <g id="node-a2" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a2',event)" onmouseout="hideTooltip()"><ellipse fill="transparent" fill-opacity="0" cx="532.4" cy="246" rx="20" ry="11" transform="rotate(22,532.4,246)" fill="transparent" fill-opacity="0" stroke="#C4622D" stroke-width="2.5"/><text x="532.4" y="250" text-anchor="middle" font-size="8.5" fill="#C4622D" font-family="monospace">A2</text></g>
+        <g id="node-a3" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a3',event)" onmouseout="hideTooltip()"><ellipse fill="transparent" fill-opacity="0" cx="654" cy="367.6" rx="20" ry="11" transform="rotate(68,654,367.6)" fill="transparent" fill-opacity="0" stroke="#534AB7" stroke-width="2.5"/><text x="654" y="371.6" text-anchor="middle" font-size="8.5" fill="#534AB7" font-family="monospace">A3</text></g>
+        <g id="node-a4" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a4',event)" onmouseout="hideTooltip()"><ellipse fill="transparent" fill-opacity="0" cx="654" cy="532.4" rx="20" ry="11" transform="rotate(112,654,532.4)" fill="transparent" fill-opacity="0" stroke="#534AB7" stroke-width="2.5"/><text x="654" y="536.4" text-anchor="middle" font-size="8.5" fill="#534AB7" font-family="monospace">A4</text></g>
+        <g id="node-a5" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a5',event)" onmouseout="hideTooltip()"><ellipse fill="transparent" fill-opacity="0" cx="532.4" cy="654" rx="20" ry="11" transform="rotate(158,532.4,654)" fill="transparent" fill-opacity="0" stroke="#1D9E75" stroke-width="2.5"/><text x="532.4" y="658" text-anchor="middle" font-size="8.5" fill="#1D9E75" font-family="monospace">A5</text></g>
+        <g id="node-a6" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a6',event)" onmouseout="hideTooltip()"><ellipse fill="transparent" fill-opacity="0" cx="367.6" cy="654" rx="20" ry="11" transform="rotate(202,367.6,654)" fill="transparent" fill-opacity="0" stroke="#1D9E75" stroke-width="2.5"/><text x="367.6" y="658" text-anchor="middle" font-size="8.5" fill="#1D9E75" font-family="monospace">A6</text></g>
+        <g id="node-a7" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a7',event)" onmouseout="hideTooltip()"><ellipse fill="transparent" fill-opacity="0" cx="246" cy="532.4" rx="20" ry="11" transform="rotate(248,246,532.4)" fill="transparent" fill-opacity="0" stroke="#A0426B" stroke-width="2.5"/><text x="246" y="536.4" text-anchor="middle" font-size="8.5" fill="#A0426B" font-family="monospace">A7</text></g>
+        <g id="node-a8" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a8',event)" onmouseout="hideTooltip()"><ellipse fill="transparent" fill-opacity="0" cx="246" cy="367.6" rx="20" ry="11" transform="rotate(292,246,367.6)" fill="transparent" fill-opacity="0" stroke="#A0426B" stroke-width="2.5"/><text x="246" y="371.6" text-anchor="middle" font-size="8.5" fill="#A0426B" font-family="monospace">A8</text></g>
+        <!-- SC outer nodes -->
+        <g id="node-sc1"  style="opacity:0;transition:opacity 0.4s"><polygon points="298.7,205.5 276.1,205.2 287.4,185.9" fill="transparent" fill-opacity="0" stroke="#C4622D" stroke-width="2.5"/><text x="264" y="189" text-anchor="middle" font-size="7" fill="#C4622D" font-family="monospace" opacity="0.85">Presence</text></g>
+        <g id="node-sc2"  style="opacity:0;transition:opacity 0.4s"><polygon points="389,169 383.5,147.1 405.1,153.1" fill="transparent" fill-opacity="0" stroke="#C4622D" stroke-width="2.5"/><text x="399.8" y="135" text-anchor="middle" font-size="7" fill="#C4622D" font-family="monospace" opacity="0.85">Fear</text></g>
+        <g id="node-sc3"  style="opacity:0;transition:opacity 0.4s"><polygon points="511,169 494.9,153.1 516.5,147.1" fill="transparent" fill-opacity="0" stroke="#C4622D" stroke-width="2.5"/><text x="500.2" y="135" text-anchor="middle" font-size="7" fill="#C4622D" font-family="monospace" opacity="0.85">Intention</text></g>
+        <g id="node-sc4"  style="opacity:0;transition:opacity 0.4s"><polygon points="601.3,205.5 612.6,185.9 623.9,205.2" fill="transparent" fill-opacity="0" stroke="#C4622D" stroke-width="2.5"/><text x="635.8" y="189" text-anchor="middle" font-size="7" fill="#C4622D" font-family="monospace" opacity="0.85">Desire</text></g>
+        <g id="node-sc5"  style="opacity:0;transition:opacity 0.4s"><polygon points="694.5,298.7 694.8,276.1 714.1,287.4" fill="transparent" fill-opacity="0" stroke="#534AB7" stroke-width="2.5"/><text x="714.8" y="268" text-anchor="middle" font-size="7" fill="#534AB7" font-family="monospace" opacity="0.85">Comm.</text></g>
+        <g id="node-sc6"  style="opacity:0;transition:opacity 0.4s"><polygon points="731,389 752.9,383.5 746.9,405.1" fill="transparent" fill-opacity="0" stroke="#534AB7" stroke-width="2.5"/><text x="769.5" y="404" text-anchor="middle" font-size="7" fill="#534AB7" font-family="monospace" opacity="0.85">Attach.</text></g>
+        <g id="node-sc7"  style="opacity:0;transition:opacity 0.4s"><polygon points="731,511 746.9,494.9 752.9,516.5" fill="transparent" fill-opacity="0" stroke="#534AB7" stroke-width="2.5"/><text x="769.5" y="504" text-anchor="middle" font-size="7" fill="#534AB7" font-family="monospace" opacity="0.85">Persp.</text></g>
+        <g id="node-sc8"  style="opacity:0;transition:opacity 0.4s"><polygon points="694.5,601.3 714.1,612.6 694.8,623.9" fill="transparent" fill-opacity="0" stroke="#534AB7" stroke-width="2.5"/><text x="714.8" y="640" text-anchor="middle" font-size="7" fill="#534AB7" font-family="monospace" opacity="0.85">Memory</text></g>
+        <g id="node-sc9"  style="opacity:0;transition:opacity 0.4s"><polygon points="601.3,694.5 623.9,694.8 612.6,714.1" fill="transparent" fill-opacity="0" stroke="#1D9E75" stroke-width="2.5"/><text x="635.8" y="719" text-anchor="middle" font-size="7" fill="#1D9E75" font-family="monospace" opacity="0.85">Logic</text></g>
+        <g id="node-sc10" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc10',event)" onmouseout="hideTooltip()"><polygon points="511,731 516.5,752.9 494.9,746.9" fill="transparent" fill-opacity="0" stroke="#1D9E75" stroke-width="2.5"/><text x="500.2" y="774" text-anchor="middle" font-size="7" fill="#1D9E75" font-family="monospace" opacity="0.85">Pattern</text></g>
+        <g id="node-sc11" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc11',event)" onmouseout="hideTooltip()"><polygon points="389,731 405.1,746.9 383.5,752.9" fill="transparent" fill-opacity="0" stroke="#1D9E75" stroke-width="2.5"/><text x="399.8" y="774" text-anchor="middle" font-size="7" fill="#1D9E75" font-family="monospace" opacity="0.85">Align.</text></g>
+        <g id="node-sc12" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc12',event)" onmouseout="hideTooltip()"><polygon points="298.7,694.5 287.4,714.1 276.1,694.8" fill="transparent" fill-opacity="0" stroke="#1D9E75" stroke-width="2.5"/><text x="264.2" y="719" text-anchor="middle" font-size="7" fill="#1D9E75" font-family="monospace" opacity="0.85">Protect.</text></g>
+        <g id="node-sc13" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc13',event)" onmouseout="hideTooltip()"><polygon points="205.5,601.3 205.2,623.9 185.9,612.6" fill="transparent" fill-opacity="0" stroke="#A0426B" stroke-width="2.5"/><text x="185.2" y="640" text-anchor="middle" font-size="7" fill="#A0426B" font-family="monospace" opacity="0.85">Adapt.</text></g>
+        <g id="node-sc14" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc14',event)" onmouseout="hideTooltip()"><polygon points="169,511 147.1,516.5 153.1,494.9" fill="transparent" fill-opacity="0" stroke="#A0426B" stroke-width="2.5"/><text x="130.5" y="504" text-anchor="middle" font-size="7" fill="#A0426B" font-family="monospace" opacity="0.85">Instinct</text></g>
+        <g id="node-sc15" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc15',event)" onmouseout="hideTooltip()"><polygon points="169,389 153.1,405.1 147.1,383.5" fill="transparent" fill-opacity="0" stroke="#A0426B" stroke-width="2.5"/><text x="130.5" y="404" text-anchor="middle" font-size="7" fill="#A0426B" font-family="monospace" opacity="0.85">Integrity</text></g>
+        <g id="node-sc16" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc16',event)" onmouseout="hideTooltip()"><polygon points="205.5,298.7 185.9,287.4 205.2,276.1" fill="transparent" fill-opacity="0" stroke="#A0426B" stroke-width="2.5"/><text x="185.2" y="268" text-anchor="middle" font-size="7" fill="#A0426B" font-family="monospace" opacity="0.85">Core Id.</text></g>
+        <g id="node-bs" style="opacity:0;transition:opacity 0.5s"><polygon points="424,642 476,642 450,674" fill="none" stroke="#D4D0C8" stroke-width="1.3"/><text x="450" y="657" text-anchor="middle" font-size="7" fill="var(--muted)" font-family="monospace">BALANCE</text><text id="v-bs" x="450" y="669" text-anchor="middle" font-size="8" fill="var(--muted)" font-family="monospace">—</text></g>
+      </svg>
+
+      <!-- SUBCONSCIOUS FACE (flip reveals this) -->
+      <svg id="sub-diagram" viewBox="120 120 660 660" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+<polygon points="450,302 598,450 450,598 302,450" fill="none" stroke="#B8B2A8" stroke-width="1.2" opacity="0.7"/>
+        <circle cx="450" cy="450" r="220" fill="none" stroke="#C8C4BC" stroke-width="0.6" stroke-dasharray="3 9" opacity="0.14"/>
+        <circle cx="450" cy="450" r="70" fill="none" stroke="#C8C4BC" stroke-width="0.5" opacity="0.25"/>
+        <line x1="450" y1="106" x2="450" y2="794" stroke="#C8C4BC" stroke-width="0.5" stroke-dasharray="4 8" opacity="0.35"/>
+        <line x1="106" y1="450" x2="794" y2="450" stroke="#C8C4BC" stroke-width="0.5" stroke-dasharray="4 8" opacity="0.35"/>
+        <line x1="450" y1="302" x2="367.6" y2="246" stroke="#C4622D" stroke-width="1.2" opacity="0.35"/><line x1="367.6" y1="246" x2="286.6" y2="198.4" stroke="#C4622D" stroke-width="1" opacity="0.28"/><line x1="367.6" y1="246" x2="392.8" y2="155.5" stroke="#C4622D" stroke-width="1" opacity="0.28"/>
+        <line x1="450" y1="302" x2="532.4" y2="246" stroke="#C4622D" stroke-width="1.2" opacity="0.35"/><line x1="532.4" y1="246" x2="507.2" y2="155.5" stroke="#C4622D" stroke-width="1" opacity="0.28"/><line x1="532.4" y1="246" x2="613.4" y2="198.4" stroke="#C4622D" stroke-width="1" opacity="0.28"/>
+        <line x1="598" y1="450" x2="654" y2="367.6" stroke="#534AB7" stroke-width="1.2" opacity="0.35"/><line x1="654" y1="367.6" x2="701.6" y2="286.6" stroke="#534AB7" stroke-width="1" opacity="0.28"/><line x1="654" y1="367.6" x2="744.5" y2="392.8" stroke="#534AB7" stroke-width="1" opacity="0.28"/>
+        <line x1="598" y1="450" x2="654" y2="532.4" stroke="#534AB7" stroke-width="1.2" opacity="0.35"/><line x1="654" y1="532.4" x2="744.5" y2="507.2" stroke="#534AB7" stroke-width="1" opacity="0.28"/><line x1="654" y1="532.4" x2="701.6" y2="613.4" stroke="#534AB7" stroke-width="1" opacity="0.28"/>
+        <line x1="450" y1="598" x2="532.4" y2="654" stroke="#1D9E75" stroke-width="1.2" opacity="0.35"/><line x1="532.4" y1="654" x2="613.4" y2="701.6" stroke="#1D9E75" stroke-width="1" opacity="0.28"/><line x1="532.4" y1="654" x2="507.2" y2="744.5" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+        <line x1="450" y1="598" x2="367.6" y2="654" stroke="#1D9E75" stroke-width="1.2" opacity="0.35"/><line x1="367.6" y1="654" x2="392.8" y2="744.5" stroke="#1D9E75" stroke-width="1" opacity="0.28"/><line x1="367.6" y1="654" x2="286.6" y2="701.6" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+        <line x1="302" y1="450" x2="246" y2="532.4" stroke="#A0426B" stroke-width="1.2" opacity="0.35"/><line x1="246" y1="532.4" x2="198.4" y2="613.4" stroke="#A0426B" stroke-width="1" opacity="0.28"/><line x1="246" y1="532.4" x2="155.5" y2="507.2" stroke="#A0426B" stroke-width="1" opacity="0.28"/>
+        <line x1="302" y1="450" x2="246" y2="367.6" stroke="#A0426B" stroke-width="1.2" opacity="0.35"/><line x1="246" y1="367.6" x2="155.5" y2="392.8" stroke="#A0426B" stroke-width="1" opacity="0.28"/><line x1="246" y1="367.6" x2="198.4" y2="286.6" stroke="#A0426B" stroke-width="1" opacity="0.28"/>
+        <line id="sub-con-line" x1="450" y1="450" x2="450" y2="450" stroke="none" stroke-width="1.2" stroke-dasharray="5 5" opacity="0"/>
+        <circle cx="450" cy="450" r="52" fill="white" stroke="#B0ABA0" stroke-width="1.8"/>
+        <circle cx="450" cy="450" r="39" fill="none" stroke="#D4D0C8" stroke-width="0.5" opacity="0.4"/>
+        <circle cx="450" cy="450" r="3" fill="var(--muted)" opacity="0.4"/>
+        <text id="sub-obs-label" x="450" y="455" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="monospace" opacity="0.7">—</text>
+        <!-- OC diamonds - sub face, start at carried opacity from conscious layer -->
+        <g id="sub-node-narc" style="opacity:0.12;transition:opacity 0.5s"><polygon points="450,272 480,302 450,332 420,302" fill="none" stroke="#C4622D" stroke-width="2.2"/><text x="450" y="301" text-anchor="middle" font-size="10" fill="#C4622D" font-family="monospace">NARC</text><text id="sub-v-narc" x="450" y="315" text-anchor="middle" font-size="9" fill="#C4622D" font-family="monospace" opacity="0.7">—</text></g>
+        <g id="sub-node-cist" style="opacity:0.12;transition:opacity 0.5s"><polygon points="598,420 628,450 598,480 568,450" fill="none" stroke="#534AB7" stroke-width="2.2"/><text x="598" y="449" text-anchor="middle" font-size="10" fill="#534AB7" font-family="monospace">CIST</text><text id="sub-v-cist" x="598" y="463" text-anchor="middle" font-size="9" fill="#534AB7" font-family="monospace" opacity="0.7">—</text></g>
+        <g id="sub-node-yarc" style="opacity:0.12;transition:opacity 0.5s"><polygon points="450,568 480,598 450,628 420,598" fill="none" stroke="#1D9E75" stroke-width="2.2"/><text x="450" y="597" text-anchor="middle" font-size="10" fill="#1D9E75" font-family="monospace">YARC</text><text id="sub-v-yarc" x="450" y="611" text-anchor="middle" font-size="9" fill="#1D9E75" font-family="monospace" opacity="0.7">—</text></g>
+        <g id="sub-node-oll" style="opacity:0.12;transition:opacity 0.5s"><polygon points="302,420 332,450 302,480 272,450" fill="none" stroke="#A0426B" stroke-width="2.2"/><text x="302" y="449" text-anchor="middle" font-size="10" fill="#A0426B" font-family="monospace">Øll</text><text id="sub-v-oll" x="302" y="463" text-anchor="middle" font-size="9" fill="#A0426B" font-family="monospace" opacity="0.7">—</text></g>
+        <!-- sub SC nodes -->
+        <g id="sub-sc1" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc1',event)" onmouseout="hideTooltip()"><polygon points="298.7,205.5 276.1,205.2 287.4,185.9" fill="transparent" fill-opacity="0" stroke="#C4622D" stroke-width="2.5"/><text x="264" y="189" text-anchor="middle" font-size="7" fill="#C4622D" font-family="monospace" opacity="0.85">Presence</text></g>
+        <g id="sub-sc2" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc2',event)" onmouseout="hideTooltip()"><polygon points="389,169 383.5,147.1 405.1,153.1" fill="transparent" fill-opacity="0" stroke="#C4622D" stroke-width="2.5"/><text x="399.8" y="135" text-anchor="middle" font-size="7" fill="#C4622D" font-family="monospace" opacity="0.85">Fear</text></g>
+        <g id="sub-sc3" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc3',event)" onmouseout="hideTooltip()"><polygon points="511,169 494.9,153.1 516.5,147.1" fill="transparent" fill-opacity="0" stroke="#C4622D" stroke-width="2.5"/><text x="500.2" y="135" text-anchor="middle" font-size="7" fill="#C4622D" font-family="monospace" opacity="0.85">Intention</text></g>
+        <g id="sub-sc4" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc4',event)" onmouseout="hideTooltip()"><polygon points="601.3,205.5 612.6,185.9 623.9,205.2" fill="transparent" fill-opacity="0" stroke="#C4622D" stroke-width="2.5"/><text x="635.8" y="189" text-anchor="middle" font-size="7" fill="#C4622D" font-family="monospace" opacity="0.85">Desire</text></g>
+        <g id="sub-sc5" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc5',event)" onmouseout="hideTooltip()"><polygon points="694.5,298.7 694.8,276.1 714.1,287.4" fill="transparent" fill-opacity="0" stroke="#534AB7" stroke-width="2.5"/><text x="714.8" y="268" text-anchor="middle" font-size="7" fill="#534AB7" font-family="monospace" opacity="0.85">Comm.</text></g>
+        <g id="sub-sc6" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc6',event)" onmouseout="hideTooltip()"><polygon points="731,389 752.9,383.5 746.9,405.1" fill="transparent" fill-opacity="0" stroke="#534AB7" stroke-width="2.5"/><text x="769.5" y="404" text-anchor="middle" font-size="7" fill="#534AB7" font-family="monospace" opacity="0.85">Attach.</text></g>
+        <g id="sub-sc7" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc7',event)" onmouseout="hideTooltip()"><polygon points="731,511 746.9,494.9 752.9,516.5" fill="transparent" fill-opacity="0" stroke="#534AB7" stroke-width="2.5"/><text x="769.5" y="504" text-anchor="middle" font-size="7" fill="#534AB7" font-family="monospace" opacity="0.85">Persp.</text></g>
+        <g id="sub-sc8" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc8',event)" onmouseout="hideTooltip()"><polygon points="694.5,601.3 714.1,612.6 694.8,623.9" fill="transparent" fill-opacity="0" stroke="#534AB7" stroke-width="2.5"/><text x="714.8" y="640" text-anchor="middle" font-size="7" fill="#534AB7" font-family="monospace" opacity="0.85">Memory</text></g>
+        <g id="sub-sc9" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc9',event)" onmouseout="hideTooltip()"><polygon points="601.3,694.5 623.9,694.8 612.6,714.1" fill="transparent" fill-opacity="0" stroke="#1D9E75" stroke-width="2.5"/><text x="635.8" y="719" text-anchor="middle" font-size="7" fill="#1D9E75" font-family="monospace" opacity="0.85">Logic</text></g>
+        <g id="sub-sc10" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc10',event)" onmouseout="hideTooltip()"><polygon points="511,731 516.5,752.9 494.9,746.9" fill="transparent" fill-opacity="0" stroke="#1D9E75" stroke-width="2.5"/><text x="500.2" y="774" text-anchor="middle" font-size="7" fill="#1D9E75" font-family="monospace" opacity="0.85">Pattern</text></g>
+        <g id="sub-sc11" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc11',event)" onmouseout="hideTooltip()"><polygon points="389,731 405.1,746.9 383.5,752.9" fill="transparent" fill-opacity="0" stroke="#1D9E75" stroke-width="2.5"/><text x="399.8" y="774" text-anchor="middle" font-size="7" fill="#1D9E75" font-family="monospace" opacity="0.85">Align.</text></g>
+        <g id="sub-sc12" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc12',event)" onmouseout="hideTooltip()"><polygon points="298.7,694.5 287.4,714.1 276.1,694.8" fill="transparent" fill-opacity="0" stroke="#1D9E75" stroke-width="2.5"/><text x="264.2" y="719" text-anchor="middle" font-size="7" fill="#1D9E75" font-family="monospace" opacity="0.85">Protect.</text></g>
+        <g id="sub-sc13" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc13',event)" onmouseout="hideTooltip()"><polygon points="205.5,601.3 205.2,623.9 185.9,612.6" fill="transparent" fill-opacity="0" stroke="#A0426B" stroke-width="2.5"/><text x="185.2" y="640" text-anchor="middle" font-size="7" fill="#A0426B" font-family="monospace" opacity="0.85">Adapt.</text></g>
+        <g id="sub-sc14" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc14',event)" onmouseout="hideTooltip()"><polygon points="169,511 147.1,516.5 153.1,494.9" fill="transparent" fill-opacity="0" stroke="#A0426B" stroke-width="2.5"/><text x="130.5" y="504" text-anchor="middle" font-size="7" fill="#A0426B" font-family="monospace" opacity="0.85">Instinct</text></g>
+        <g id="sub-sc15" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc15',event)" onmouseout="hideTooltip()"><polygon points="169,389 153.1,405.1 147.1,383.5" fill="transparent" fill-opacity="0" stroke="#A0426B" stroke-width="2.5"/><text x="130.5" y="404" text-anchor="middle" font-size="7" fill="#A0426B" font-family="monospace" opacity="0.85">Integrity</text></g>
+        <g id="sub-sc16" style="opacity:0;transition:opacity 0.4s;cursor:pointer" onmouseover="showTooltip('sc16',event)" onmouseout="hideTooltip()"><polygon points="205.5,298.7 185.9,287.4 205.2,276.1" fill="transparent" fill-opacity="0" stroke="#A0426B" stroke-width="2.5"/><text x="185.2" y="268" text-anchor="middle" font-size="7" fill="#A0426B" font-family="monospace" opacity="0.85">Core Id.</text></g>
+        <!-- App slots A1-A8 for subconscious face -->
+        <g id="sub-node-a1" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a1',event)" onmouseout="hideTooltip()"><ellipse cx="367.6" cy="246" rx="20" ry="11" transform="rotate(-22,367.6,246)" fill="transparent" fill-opacity="0" stroke="#C4622D" stroke-width="2.5"/><text x="367.6" y="250" text-anchor="middle" font-size="8.5" fill="#C4622D" font-family="monospace">A1</text></g>
+        <g id="sub-node-a2" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a2',event)" onmouseout="hideTooltip()"><ellipse cx="532.4" cy="246" rx="20" ry="11" transform="rotate(22,532.4,246)" fill="transparent" fill-opacity="0" stroke="#C4622D" stroke-width="2.5"/><text x="532.4" y="250" text-anchor="middle" font-size="8.5" fill="#C4622D" font-family="monospace">A2</text></g>
+        <g id="sub-node-a3" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a3',event)" onmouseout="hideTooltip()"><ellipse cx="654" cy="367.6" rx="20" ry="11" transform="rotate(68,654,367.6)" fill="transparent" fill-opacity="0" stroke="#534AB7" stroke-width="2.5"/><text x="654" y="371.6" text-anchor="middle" font-size="8.5" fill="#534AB7" font-family="monospace">A3</text></g>
+        <g id="sub-node-a4" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a4',event)" onmouseout="hideTooltip()"><ellipse cx="654" cy="532.4" rx="20" ry="11" transform="rotate(112,654,532.4)" fill="transparent" fill-opacity="0" stroke="#534AB7" stroke-width="2.5"/><text x="654" y="536.4" text-anchor="middle" font-size="8.5" fill="#534AB7" font-family="monospace">A4</text></g>
+        <g id="sub-node-a5" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a5',event)" onmouseout="hideTooltip()"><ellipse cx="532.4" cy="654" rx="20" ry="11" transform="rotate(158,532.4,654)" fill="transparent" fill-opacity="0" stroke="#1D9E75" stroke-width="2.5"/><text x="532.4" y="658" text-anchor="middle" font-size="8.5" fill="#1D9E75" font-family="monospace">A5</text></g>
+        <g id="sub-node-a6" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a6',event)" onmouseout="hideTooltip()"><ellipse cx="367.6" cy="654" rx="20" ry="11" transform="rotate(202,367.6,654)" fill="transparent" fill-opacity="0" stroke="#1D9E75" stroke-width="2.5"/><text x="367.6" y="658" text-anchor="middle" font-size="8.5" fill="#1D9E75" font-family="monospace">A6</text></g>
+        <g id="sub-node-a7" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a7',event)" onmouseout="hideTooltip()"><ellipse cx="246" cy="532.4" rx="20" ry="11" transform="rotate(248,246,532.4)" fill="transparent" fill-opacity="0" stroke="#A0426B" stroke-width="2.5"/><text x="246" y="536.4" text-anchor="middle" font-size="8.5" fill="#A0426B" font-family="monospace">A7</text></g>
+        <g id="sub-node-a8" style="opacity:0;transition:opacity 0.5s;cursor:pointer" onmouseover="showTooltip('a8',event)" onmouseout="hideTooltip()"><ellipse cx="246" cy="367.6" rx="20" ry="11" transform="rotate(292,246,367.6)" fill="transparent" fill-opacity="0" stroke="#A0426B" stroke-width="2.5"/><text x="246" y="371.6" text-anchor="middle" font-size="8.5" fill="#A0426B" font-family="monospace">A8</text></g>
+        <g id="sub-node-bs" style="opacity:0;transition:opacity 0.5s"><polygon points="424,642 476,642 450,674" fill="none" stroke="#D4D0C8" stroke-width="1.3"/><text x="450" y="657" text-anchor="middle" font-size="7" fill="var(--muted)" font-family="monospace">BALANCE</text><text id="sub-v-bs" x="450" y="669" text-anchor="middle" font-size="8" fill="var(--muted)" font-family="monospace">—</text></g>
+      </svg>
+
+      <div class="node-tooltip" id="node-tooltip">
+        <div id="nt-name" style="font-size:11px;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px">—</div>
+        <div id="nt-meta" style="font-size:9px;color:var(--muted);margin-bottom:8px;letter-spacing:0.05em">—</div>
+        <div id="nt-score" style="font-size:11px;color:var(--muted);line-height:1.6">—</div>
+      </div>
+    </div>
+
+    <div class="diag-layer-badge" id="diag-layer-badge">Part 1 — Conscious layer</div>
+    <div class="oc-strip">
+      <div class="oc-mini"><div class="oc-mini-label" style="color:var(--narc)">NARC</div><div class="oc-mini-track"><div class="oc-mini-fill" id="oc-narc" style="width:25%;background:var(--narc)"></div></div><div class="oc-mini-pct" id="ocp-narc">25%</div></div>
+      <div class="oc-mini"><div class="oc-mini-label" style="color:var(--cist)">CIST</div><div class="oc-mini-track"><div class="oc-mini-fill" id="oc-cist" style="width:25%;background:var(--cist)"></div></div><div class="oc-mini-pct" id="ocp-cist">25%</div></div>
+      <div class="oc-mini"><div class="oc-mini-label" style="color:var(--yarc)">YARC</div><div class="oc-mini-track"><div class="oc-mini-fill" id="oc-yarc" style="width:25%;background:var(--yarc)"></div></div><div class="oc-mini-pct" id="ocp-yarc">25%</div></div>
+      <div class="oc-mini"><div class="oc-mini-label" style="color:var(--oll)">Øll</div><div class="oc-mini-track"><div class="oc-mini-fill" id="oc-oll" style="width:25%;background:var(--oll)"></div></div><div class="oc-mini-pct" id="ocp-oll">25%</div></div>
+    </div>
+  </div>
+
+  <div class="q-col">
+    <div class="q-progress-bar"><div class="q-progress-fill" id="q-prog-fill" style="width:0%"></div></div>
+    <div class="q-card-wrap" id="q-card-wrap"></div>
+    <div class="awareness-reveal" id="awareness-reveal">
+      <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted)">Your awareness level</div>
+      <div class="ar-score" id="ar-score">—</div>
+      <div class="ar-state" id="ar-state">—</div>
+      <div class="ar-desc" id="ar-desc">—</div>
+      <div class="ar-track"><div class="ar-fill" id="ar-fill" style="width:0%"></div></div>
+      <button class="ar-generate-btn" id="ar-gen-btn" onclick="submitAssessment()">View my full profile →</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- RESULTS -->
+<div class="screen" id="screen-results">
+<div class="results-wrap">
+  <div class="r-hero">
+    <div class="r-lbl">Awareness profile — <span id="r-obs-lbl">Human</span></div>
+    <div style="margin-bottom:24px">
+      <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:8px;justify-content:center">
+        <div style="font-family:var(--serif);font-size:5rem;font-weight:300;line-height:1" id="r-level-num">—</div>
+        <div style="text-align:left"><div style="font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px" id="r-level-name">—</div><div style="font-size:0.72rem;color:var(--muted)" id="r-level-bs">—</div></div>
+      </div>
+      <div style="height:2px;background:var(--line);border-radius:1px;overflow:hidden;margin-bottom:10px;max-width:320px;margin-left:auto;margin-right:auto"><div id="r-level-bar" style="height:100%;border-radius:1px;transition:width 1s ease"></div></div>
+      <div style="font-size:0.78rem;color:var(--muted);line-height:1.7;max-width:380px;margin:0 auto" id="r-level-desc">—</div>
+    </div>
+    <div style="margin-bottom:8px"><div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Balance Scale</div><div class="r-score-big" id="r-bs">—</div><div class="r-state-lbl" id="r-st">—</div></div>
+    <div class="r-divider"></div>
+    <div style="font-size:0.72rem;color:var(--muted);line-height:1.8;max-width:420px;margin:0 auto 8px">Balance Scale runs −5 (collapse) → 0 (Zero-Point) → +5 (peak). Drift measures the gap between your conscious and subconscious layers.</div>
+    <div style="font-size:0.78rem;color:var(--muted);line-height:1.8;max-width:460px;margin:0 auto" id="r-drift-row">—</div>
+  </div>
+  <div class="r-diagram-wrap"><div class="r-diagram-lbl">Your Source Code map</div><svg id="result-svg" viewBox="120 120 660 660" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="100%"></svg></div>
+  <div class="r-grid">
+    <div class="r-card"><div class="r-card-lbl">Observer Code ratio</div><div id="r-oc-bars"></div></div>
+    <div class="r-card"><div class="r-card-lbl">Node scores (effective)</div><div id="r-nodes"></div></div>
+  </div>
+  <div class="r-interp"><div class="r-interp-lbl">Your profile</div><div style="font-size:0.65rem;color:var(--muted);margin-bottom:16px;line-height:1.6">Structured interpretive tool — not a clinical diagnostic instrument.</div><div id="r-interp">—</div></div>
+  <div style="background:var(--text);color:var(--bg);border-radius:18px;padding:36px 32px;margin-bottom:14px">
+    <div style="font-family:var(--serif);font-weight:300;font-size:1.8rem;margin-bottom:8px">Your assessment code</div>
+    <div style="font-size:0.72rem;opacity:0.6;line-height:1.7;margin-bottom:16px">Save this 40-character code to compare your profile at your next assessment.</div>
+    <div id="r-code-display" style="padding:14px;background:rgba(255,255,255,0.08);border-radius:10px;font-family:monospace;font-size:0.75rem;letter-spacing:0.1em;word-break:break-all;margin-bottom:12px"></div>
+    <a id="r-mailto-btn" href="#" style="display:none;padding:12px 28px;background:var(--bg);color:var(--text);border-radius:999px;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none">Send results →</a>
+  </div>
+  <div class="retake-row"><span class="retake-lnk" onclick="retake()">Retake assessment</span></div>
+</div>
+</div>
+</div>
+
+<div id="tooltip-overlay" style="position:fixed;inset:0;z-index:40;display:none" onclick="hideTooltip()"></div>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+// ═══════════════════════════════════════
+// 56-NODE QUESTION SET
+// reversed:true = agreement means LOW awareness (scored inverted)
+// ═══════════════════════════════════════
+const NODES=[
+  // ═══ PART 1 — CONSCIOUS (Q1–28) ═══════════════════════════════════════
+  // Q1–16: SOURCE CODES — outer triangle nodes
+  {id:'sc1', name:'Intention',  code:'NARC',slot:'A1', layer:'Conscious',   col:'#C4622D',svgId:'node-sc1', subId:'sub-sc1', appId:'node-a1',ocId:'node-narc',reversed:false,q:"I feel clear about what I genuinely want from life."},
+  {id:'sc2', name:'Intention',  code:'NARC',slot:'A1', layer:'Conscious',   col:'#C4622D',svgId:'node-sc2', subId:'sub-sc2', appId:'node-a1',ocId:'node-narc',reversed:false,q:"My goals reflect my personal values rather than outside expectations."},
+  {id:'sc3', name:'Presence',   code:'NARC',slot:'A2', layer:'Conscious',   col:'#C4622D',svgId:'node-sc3', subId:'sub-sc3', appId:'node-a2',ocId:'node-narc',reversed:false,q:"I am able to stay mentally present during important moments."},
+  {id:'sc4', name:'Presence',   code:'NARC',slot:'A2', layer:'Conscious',   col:'#C4622D',svgId:'node-sc4', subId:'sub-sc4', appId:'node-a2',ocId:'node-narc',reversed:false,q:"I notice my emotional state before reacting impulsively."},
+  {id:'sc5', name:'Core Self',  code:'CIST',slot:'A3', layer:'Conscious',   col:'#534AB7',svgId:'node-sc5', subId:'sub-sc5', appId:'node-a3',ocId:'node-cist',reversed:false,q:"I feel connected to who I truly am beneath social roles."},
+  {id:'sc6', name:'Core Self',  code:'CIST',slot:'A3', layer:'Conscious',   col:'#534AB7',svgId:'node-sc6', subId:'sub-sc6', appId:'node-a3',ocId:'node-cist',reversed:false,q:"I rarely feel the need to become someone different to gain approval."},
+  {id:'sc7', name:'Integrity',  code:'CIST',slot:'A4', layer:'Conscious',   col:'#534AB7',svgId:'node-sc7', subId:'sub-sc7', appId:'node-a4',ocId:'node-cist',reversed:false,q:"My actions usually align with the values I claim to believe in."},
+  {id:'sc8', name:'Integrity',  code:'CIST',slot:'A4', layer:'Conscious',   col:'#534AB7',svgId:'node-sc8', subId:'sub-sc8', appId:'node-a4',ocId:'node-cist',reversed:false,q:"I remain honest with myself even when the truth feels uncomfortable."},
+  {id:'sc9', name:'Balance',    code:'YARC',slot:'A5', layer:'Conscious',   col:'#1D9E75',svgId:'node-sc9', subId:'sub-sc9', appId:'node-a5',ocId:'node-yarc',reversed:false,q:"I can usually remain emotionally stable during stressful situations."},
+  {id:'sc10',name:'Balance',    code:'YARC',slot:'A5', layer:'Conscious',   col:'#1D9E75',svgId:'node-sc10',subId:'sub-sc10',appId:'node-a5',ocId:'node-yarc',reversed:false,q:"I consider multiple perspectives before forming conclusions."},
+  {id:'sc11',name:'Connection', code:'YARC',slot:'A6', layer:'Conscious',   col:'#1D9E75',svgId:'node-sc11',subId:'sub-sc11',appId:'node-a6',ocId:'node-yarc',reversed:false,q:"I genuinely try to understand other people's perspectives."},
+  {id:'sc12',name:'Connection', code:'YARC',slot:'A6', layer:'Conscious',   col:'#1D9E75',svgId:'node-sc12',subId:'sub-sc12',appId:'node-a6',ocId:'node-yarc',reversed:false,q:"I value meaningful connection more than status or appearance."},
+  {id:'sc13',name:'Purpose',    code:'Øll', slot:'A7', layer:'Conscious',   col:'#A0426B',svgId:'node-sc13',subId:'sub-sc13',appId:'node-a7',ocId:'node-oll', reversed:false,q:"I feel my life has direction or meaning beyond short-term survival."},
+  {id:'sc14',name:'Purpose',    code:'Øll', slot:'A7', layer:'Conscious',   col:'#A0426B',svgId:'node-sc14',subId:'sub-sc14',appId:'node-a7',ocId:'node-oll', reversed:false,q:"I regularly think about my long-term purpose."},
+  {id:'sc15',name:'Pattern',    code:'Øll', slot:'A8', layer:'Conscious',   col:'#A0426B',svgId:'node-sc15',subId:'sub-sc15',appId:'node-a8',ocId:'node-oll', reversed:false,q:"I notice recurring patterns in my behaviour over time."},
+  {id:'sc16',name:'Pattern',    code:'Øll', slot:'A8', layer:'Conscious',   col:'#A0426B',svgId:'node-sc16',subId:'sub-sc16',appId:'node-a8',ocId:'node-oll', reversed:false,q:"I can identify cycles that repeatedly appear in my life."},
+  // Q17–24: APP QUESTIONS — ellipse nodes (integration of 2 SCs)
+  {id:'ap1', name:'A1',appNum:1, code:'NARC',slot:'APP',layer:'Conscious',  col:'#C4622D',svgId:'node-a1',  subId:'sub-node-a1', appId:'node-a1',ocId:'node-narc',reversed:false,q:"When I commit to something, I follow through consistently rather than losing momentum over time."},
+  {id:'ap2', name:'A2',appNum:2, code:'NARC',slot:'APP',layer:'Conscious',  col:'#C4622D',svgId:'node-a2',  subId:'sub-node-a2', appId:'node-a2',ocId:'node-narc',reversed:false,q:"I am generally aware of how my inner state is affecting my behaviour in real time."},
+  {id:'ap3', name:'A3',appNum:3, code:'CIST',slot:'APP',layer:'Conscious',  col:'#534AB7',svgId:'node-a3',  subId:'sub-node-a3', appId:'node-a3',ocId:'node-cist',reversed:false,q:"My behaviour tends to be consistent whether I am being observed or not."},
+  {id:'ap4', name:'A4',appNum:4, code:'CIST',slot:'APP',layer:'Conscious',  col:'#534AB7',svgId:'node-a4',  subId:'sub-node-a4', appId:'node-a4',ocId:'node-cist',reversed:false,q:"When I make decisions, I can usually explain my reasoning clearly and honestly."},
+  {id:'ap5', name:'A5',appNum:5, code:'YARC',slot:'APP',layer:'Conscious',  col:'#1D9E75',svgId:'node-a5',  subId:'sub-node-a5', appId:'node-a5',ocId:'node-yarc',reversed:false,q:"I can think clearly and remain grounded even when situations are emotionally charged."},
+  {id:'ap6', name:'A6',appNum:6, code:'YARC',slot:'APP',layer:'Conscious',  col:'#1D9E75',svgId:'node-a6',  subId:'sub-node-a6', appId:'node-a6',ocId:'node-yarc',reversed:false,q:"I am able to be genuinely present with others without losing my own emotional stability."},
+  {id:'ap7', name:'A7',appNum:7, code:'Øll', slot:'APP',layer:'Conscious',  col:'#A0426B',svgId:'node-a7',  subId:'sub-node-a7', appId:'node-a7',ocId:'node-oll', reversed:false,q:"The way I show up for others reflects something deeper than habit or obligation."},
+  {id:'ap8', name:'A8',appNum:8, code:'Øll', slot:'APP',layer:'Conscious',  col:'#A0426B',svgId:'node-a8',  subId:'sub-node-a8', appId:'node-a8',ocId:'node-oll', reversed:false,q:"I am actively breaking cycles that no longer serve me rather than just recognising them."},
+  // Q25–28: OBSERVER CODE QUESTIONS — diamond nodes (gut-check)
+  {id:'oc1', name:'NARC',       code:'NARC',slot:'OC', layer:'Conscious',   col:'#C4622D',svgId:'node-narc',subId:'sub-node-narc',appId:'node-narc',ocId:'node-narc',reversed:false,q:"I have a clear and stable sense of who I am that doesn\'t depend on how others see me."},
+  {id:'oc2', name:'CIST',       code:'CIST',slot:'OC', layer:'Conscious',   col:'#534AB7',svgId:'node-cist',subId:'sub-node-cist',appId:'node-cist',ocId:'node-cist',reversed:false,q:"I am able to manage my emotional responses and maintain stability even under pressure."},
+  {id:'oc3', name:'YARC',       code:'YARC',slot:'OC', layer:'Conscious',   col:'#1D9E75',svgId:'node-yarc',subId:'sub-node-yarc',appId:'node-yarc',ocId:'node-yarc',reversed:false,q:"I genuinely invest in the wellbeing of others without losing sight of my own needs."},
+  {id:'oc4', name:'Øll',        code:'Øll', slot:'OC', layer:'Conscious',   col:'#A0426B',svgId:'node-oll', subId:'sub-node-oll', appId:'node-oll', ocId:'node-oll', reversed:false,q:"I am able to sit with uncertainty and discomfort without needing to immediately resolve or escape it."},
+
+  // ═══ PART 2 — SUBCONSCIOUS (Q29–56) ════════════════════════════════════
+  // Q29–44: SUBCONSCIOUS SOURCE CODES (reversed)
+  {id:'sc17',name:'Intention',  code:'NARC',slot:'A1', layer:'Subconscious',col:'#C4622D',svgId:'node-sc1', subId:'sub-sc1', appId:'node-a1',ocId:'node-narc',reversed:true, q:"I often pursue things because they are expected of me rather than because I truly want them."},
+  {id:'sc18',name:'Intention',  code:'NARC',slot:'A1', layer:'Subconscious',col:'#C4622D',svgId:'node-sc2', subId:'sub-sc2', appId:'node-a1',ocId:'node-narc',reversed:true, q:"I sometimes feel disconnected from the goals I spend most of my time chasing."},
+  {id:'sc19',name:'Presence',   code:'NARC',slot:'A2', layer:'Subconscious',col:'#C4622D',svgId:'node-sc3', subId:'sub-sc3', appId:'node-a2',ocId:'node-narc',reversed:true, q:"My mind frequently drifts away from the present moment."},
+  {id:'sc20',name:'Presence',   code:'NARC',slot:'A2', layer:'Subconscious',col:'#C4622D',svgId:'node-sc4', subId:'sub-sc4', appId:'node-a2',ocId:'node-narc',reversed:true, q:"I often react emotionally before fully understanding a situation."},
+  {id:'sc21',name:'Core Self',  code:'CIST',slot:'A3', layer:'Subconscious',col:'#534AB7',svgId:'node-sc5', subId:'sub-sc5', appId:'node-a3',ocId:'node-cist',reversed:true, q:"I change parts of myself depending on who I am around."},
+  {id:'sc22',name:'Core Self',  code:'CIST',slot:'A3', layer:'Subconscious',col:'#534AB7',svgId:'node-sc6', subId:'sub-sc6', appId:'node-a3',ocId:'node-cist',reversed:true, q:"I sometimes feel unsure who the real me actually is."},
+  {id:'sc23',name:'Integrity',  code:'CIST',slot:'A4', layer:'Subconscious',col:'#534AB7',svgId:'node-sc7', subId:'sub-sc7', appId:'node-a4',ocId:'node-cist',reversed:true, q:"I occasionally behave in ways that conflict with what I believe is right."},
+  {id:'sc24',name:'Integrity',  code:'CIST',slot:'A4', layer:'Subconscious',col:'#534AB7',svgId:'node-sc8', subId:'sub-sc8', appId:'node-a4',ocId:'node-cist',reversed:true, q:"I sometimes compromise my values to avoid discomfort."},
+  {id:'sc25',name:'Balance',    code:'YARC',slot:'A5', layer:'Subconscious',col:'#1D9E75',svgId:'node-sc9', subId:'sub-sc9', appId:'node-a5',ocId:'node-yarc',reversed:true, q:"Negative emotions can stay with me long after situations are over."},
+  {id:'sc26',name:'Balance',    code:'YARC',slot:'A5', layer:'Subconscious',col:'#1D9E75',svgId:'node-sc10',subId:'sub-sc10',appId:'node-a5',ocId:'node-yarc',reversed:true, q:"Stress can quickly overwhelm my thinking."},
+  {id:'sc27',name:'Connection', code:'YARC',slot:'A6', layer:'Subconscious',col:'#1D9E75',svgId:'node-sc11',subId:'sub-sc11',appId:'node-a6',ocId:'node-yarc',reversed:true, q:"I often assume people misunderstand me."},
+  {id:'sc28',name:'Connection', code:'YARC',slot:'A6', layer:'Subconscious',col:'#1D9E75',svgId:'node-sc12',subId:'sub-sc12',appId:'node-a6',ocId:'node-yarc',reversed:true, q:"I sometimes withdraw emotionally instead of expressing how I truly feel."},
+  {id:'sc29',name:'Purpose',    code:'Øll', slot:'A7', layer:'Subconscious',col:'#A0426B',svgId:'node-sc13',subId:'sub-sc13',appId:'node-a7',ocId:'node-oll', reversed:true, q:"I sometimes feel like I am moving through life without real direction."},
+  {id:'sc30',name:'Purpose',    code:'Øll', slot:'A7', layer:'Subconscious',col:'#A0426B',svgId:'node-sc14',subId:'sub-sc14',appId:'node-a7',ocId:'node-oll', reversed:true, q:"I often focus more on avoiding failure than pursuing meaning."},
+  {id:'sc31',name:'Pattern',    code:'Øll', slot:'A8', layer:'Subconscious',col:'#A0426B',svgId:'node-sc15',subId:'sub-sc15',appId:'node-a8',ocId:'node-oll', reversed:true, q:"I often repeat behaviours I later regret."},
+  {id:'sc32',name:'Pattern',    code:'Øll', slot:'A8', layer:'Subconscious',col:'#A0426B',svgId:'node-sc16',subId:'sub-sc16',appId:'node-a8',ocId:'node-oll', reversed:true, q:"I fall back into habits I promised to change even when I recognise the cycle."},
+  // Q45–52: SUBCONSCIOUS APP QUESTIONS (reversed)
+  {id:'ap9', name:'A1',appNum:1, code:'NARC',slot:'APP',layer:'Subconscious',col:'#C4622D',svgId:'node-a1', subId:'sub-node-a1', appId:'node-a1',ocId:'node-narc',reversed:true, q:"I often start things with energy but lose momentum before they mean anything."},
+  {id:'ap10',name:'A2',appNum:2, code:'NARC',slot:'APP',layer:'Subconscious',col:'#C4622D',svgId:'node-a2', subId:'sub-node-a2', appId:'node-a2',ocId:'node-narc',reversed:true, q:"I frequently notice my mood has affected a situation only after the damage is done."},
+  {id:'ap11',name:'A3',appNum:3, code:'CIST',slot:'APP',layer:'Subconscious',col:'#534AB7',svgId:'node-a3', subId:'sub-node-a3', appId:'node-a3',ocId:'node-cist',reversed:true, q:"I behave differently when no one is watching — my private self and public self don\'t always match."},
+  {id:'ap12',name:'A4',appNum:4, code:'CIST',slot:'APP',layer:'Subconscious',col:'#534AB7',svgId:'node-a4', subId:'sub-node-a4', appId:'node-a4',ocId:'node-cist',reversed:true, q:"I sometimes make decisions I can\'t fully justify, then construct reasons afterwards."},
+  {id:'ap13',name:'A5',appNum:5, code:'YARC',slot:'APP',layer:'Subconscious',col:'#1D9E75',svgId:'node-a5', subId:'sub-node-a5', appId:'node-a5',ocId:'node-yarc',reversed:true, q:"When emotions run high I find it hard to think straight or see the situation clearly."},
+  {id:'ap14',name:'A6',appNum:6, code:'YARC',slot:'APP',layer:'Subconscious',col:'#1D9E75',svgId:'node-a6', subId:'sub-node-a6', appId:'node-a6',ocId:'node-yarc',reversed:true, q:"Being around certain people drains me or pulls me off centre in ways I struggle to control."},
+  {id:'ap15',name:'A7',appNum:7, code:'Øll', slot:'APP',layer:'Subconscious',col:'#A0426B',svgId:'node-a7', subId:'sub-node-a7', appId:'node-a7',ocId:'node-oll', reversed:true, q:"A lot of what I do for others comes from obligation, guilt, or fear of how I\'ll be perceived."},
+  {id:'ap16',name:'A8',appNum:8, code:'Øll', slot:'APP',layer:'Subconscious',col:'#A0426B',svgId:'node-a8', subId:'sub-node-a8', appId:'node-a8',ocId:'node-oll', reversed:true, q:"I can see the cycles clearly but keep returning to them anyway."},
+  // Q53–56: SUBCONSCIOUS OBSERVER CODE QUESTIONS (reversed)
+  {id:'oc5', name:'NARC',       code:'NARC',slot:'OC', layer:'Subconscious',col:'#C4622D',svgId:'node-narc',subId:'sub-node-narc',appId:'node-narc',ocId:'node-narc',reversed:true, q:"My sense of self shifts significantly depending on the situation or who I am with."},
+  {id:'oc6', name:'CIST',       code:'CIST',slot:'OC', layer:'Subconscious',col:'#534AB7',svgId:'node-cist',subId:'sub-node-cist',appId:'node-cist',ocId:'node-cist',reversed:true, q:"When things feel out of control, I struggle to regulate myself and can become overwhelmed quickly."},
+  {id:'oc7', name:'YARC',       code:'YARC',slot:'OC', layer:'Subconscious',col:'#1D9E75',svgId:'node-yarc',subId:'sub-node-yarc',appId:'node-yarc',ocId:'node-yarc',reversed:true, q:"I often give to others at the expense of myself, or withhold from others to protect myself."},
+  {id:'oc8', name:'Øll',        code:'Øll', slot:'OC', layer:'Subconscious',col:'#A0426B',svgId:'node-oll', subId:'sub-node-oll', appId:'node-oll', ocId:'node-oll', reversed:true, q:"I find it difficult to sit with things being unresolved — I need certainty or I avoid the situation entirely."},
+];
+
+const ANSWERS=["Strongly disagree","Disagree","Neutral / unsure","Agree","Strongly agree"];
+
+let scores={}, currentStep=1, lastResult=null, isDark=false, prevPulseEl=null;
+
+// ── EFFECTIVE SCORE (reverse polarity corrected) ──────────────────────────
+// Standard: 1=low awareness, 5=high. Reversed: agreement=low so eff=6-raw
+function eff(n){const r=scores[n.id];if(r===null||r===undefined)return null;return n.reversed?(6-r):r;}
+
+// ── AWARENESS LEVELS ───────────────────────────────────────────────────────
+const LEVELS=[
+  {level:1,name:'Non-Conscious',   col:'var(--oll)', desc:'Behaviour entirely automatic. No observer present.'},
+  {level:2,name:'Sub-Conscious',   col:'var(--oll)', desc:'Hidden patterns driving decisions. You are moved but cannot yet see what moves you.'},
+  {level:3,name:'Conscious',       col:'var(--narc)',desc:'The observer has switched on but remains largely reactive to what it notices.'},
+  {level:4,name:'Aware',           col:'var(--narc)',desc:'Awareness of your own loops. First level where genuine change becomes possible.'},
+  {level:5,name:'Choice',          col:'var(--cist)',desc:'The gap between stimulus and response has opened. Behaviour is beginning to be chosen.'},
+  {level:6,name:'Integration',     col:'var(--cist)',desc:'Holding both sides of a polarity simultaneously without collapsing into either.'},
+  {level:7,name:'Expression',      col:'var(--yarc)',desc:'Conscious creation. Inner state reliably translates into outer reality.'},
+  {level:8,name:'Connection',      col:'var(--yarc)',desc:'Genuine empathy without self-abandonment.'},
+  {level:9,name:'Mastery',         col:'var(--yarc)',desc:'Living by intention rather than impulse. Emotion is information, not instruction.'},
+  {level:10,name:'Creator/Source', col:'var(--yarc)',desc:'25/25/25/25. Both layers aligned. Peak expression threshold reached.'},
+];
+function getLevel(bs){
+  bs=parseFloat(bs);
+  if(bs<=-4.5)return LEVELS[0];if(bs<=-2.5)return LEVELS[1];if(bs<=-0.5)return LEVELS[2];
+  if(bs<=0.5)return LEVELS[3];if(bs<=1.5)return LEVELS[4];if(bs<=2.5)return LEVELS[5];
+  if(bs<=3.2)return LEVELS[6];if(bs<=3.8)return LEVELS[7];if(bs<=4.5)return LEVELS[8];
+  return LEVELS[9];
+}
+
+// ── DARK MODE ──────────────────────────────────────────────────────────────
+function toggleDark(){isDark=!isDark;document.documentElement.setAttribute('data-theme',isDark?'dark':'light');document.getElementById('theme-icon').textContent=isDark?'○':'◑';document.getElementById('theme-label').textContent=isDark?'Light':'Dark';}
+
+// ── START ──────────────────────────────────────────────────────────────────
+function startAssessment(){
+  scores={};currentStep=1;
+  NODES.forEach(n=>{scores[n.id]=undefined;});
+  // Reset both faces
+  ['main-diagram','sub-diagram'].forEach(diagId=>{
+    const svg=document.getElementById(diagId);if(!svg)return;
+    svg.querySelectorAll('[id^="node-"],[id^="sub-"]').forEach(el=>{el.style.opacity='0';el.classList.remove('node-active-pulse');});
+    // OC diamonds back to faint
+    ['node-narc','node-cist','node-yarc','node-oll','sub-node-narc','sub-node-cist','sub-node-yarc','sub-node-oll'].forEach(id=>{
+      const el=svg.querySelector('#'+id);if(el)el.style.opacity='0.12';
+    });
+  });
+  // Reset connector lines
+  document.getElementById('diag-layer-badge').textContent='Part 1 — Conscious layer';
+  document.getElementById('diag-layer-badge').style.color='var(--cist)';
+  document.getElementById('diag-svg-wrap').classList.remove('show-sub');
+  prevPulseEl=null;
+  showScreen('screen-assessment');
+  showStep(1);
+}
+
+// ── SHOW STEP ──────────────────────────────────────────────────────────────
+function showStep(step){
+  currentStep=step;
+  document.getElementById('q-prog-fill').style.width=(step/NODES.length*100).toFixed(0)+'%';
+  document.getElementById('diag-prog-text').textContent=step+' / '+NODES.length;
+  document.getElementById('awareness-reveal').classList.remove('visible');
+  if(step>NODES.length){showReveal();return;}
+  const n=NODES[step-1];
+  document.getElementById('q-card-wrap').style.display='flex';
+  const badge=document.getElementById('diag-layer-badge');
+  if(n.layer==='Subconscious'){badge.textContent='Part 2 — Subconscious layer';badge.style.color='var(--narc)';}
+  else{badge.textContent='Part 1 — Conscious layer';badge.style.color='var(--cist)';}
+
+  // Answer order always identical — reversal invisible, scoring engine only
+  const cur=scores[n.id];
+  const isLast=step===NODES.length;
+  const isFlip=step===28;
+
+  const answersHtml=ANSWERS.map((ans,di)=>{
+    const raw=di+1;
+    const sel=cur===raw;
+    return `<button class="q-answer-btn${sel?' selected':''}" onclick="selectAnswer('${n.id}',${raw},this,'${n.col}')" data-raw="${raw}" style="${sel?`border-color:${n.col};background:${n.col}18`:''}">
+      <span class="q-answer-num" style="${sel?`background:${n.col};color:#fff`:''}">${raw}</span>
+      <span class="q-answer-text">${ans}</span>
+    </button>`;
+  }).join('');
+
+  const nextFn=isLast?'finishAssessment()':isFlip?`flipDiagram(${step+1})`:`goToQ(${step+1})`;
+  const nextLbl=isLast?'Complete →':isFlip?'Continue to Part 2 →':'Next →';
+
+  const slotLabel=n.slot==='OC'?`${n.code} · Observer Code`:n.slot==='APP'?`${n.code} · App ${n.appNum||''}`:`${n.code} · ${n.slot}`;
+  document.getElementById('q-card-wrap').innerHTML=`
+    <div class="q-step active">
+      <div class="q-meta-row">
+        <div class="q-geo-dot" style="background:${n.col}"></div>
+        <span class="q-code-label" style="color:${n.col}">${slotLabel}</span>
+        <span class="q-layer-label" style="color:${n.layer==='Subconscious'?'var(--narc)':'var(--cist)'}">${n.layer}</span>
+      </div>
+      <div class="q-node-name">${n.name}</div>
+      <div class="q-question">${n.q}</div>
+      <div class="q-answers" id="q-answers">${answersHtml}</div>
+      <div class="q-nav-row">
+        <button class="q-btn q-btn-ghost" onclick="goToQ(${step-1})" ${step===1?'style="visibility:hidden"':''}>← Back</button>
+        <button class="q-btn q-btn-primary" id="q-next-btn" onclick="${nextFn}" ${cur===undefined?'style="opacity:0.4;pointer-events:none"':''}>${nextLbl}</button>
+      </div>
+    </div>`;
+
+  activateNode(n);
+}
+
+function goToQ(s){showStep(s);}
+function finishAssessment(){showStep(57);}
+
+// ── NODE ACTIVATION — pulse + connector line ───────────────────────────────
+function activateNode(n){
+  const isSub=n.layer==='Subconscious';
+  const diagId=isSub?'sub-diagram':'main-diagram';
+  const svg=document.getElementById(diagId);
+  const nodeId=isSub?n.subId:n.svgId;
+  const connId=isSub?'sub-con-line':'con-line';
+
+  // Remove previous pulse
+  if(prevPulseEl){prevPulseEl.classList.remove('node-active-pulse');}
+
+  const el=svg?svg.querySelector('#'+nodeId):document.getElementById(nodeId);
+  if(el){
+    el.style.opacity='0.9';
+    el.classList.add('node-active-pulse');
+    el.querySelectorAll('polygon,ellipse').forEach((s,i)=>{if(i===0){s.setAttribute('fill','none');s.setAttribute('stroke',n.col);s.setAttribute('stroke-width','3.5');}});
+    prevPulseEl=el;
+  }
+  // Brighten OC diamond
+  const ocId=isSub?n.ocId.replace('node-','sub-node-'):n.ocId;
+  const ocEl=svg?svg.querySelector('#'+ocId):document.getElementById(ocId);
+  if(ocEl){const op=parseFloat(ocEl.style.opacity||0.12);if(op<0.45)ocEl.style.opacity='0.45';}
+
+  // Brighten app slot — works on both faces
+  const appNodeId=isSub?n.appId.replace('node-','sub-node-'):n.appId;
+  const appEl=(svg&&svg.querySelector('#'+appNodeId))||document.getElementById(appNodeId);
+  if(appEl){const op=parseFloat(appEl.style.opacity||0);if(op<0.35){appEl.style.opacity='0.35';appEl.querySelectorAll('ellipse').forEach(s=>s.setAttribute('stroke',n.col));}}
+}
+
+// ── SELECT ANSWER ──────────────────────────────────────────────────────────
+function selectAnswer(nodeId,raw,btn,col){
+  scores[nodeId]=raw;
+  document.querySelectorAll('#q-answers .q-answer-btn').forEach(b=>{
+    const sel=parseInt(b.dataset.raw)===raw;
+    b.className='q-answer-btn'+(sel?' selected':'');
+    b.style.borderColor=sel?col:'';b.style.background=sel?col+'18':'';
+    const num=b.querySelector('.q-answer-num');
+    if(num){num.style.background=sel?col:'';num.style.color=sel?'#fff':'';}
+  });
+  const nb=document.getElementById('q-next-btn');
+  if(nb){nb.style.opacity='1';nb.style.pointerEvents='auto';}
+  const n=NODES.find(x=>x.id===nodeId);
+  if(n){lightNode(n,eff(n));updateOCBars();}
+}
+
+// ── LIGHT NODE ─────────────────────────────────────────────────────────────
+function lightNode(n,effScore){
+  if(!effScore)return;
+  const isSub=n.layer==='Subconscious';
+  const diagId=isSub?'sub-diagram':'main-diagram';
+  const nodeId=isSub?n.subId:n.svgId;
+  const svg=document.getElementById(diagId);
+  const el=(svg&&svg.querySelector('#'+nodeId))||document.getElementById(nodeId);
+  if(!el)return;
+  el.style.opacity=(0.3+(effScore/5)*0.65).toFixed(2);
+  el.querySelectorAll('polygon,ellipse').forEach((s,i)=>{if(i===0){s.setAttribute('fill','none');s.setAttribute('stroke',n.col);s.setAttribute('stroke-width','2.5');}});
+}
+
+// ── UPDATE OC BARS — fixed scoring engine ─────────────────────────────────
+// OC ratio: each code's contribution = inverted effective score (6-eff)
+// So low awareness (low eff) = HIGH contribution to that OC (showing dominance)
+function updateOCBars(){
+  const byCode={NARC:[],CIST:[],YARC:[],'Øll':[]};
+  NODES.forEach(n=>{const e=eff(n);if(e!==null)byCode[n.code].push(e);});
+  // For ratio bars: invert so high-activation OC shows dominant
+  const invTotals={};
+  Object.entries(byCode).forEach(([k,v])=>{invTotals[k]=v.reduce((a,b)=>a+(6-b),0)||0.001;});
+  const grand=Object.values(invTotals).reduce((a,b)=>a+b,0)||1;
+  const km={NARC:'narc',CIST:'cist',YARC:'yarc','Øll':'oll'};
+  Object.entries(invTotals).forEach(([k,t])=>{
+    const key=km[k];const pct=Math.round(t/grand*100);
+    const bar=document.getElementById('oc-'+key);const lbl=document.getElementById('ocp-'+key);
+    if(bar)bar.style.width=pct+'%';if(lbl)lbl.textContent=pct+'%';
+    // update diamond text
+    const vEl=document.getElementById('v-'+key);if(vEl)vEl.textContent=pct+'%';
+    const subVEl=document.getElementById('sub-v-'+key);if(subVEl)subVEl.textContent=pct+'%';
+    // brighten diamond
+    const effAvg=byCode[k].length?byCode[k].reduce((a,b)=>a+b,0)/byCode[k].length:0;
+    ['node-'+key,'sub-node-'+key].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el)el.style.opacity=(0.15+(effAvg/5)*0.75).toFixed(2);
+    });
+  });
+  // Live BS
+  const answered=NODES.filter(n=>eff(n)!==null);
+  if(answered.length){
+    const avgEff=answered.reduce((s,n)=>s+eff(n),0)/answered.length;
+    const bs=((avgEff-3)/2*5).toFixed(1);
+    ['v-bs','sub-v-bs'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=(parseFloat(bs)>0?'+':'')+bs;});
+    ['node-bs','sub-node-bs'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.opacity=(answered.length/NODES.length*0.85).toFixed(2);});
+  }
+}
+
+// ── DIAGRAM FLIP ───────────────────────────────────────────────────────────
+function flipDiagram(nextStep){
+  const wrap=document.getElementById('diag-svg-wrap');
+  if(prevPulseEl){prevPulseEl.classList.remove('node-active-pulse');prevPulseEl=null;}
+  wrap.classList.add('diag-flip-out');
+  setTimeout(()=>{
+    // Reset sub-diagram completely — Part 2 fills in fresh just like Part 1
+    const subSvg=document.getElementById('sub-diagram');
+    if(subSvg){
+      subSvg.querySelectorAll('[id^="sub-"]').forEach(el=>{
+        el.style.opacity='0';
+        el.classList.remove('node-active-pulse');
+        el.querySelectorAll('polygon,ellipse').forEach(s=>{
+          s.setAttribute('stroke-width','2.5');
+        });
+      });
+      // OC diamonds start at faint baseline
+      ['sub-node-narc','sub-node-cist','sub-node-yarc','sub-node-oll'].forEach(id=>{
+        const el=subSvg.querySelector('#'+id);
+        if(el)el.style.opacity='0.12';
+      });
+    }
+    wrap.classList.add('show-sub');
+    wrap.classList.remove('diag-flip-out');
+    wrap.classList.add('diag-flip-in');
+    setTimeout(()=>{wrap.classList.remove('diag-flip-in');goToQ(nextStep);},450);
+  },450);
+}
+
+// ── AWARENESS REVEAL ───────────────────────────────────────────────────────
+function showReveal(){
+  document.getElementById('q-card-wrap').style.display='none';
+  if(prevPulseEl){prevPulseEl.classList.remove('node-active-pulse');prevPulseEl=null;}
+  const r=calcScores();
+  const lvl=getLevel(r.balance_scale);
+  document.getElementById('ar-score').textContent=lvl.level;
+  document.getElementById('ar-score').style.color=lvl.col;
+  document.getElementById('ar-state').textContent=lvl.name+' · BS '+(r.balance_scale>0?'+':'')+r.balance_scale;
+  document.getElementById('ar-state').style.color=lvl.col;
+  document.getElementById('ar-desc').textContent=lvl.desc;
+  document.getElementById('ar-fill').style.width=(lvl.level/10*100)+'%';
+  document.getElementById('ar-fill').style.background=lvl.col;
+  document.getElementById('diag-prog-text').textContent='Complete';
+  document.getElementById('awareness-reveal').classList.add('visible');
+}
+
+// ── SCORING ENGINE (fixed) ─────────────────────────────────────────────────
+function calcScores(){
+  const ans=NODES.filter(n=>eff(n)!==null);
+  if(!ans.length)return{balance_scale:0,drift:0,con_avg:3,sub_avg:3,observer_codes:{narc:25,cist:25,yarc:25,oll:25},awareness_level:5,awareness_level_name:'Choice',bs_state:'Zero-Point proximity'};
+  const avgEff=ans.reduce((s,n)=>s+eff(n),0)/ans.length;
+  const bs=parseFloat(((avgEff-3)/2*5).toFixed(1));
+  const conN=ans.filter(n=>n.layer==='Conscious');
+  const subN=ans.filter(n=>n.layer==='Subconscious');
+  const conAvg=conN.length?parseFloat((conN.reduce((s,n)=>s+eff(n),0)/conN.length).toFixed(2)):parseFloat(avgEff.toFixed(2));
+  const subAvg=subN.length?parseFloat((subN.reduce((s,n)=>s+eff(n),0)/subN.length).toFixed(2)):parseFloat(avgEff.toFixed(2));
+  const drift=parseFloat(Math.abs(conAvg-subAvg).toFixed(1));
+  // OC ratio: invert effective so low awareness = high contribution to that OC
+  const byCode={NARC:[],CIST:[],YARC:[],'Øll':[]};
+  ans.forEach(n=>{if(byCode[n.code])byCode[n.code].push(6-eff(n));});
+  const totals={};Object.entries(byCode).forEach(([k,v])=>{totals[k]=v.reduce((a,b)=>a+b,0)||0.001;});
+  const grand=Object.values(totals).reduce((a,b)=>a+b,0)||1;
+  const narc=Math.round(totals.NARC/grand*100);
+  const cist=Math.round(totals.CIST/grand*100);
+  const yarc=Math.round(totals.YARC/grand*100);
+  const oll=100-narc-cist-yarc;
+  const lvl=getLevel(bs);
+  const bsState=bs>=4.5?'Peak expression':bs>2.5?'Mastery / Expression':bs>0.5?'Stability emerging':bs>-0.5?'Zero-Point proximity':bs>-2.5?'Drift activated':bs>-4.5?'Subconscious dominant':'Collapse / Reset';
+  return{balance_scale:bs,drift,con_avg:conAvg,sub_avg:subAvg,observer_codes:{narc,cist,yarc,oll},awareness_level:lvl.level,awareness_level_name:lvl.name,bs_state:bsState};
+}
+
+// ── SUBMIT ─────────────────────────────────────────────────────────────────
+async function submitAssessment(){
+  const btn=document.getElementById('ar-gen-btn');
+  btn.disabled=true;btn.textContent='Calculating…';
+  lastResult=calcScores();
+  try{const ai=await callClaude(lastResult);lastResult={...lastResult,...ai};}
+  catch(e){console.warn('Claude fallback',e);}
+  renderResults(lastResult);
+  showScreen('screen-results');
+  await sendToSCH(lastResult);
+  btn.disabled=false;
+}
+
+async function callClaude(r){
+  const name=document.getElementById('obs-name')?.value.trim()||'';
+  const conS=NODES.filter(n=>n.layer==='Conscious'&&eff(n)!==null).map(n=>`${n.name}(${n.code}):${eff(n)}`).join(', ');
+  const subS=NODES.filter(n=>n.layer==='Subconscious'&&eff(n)!==null).map(n=>`${n.name}(${n.code}):${eff(n)}`).join(', ');
+  const sys=`Generate a personalised awareness profile for UMNi-Tech.
+NARC=self/survival(polar:YARC), YARC=other/empathy(polar:NARC), CIST=regulation(polar:Øll), Øll=volatility/threshold(polar:CIST).
+Drift=${r.drift} (conscious avg ${r.con_avg} vs subconscious ${r.sub_avg}). BS ${r.balance_scale} = Level ${r.awareness_level} ${r.awareness_level_name}.
+Second person. Direct, honest, non-generic. Never therapy-speak.
+Return ONLY valid JSON: {"keyword_identity":"<1-3 words>","keyword_description":"<1 sentence>","report_sections":{"who_you_are":"<2 paragraphs>","primary_pattern":"<2 paragraphs>","next_move":"<1 paragraph>"},"mental_health_note":"<1-2 sentences, gentle>"}`;
+  const msg=`${name?'Name: '+name+'\n':''}OC: NARC ${r.observer_codes.narc}% CIST ${r.observer_codes.cist}% YARC ${r.observer_codes.yarc}% Øll ${r.observer_codes.oll}%\nConscious: ${conS}\nSubconscious: ${subS}`;
+  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:[{role:'user',content:msg}]})});
+  const d=await res.json();
+  return JSON.parse((d.content?.[0]?.text||'').replace(/```json|```/g,'').trim());
+}
+
+// ── RENDER RESULTS ─────────────────────────────────────────────────────────
+function renderResults(r){
+  const bs=r.balance_scale;
+  const bsCol=bs>0.5?'var(--yarc)':bs<-0.5?'var(--narc)':'var(--cist)';
+  const lvl=getLevel(bs);
+  const name=document.getElementById('obs-name')?.value.trim()||'Human';
+  document.getElementById('r-obs-lbl').textContent=name;
+  const lvlPct=((lvl.level-1)/9*100).toFixed(0);
+  document.getElementById('r-level-num').textContent=lvl.level;document.getElementById('r-level-num').style.color=lvl.col;
+  document.getElementById('r-level-name').textContent=lvl.name;document.getElementById('r-level-name').style.color=lvl.col;
+  document.getElementById('r-level-bs').textContent='Balance Scale '+(bs>0?'+':'')+bs+' · Level '+lvl.level+' of 10';
+  document.getElementById('r-level-desc').textContent=lvl.desc;
+  document.getElementById('r-level-bar').style.width=lvlPct+'%';document.getElementById('r-level-bar').style.background=lvl.col;
+  document.getElementById('r-bs').textContent=(bs>0?'+':'')+bs;document.getElementById('r-bs').style.color=bsCol;
+  document.getElementById('r-st').textContent=r.bs_state;
+  document.getElementById('r-drift-row').textContent='Drift: '+r.drift+' — Conscious avg '+r.con_avg+' / Subconscious avg '+r.sub_avg;
+  const oc=r.observer_codes;
+  const cols={narc:'var(--narc)',yarc:'var(--yarc)',cist:'var(--cist)',oll:'var(--oll)'};
+  const names={narc:'NARC',yarc:'YARC',cist:'CIST',oll:'Øll'};
+  const descs={narc:'Self-reference, protection, identity — your survival layer.',yarc:'Other-directed awareness, empathy — your giving layer.',cist:'Regulation, structure, integration — your holding layer.',oll:'Volatility, threshold, core identity — your transformation layer.'};
+  document.getElementById('r-oc-bars').innerHTML=Object.entries(oc).map(([k,pct])=>`<div class="r-oc-row"><div class="r-oc-name" style="color:${cols[k]}">${names[k]}</div><div class="r-oc-trk"><div class="r-oc-fill" style="width:${pct}%;background:${cols[k]}"></div></div><div class="r-oc-pct" style="color:${cols[k]}">${pct}%</div></div><div class="r-oc-desc">${descs[k]}</div>`).join('');
+  document.getElementById('r-nodes').innerHTML=NODES.map(n=>{
+    const e=eff(n);const col=e>=4?'var(--yarc)':e>=3?'var(--cist)':'var(--narc)';
+    return `<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--line);font-size:.72rem;"><div style="width:6px;height:6px;border-radius:50%;background:${n.col};flex-shrink:0"></div><span style="flex:1">${n.name}<span style="color:var(--muted);font-size:0.6rem;margin-left:4px">${n.layer==='Subconscious'?'sub':''}</span></span><span style="font-family:var(--serif);font-size:1rem;color:${n.col}">${e??'—'}</span>${e!==null?`<span style="font-size:.6rem;color:${col};min-width:58px;text-align:right">${e>=4?'Regulated':e>=3?'Balanced':'Activated'}</span>`:''}</div>`;
+  }).join('');
+  // Written report
+  const rs=r.report_sections||{};const kwId=r.keyword_identity||'';const kwDesc=r.keyword_description||'';const mhNote=r.mental_health_note||'';
+  let html='';
+  if(kwId)html+=`<div style="margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--line)"><div style="font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Your awareness keyword</div><div style="font-family:var(--serif);font-size:2rem;font-weight:400;margin-bottom:6px">${kwId}</div><div style="font-size:0.78rem;color:var(--muted);line-height:1.7">${kwDesc}</div></div>`;
+  [['who_you_are','Who you are right now'],['primary_pattern','The primary pattern'],['next_move','Your next move']].forEach(([key,title])=>{
+    const txt=rs[key]||'';if(!txt)return;
+    html+=`<div style="margin-bottom:24px"><div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">${title}</div><div style="font-size:0.82rem;line-height:1.85">${txt.split('\n\n').map(p=>`<p style="margin:0 0 12px">${p}</p>`).join('')}</div></div>`;
+  });
+  if(mhNote)html+=`<div style="margin-top:28px;padding:18px 20px;background:var(--bg-soft);border-radius:10px;border:1px solid var(--line)"><div style="font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">A note on awareness and wellbeing</div><div style="font-size:0.78rem;line-height:1.8">${mhNote}</div></div>`;
+  if(!kwId&&!rs.who_you_are)html=`<div style="font-family:var(--serif);font-style:italic;font-size:1rem;line-height:1.7;color:var(--muted)">Your scores have been mapped. The full written interpretation is part of the Awareness Assessment report.</div>`;
+  document.getElementById('r-interp').innerHTML=html;
+  // Clone SVG for results
+  const live=document.getElementById('main-diagram');
+  const result=document.getElementById('result-svg');
+  result.innerHTML=live.innerHTML;
+  const connClone=result.querySelector('#con-line');if(connClone)connClone.setAttribute('opacity','0');
+  NODES.filter(n=>n.layer==='Conscious').forEach(n=>{
+    const e=eff(n);const el=result.querySelector('#'+n.svgId);
+    if(el)el.style.opacity=e!==null?(0.2+(e/5)*0.75).toFixed(2):'0.05';
+    if(el)el.classList.remove('node-active-pulse');
+  });
+  // Code
+  const code=NODES.map(n=>scores[n.id]??3).join('');
+  document.getElementById('r-code-display').textContent=code;
+  window._assessmentCode=code;
+}
+
+// ── SEND TO SCH ────────────────────────────────────────────────────────────
+async function sendToSCH(r){
+  const name=document.getElementById('obs-name')?.value.trim()||'Unknown';
+  const age=document.getElementById('obs-age')?.value.trim()||'—';
+  const email=document.getElementById('pay-email')?.value.trim()||'—';
+  const oc=r.observer_codes||{};
+  const body=['SCH CHECK — NEW REPORT',`${name} | Age ${age} | ${email}`,`BS ${r.balance_scale>0?'+':''}${r.balance_scale} | Level ${r.awareness_level} ${r.awareness_level_name} | Drift ${r.drift}`,`NARC ${oc.narc}% CIST ${oc.cist}% YARC ${oc.yarc}% Øll ${oc.oll}%`,'','SCORES:',...NODES.map((n,i)=>`Q${String(i+1).padStart(2,'0')} ${n.name}(${n.layer.slice(0,3)}) raw:${scores[n.id]??'?'} eff:${eff(n)??'?'}${n.reversed?' [R]':''}`),'',`CODE: ${window._assessmentCode}`].join('%0A');
+  const subject=encodeURIComponent(`Awareness Assessment — ${name} — Level ${r.awareness_level}`);
+  const mailto=`mailto:info@sourcecodeholdings.org?subject=${subject}&body=${body.replace(/ /g,'%20')}`;
+  const btn=document.getElementById('r-mailto-btn');if(btn){btn.href=mailto;btn.style.display='inline-block';}
+  try{window.location.href=mailto;}catch(e){}
+}
+
+// ── TOOLTIP ────────────────────────────────────────────────────────────────
+const NODE_INFO = {
+  // Observer Codes
+  'narc': {name:'NARC',meta:'Observer Code · Self / Intake',desc:'How you relate to yourself. Your identity, protection, survival drive, and personal direction.'},
+  'cist': {name:'CIST',meta:'Observer Code · Regulation',desc:'How you hold structure. Your ability to regulate, integrate, and maintain consistency under pressure.'},
+  'yarc': {name:'YARC',meta:'Observer Code · Other / Giving',desc:'How you relate to others. Your empathy, connection, contribution, and outward expression.'},
+  'oll':  {name:'Øll', meta:'Observer Code · Integration',desc:'Your threshold layer. Volatility, instinct, transformation, and core identity beneath all roles.'},
+  // App Slots
+  'a1': {name:'App A1',meta:'NARC · Intention + Presence',desc:'Do your conscious intentions and your moment-to-moment presence actually combine into follow-through?'},
+  'a2': {name:'App A2',meta:'NARC · Presence + Awareness',desc:'Does staying present and self-reflecting translate into real-time awareness of your own impact?'},
+  'a3': {name:'App A3',meta:'CIST · Core Self + Integrity',desc:'Does knowing who you are actually show up as consistent behaviour regardless of context?'},
+  'a4': {name:'App A4',meta:'CIST · Integrity + Logic',desc:'Does your value system hold up under reasoning — can you justify your decisions honestly?'},
+  'a5': {name:'App A5',meta:'YARC · Logic + Balance',desc:'Can your structured thinking stay intact when emotions are high?'},
+  'a6': {name:'App A6',meta:'YARC · Balance + Connection',desc:'Can you be fully present with others without losing your own emotional footing?'},
+  'a7': {name:'App A7',meta:'Øll · Connection + Purpose',desc:'Does the way you show up for others come from something genuine, or from habit and obligation?'},
+  'a8': {name:'App A8',meta:'Øll · Purpose + Pattern',desc:'Are you actively breaking your own cycles, or just recognising them?'},
+  // Source Codes
+  'sc1':  {name:'Intention',  meta:'NARC · Source Code · A1',desc:'The clarity of what you genuinely want — separate from expectation or pressure.'},
+  'sc2':  {name:'Intention',  meta:'NARC · Source Code · A1',desc:'Whether your stated goals actually reflect your real values.'},
+  'sc3':  {name:'Presence',   meta:'NARC · Source Code · A2',desc:'Your ability to stay mentally present in important moments.'},
+  'sc4':  {name:'Presence',   meta:'NARC · Source Code · A2',desc:'Whether you notice your emotional state before reacting.'},
+  'sc5':  {name:'Core Self',  meta:'CIST · Source Code · A3',desc:'Your connection to who you genuinely are beneath social roles.'},
+  'sc6':  {name:'Core Self',  meta:'CIST · Source Code · A3',desc:'Whether you feel the need to become someone different for approval.'},
+  'sc7':  {name:'Integrity',  meta:'CIST · Source Code · A4',desc:'Whether your actions align with your stated values.'},
+  'sc8':  {name:'Integrity',  meta:'CIST · Source Code · A4',desc:'Whether you stay honest with yourself when truth is uncomfortable.'},
+  'sc9':  {name:'Balance',    meta:'YARC · Source Code · A5',desc:'Emotional stability under stress — your regulation capacity.'},
+  'sc10': {name:'Balance',    meta:'YARC · Source Code · A5',desc:'Your ability to hold multiple perspectives before concluding.'},
+  'sc11': {name:'Connection', meta:'YARC · Source Code · A6',desc:'Whether you genuinely try to understand others.'},
+  'sc12': {name:'Connection', meta:'YARC · Source Code · A6',desc:'Whether you value depth of connection over status.'},
+  'sc13': {name:'Purpose',    meta:'Øll · Source Code · A7',desc:'Whether your life feels directional beyond day-to-day survival.'},
+  'sc14': {name:'Purpose',    meta:'Øll · Source Code · A7',desc:'Whether you actively think about your long-term purpose.'},
+  'sc15': {name:'Pattern',    meta:'Øll · Source Code · A8',desc:'Whether you can see recurring cycles in your own behaviour.'},
+  'sc16': {name:'Pattern',    meta:'Øll · Source Code · A8',desc:'Your ability to identify loops that repeat across your life.'},
+};
+
+function showTooltip(id,event){
+  event.stopPropagation();
+  // Strip sub- prefix if hovering on sub-diagram
+  const cleanId = id.replace('sub-node-','').replace('sub-','');
+  const info = NODE_INFO[cleanId];
+  if(!info) return;
+  const scoreEl = document.getElementById('v-'+cleanId) || document.getElementById('sub-v-'+cleanId);
+  document.getElementById('nt-name').textContent = info.name;
+  document.getElementById('nt-meta').textContent = info.meta;
+  document.getElementById('nt-score').textContent = scoreEl?.textContent && scoreEl.textContent!=='—' ? 'Score: '+scoreEl.textContent : info.desc;
+  const tt=document.getElementById('node-tooltip');
+  const rect=document.querySelector('.diag-svg-wrap').getBoundingClientRect();
+  tt.style.display='block';
+  tt.style.left=Math.min(event.clientX-rect.left+16,rect.width-230)+'px';
+  tt.style.top=Math.max(event.clientY-rect.top-60,8)+'px';
+  // No overlay — hover tooltips dismiss via onmouseout
+}
+function hideTooltip(){document.getElementById('node-tooltip').style.display='none';document.getElementById('tooltip-overlay').style.display='none';}
+
+// ── OBS LABEL ─────────────────────────────────────────────────────────────
+function updateObsNode(){
+  const name=document.getElementById('obs-name')?.value.trim()||'—';
+  const short=name.length>8?name.slice(0,8)+'…':name;
+  ['obs-label','sub-obs-label'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=short;});
+}
+
+// ── NAV ────────────────────────────────────────────────────────────────────
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function retake(){scores={};lastResult=null;showScreen('screen-intro');}
+function handleIntroCTA(){
+  const name=document.getElementById('obs-name')?.value.trim();
+  if(!name){document.getElementById('obs-name').focus();return;}
+  if(name.toLowerCase()==='ric@sch'){document.getElementById('obs-name').value='Ric';updateObsNode();startAssessment();return;}
+  updateObsNode();
+  const wrap=document.getElementById('payment-wrap');
+  if(wrap.style.display!=='block'){wrap.style.display='block';initStripe();}else{handlePayment();}
+}
+async function handlePayment(){
+  if(!cardElement){startAssessment();return;}
+  try{const{error}=await stripe.createPaymentMethod({type:'card',card:cardElement});if(error){document.getElementById('card-errors').textContent=error.message;return;}startAssessment();}
+  catch(e){startAssessment();}
+}
+function devBypass(){}
+
+// ── STRIPE ─────────────────────────────────────────────────────────────────
+let stripe,elements,cardElement;
+try{stripe=Stripe('pk_test_51TRfEu0RcHD6ncQbifdhyCgjzZ2cgIwGu2AqcsDkqutDHQYIqO37aWGd470liIePymdKF4UqrGwennn4CXLyCu9F00ZnkNTt4D');elements=stripe.elements();}catch(e){}
+function initStripe(){if(cardElement||!elements)return;cardElement=elements.create('card',{style:{base:{fontFamily:"'Cormorant',serif",fontSize:'16px',color:'rgba(242,241,238,0.9)'}}});const m=document.getElementById('card-element');if(m)cardElement.mount('#card-element');}
+</script>
+</body>
+</html>
