@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="UMNi Systems — Trading infrastructure and awareness technology. Built by Source Code Holdings." />
-  <title>UMNi Systems</title>
+  <meta name="description" content="UMNi Systems — Trading infrastructure for MT4 and MT5. Telegram-native telemetry, execution tools, and live signals. Built by Source Code Holdings." />
+  <title>UMNi Systems — Trading Infrastructure</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #080808;
-      --bg2: #111111;
-      --bg3: #161616;
+      --bg2: #0d0d0d;
+      --bg3: #121218;
       --text: #f0f0ee;
       --muted: #666660;
       --rule: rgba(255,255,255,0.07);
       --fx: #2563EB;
-      --fx-glow: rgba(37,99,235,0.15);
-      --tech: #DC2626;
-      --tech-glow: rgba(220,38,38,0.15);
+      --fx-soft: rgba(37,99,235,0.12);
+      --fx-border: rgba(37,99,235,0.3);
+      --fx-glow: rgba(37,99,235,0.08);
       --mono: 'Space Mono', monospace;
       --sans: 'DM Sans', sans-serif;
     }
@@ -46,6 +46,7 @@
       opacity: 0.4;
     }
 
+    /* ── HEADER ── */
     header {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -54,7 +55,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 1.2rem 2.5rem;
-      background: rgba(8,8,8,0.85);
+      background: rgba(8,8,8,0.9);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--rule);
     }
@@ -71,7 +72,14 @@
       height: 36px;
       object-fit: cover;
       flex-shrink: 0;
-      display: block;
+    }
+
+    .logo-text {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text);
     }
 
     nav {
@@ -91,150 +99,116 @@
     }
 
     nav a:hover { color: var(--text); }
-    nav a.fx { color: var(--fx); }
-    nav a.tech { color: var(--tech); }
+    nav a.active { color: var(--fx); }
 
+    /* ── HERO ── */
     .hero {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 8rem 2rem 5rem;
+      justify-content: flex-end;
+      padding: 8rem 2.5rem 5rem;
+      max-width: 900px;
+      margin: 0 auto;
       position: relative;
     }
 
     .hero-bg {
-      position: absolute;
+      position: fixed;
       inset: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 25% 60%, var(--fx-glow) 0%, transparent 70%),
-        radial-gradient(ellipse 60% 50% at 75% 40%, var(--tech-glow) 0%, transparent 70%);
+      background: radial-gradient(ellipse 70% 60% at 80% 20%, var(--fx-glow) 0%, transparent 70%);
       pointer-events: none;
     }
 
-    .hero-eyebrow {
+    .hero-tag {
       font-family: var(--mono);
       font-size: 0.6rem;
-      letter-spacing: 0.24em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 2rem;
-      position: relative;
+      color: var(--fx);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--fx);
     }
 
     .hero-title {
-      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-size: clamp(3rem, 8vw, 6.5rem);
       font-weight: 700;
-      line-height: 0.92;
       letter-spacing: -0.03em;
-      position: relative;
-      margin-bottom: 0.3rem;
+      line-height: 0.95;
+      margin-bottom: 2rem;
     }
 
-    .hero-title .umni { color: var(--text); }
-    .hero-title .systems {
-      display: block;
-      font-weight: 300;
-      font-size: 0.45em;
-      letter-spacing: 0.18em;
+    .hero-title .accent { color: var(--fx); }
+
+    .hero-body {
+      font-size: 1.05rem;
       color: var(--muted);
-      text-transform: uppercase;
-      margin-top: 0.4rem;
+      max-width: 500px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
     }
 
-    .hero-sub {
-      font-size: 1rem;
-      color: var(--muted);
-      max-width: 480px;
-      line-height: 1.75;
-      margin: 2.5rem auto 3.5rem;
-      position: relative;
-    }
-
-    .split-cta {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      max-width: 720px;
-      width: 100%;
-      margin: 0 auto;
-      position: relative;
-      background: var(--rule);
-    }
-
-    .cta-card {
-      background: var(--bg);
-      padding: 2.5rem 2rem;
-      text-decoration: none;
+    .hero-actions {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
       gap: 1rem;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s;
+      flex-wrap: wrap;
     }
 
-    .cta-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      transition: opacity 0.3s;
-    }
-
-    .cta-card.fx::before { background: var(--fx); opacity: 0.6; }
-    .cta-card.tech::before { background: var(--tech); opacity: 0.6; }
-    .cta-card.fx:hover { background: var(--fx-glow); }
-    .cta-card.tech:hover { background: var(--tech-glow); }
-    .cta-card.fx:hover::before,
-    .cta-card.tech:hover::before { opacity: 1; }
-
-    .cta-tag {
-      font-family: var(--mono);
-      font-size: 0.58rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    .cta-card.fx .cta-tag { color: var(--fx); }
-    .cta-card.tech .cta-tag { color: var(--tech); }
-
-    .cta-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      line-height: 1.1;
-    }
-
-    .cta-body {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .cta-arrow {
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--fx);
+      color: #fff;
       font-family: var(--mono);
       font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      margin-top: auto;
-      padding-top: 1rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.85rem 1.6rem;
+      text-decoration: none;
+      transition: opacity 0.2s;
     }
 
-    .cta-card.fx .cta-arrow { color: var(--fx); }
-    .cta-card.tech .cta-arrow { color: var(--tech); }
+    .btn-primary:hover { opacity: 0.85; }
 
-    /* ── STATS BAR ── */
-    .stats {
-      border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid var(--fx-border);
+      color: var(--fx);
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.85rem 1.6rem;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-ghost:hover { background: var(--fx-soft); }
+
+    /* ── STATS ── */
+    .stats-bar {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+    }
+
+    .stats-inner {
+      border: 1px solid var(--rule);
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      max-width: 900px;
-      margin: 5rem auto 0;
     }
 
     .stat {
@@ -249,7 +223,7 @@
       font-size: 1.8rem;
       font-weight: 700;
       letter-spacing: -0.03em;
-      color: var(--text);
+      color: var(--fx);
       margin-bottom: 0.3rem;
     }
 
@@ -261,15 +235,250 @@
       color: var(--muted);
     }
 
-    /* ── ABOUT SECTION ── */
+    /* ── MQL5 STRIP ── */
+    .mql5-note {
+      max-width: 900px;
+      margin: 3rem auto 0;
+      padding: 0 2.5rem;
+    }
+
+    .mql5-strip {
+      background: var(--bg2);
+      border: 1px solid var(--fx-border);
+      border-left: 2px solid var(--fx);
+      padding: 0.9rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .mql5-strip-text {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      line-height: 1.6;
+    }
+
+    .mql5-strip-text strong { color: var(--fx); font-weight: 700; }
+
+    .mql5-strip-link {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fx);
+      text-decoration: none;
+      white-space: nowrap;
+      border: 1px solid var(--fx-border);
+      padding: 0.4rem 0.8rem;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+
+    .mql5-strip-link:hover { background: var(--fx-soft); }
+
+    /* ── PRODUCTS ── */
+    .products {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2.5rem 4rem;
+    }
+
+    .products-header {
+      padding: 3rem 0 2rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .products-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .products-count {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--fx);
+    }
+
+    .product-card {
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.6rem 0;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+      transition: background 0.2s, padding 0.2s, margin 0.2s;
+      color: var(--text);
+    }
+
+    .product-card:hover {
+      background: var(--fx-soft);
+      margin: 0 -1.5rem;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .product-emoji-wrap {
+      width: 52px;
+      height: 52px;
+      background: var(--bg3);
+      border: 1px solid var(--fx-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .product-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.3rem;
+      flex-wrap: wrap;
+    }
+
+    .product-name {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--text);
+    }
+
+    .product-badge {
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border: 1px solid;
+    }
+
+    .badge-free  { color: #16A34A; border-color: rgba(22,163,74,0.4); }
+    .badge-live  { color: var(--fx); border-color: var(--fx-border); }
+    .badge-soon  { color: var(--muted); border-color: var(--rule); }
+    .badge-dev   { color: #D97706; border-color: rgba(217,119,6,0.4); }
+
+    .product-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .product-price {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--fx);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .product-price .sub {
+      display: block;
+      font-size: 0.55rem;
+      font-weight: 400;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    .product-card--mt4 { opacity: 0.7; border-left: 2px solid rgba(37,99,235,0.25); }
+    .product-card--mt4:hover { opacity: 1; }
+
+    .platform-tag {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--fx);
+      background: rgba(37,99,235,0.1);
+      border: 1px solid rgba(37,99,235,0.25);
+      padding: 1px 5px;
+      letter-spacing: 0.05em;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+
+    /* ── SECTION DIVIDER ── */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 2.5rem 0;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .divider-line { flex: 1; height: 1px; background: var(--rule); }
+
+    .divider-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* ── SIGNALS CTA ── */
+    .signals-cta {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2.5rem 6rem;
+    }
+
+    .signals-block {
+      background: var(--bg3);
+      border: 1px solid var(--fx-border);
+      border-left: 3px solid var(--fx);
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .signals-label {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--fx);
+      margin-bottom: 0.6rem;
+    }
+
+    .signals-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+
+    .signals-body {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── ABOUT ── */
     .about {
       max-width: 900px;
       margin: 0 auto;
-      padding: 5rem 2rem 0;
+      padding: 0 2.5rem 6rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 4rem;
       border-top: 1px solid var(--rule);
+      padding-top: 4rem;
     }
 
     .about-label {
@@ -290,24 +499,22 @@
     }
 
     .about-body {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: var(--muted);
       line-height: 1.85;
     }
 
-    .about-body p + p {
-      margin-top: 1rem;
-    }
+    .about-body p + p { margin-top: 1rem; }
 
     .about-right {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 1.2rem;
       padding-top: 2.4rem;
     }
 
     .about-fact {
-      padding: 1.4rem 1.6rem;
+      padding: 1.2rem 1.4rem;
       background: var(--bg2);
       border-left: 2px solid var(--rule);
     }
@@ -322,91 +529,23 @@
     }
 
     .about-fact-value {
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       color: var(--text);
       line-height: 1.6;
     }
-
-    /* ── ECOSYSTEM ── */
-    .ecosystem {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 5rem 2rem;
-    }
-
-    .eco-label {
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1.2rem;
-    }
-
-    .eco-title {
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
-      margin-bottom: 1.5rem;
-    }
-
-    .eco-body {
-      font-size: 1rem;
-      color: var(--muted);
-      max-width: 560px;
-      line-height: 1.8;
-      margin-bottom: 3rem;
-    }
-
-    .product-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--rule);
-      margin-bottom: 1px;
-    }
-
-    .product-cell {
-      background: var(--bg);
-      padding: 1.4rem 1.6rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .product-emoji { font-size: 1.3rem; flex-shrink: 0; }
-
-    .product-name {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      color: var(--text);
-      margin-bottom: 0.15rem;
-    }
-
-    .product-desc {
-      font-size: 0.78rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .product-cell.fx-product { border-left: 2px solid var(--fx); }
-    .product-cell.tech-product { border-left: 2px solid var(--tech); }
 
     /* ── FOOTER ── */
     .site-footer {
       border-top: 1px solid var(--rule);
       max-width: 900px;
       margin: 0 auto;
-      padding: 2.5rem 2rem;
+      padding: 2.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .footer-l {
+    .footer-l, .footer-r {
       font-family: var(--mono);
       font-size: 0.6rem;
       letter-spacing: 0.1em;
@@ -414,283 +553,501 @@
       line-height: 2;
     }
 
-    .footer-r {
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      text-align: right;
-      line-height: 2;
-    }
+    .footer-r { text-align: right; }
+    .footer-r a, .footer-l a { color: var(--muted); text-decoration: none; }
+    .footer-r a:hover, .footer-l a:hover { color: var(--text); }
 
-    .footer-r a { color: var(--muted); text-decoration: none; }
-    .footer-r a:hover { color: var(--text); }
-
+    /* ── ANIMATIONS ── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .hero-eyebrow { animation: fadeUp 0.6s ease both; }
-    .hero-title { animation: fadeUp 0.6s 0.1s ease both; }
-    .hero-sub { animation: fadeUp 0.6s 0.2s ease both; }
-    .split-cta { animation: fadeUp 0.6s 0.3s ease both; }
+    .hero-tag     { animation: fadeUp 0.5s ease both; }
+    .hero-title   { animation: fadeUp 0.5s 0.1s ease both; }
+    .hero-body    { animation: fadeUp 0.5s 0.2s ease both; }
+    .hero-actions { animation: fadeUp 0.5s 0.3s ease both; }
 
+    /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
       header { padding: 1rem 1.2rem; }
       nav { display: none; }
-      .split-cta { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: 1fr 1fr; }
+      .hero { padding: 7rem 1.2rem 3rem; }
+      .stats-inner { grid-template-columns: 1fr 1fr; }
       .stat { border-right: none; border-bottom: 1px solid var(--rule); }
-      .about { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.2rem 0; }
-      .product-row { grid-template-columns: 1fr; }
-      .site-footer { flex-direction: column; gap: 1.2rem; }
+      .products, .signals-cta, .mql5-note, .about { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .product-card { grid-template-columns: 48px 1fr; }
+      .product-price { display: none; }
+      .signals-block { grid-template-columns: 1fr; }
+      .about { grid-template-columns: 1fr; gap: 2rem; }
+      .mql5-strip { flex-direction: column; align-items: flex-start; }
+      .site-footer { flex-direction: column; gap: 1rem; }
       .footer-r { text-align: left; }
     }
   </style>
 </head>
 <body>
 
+  <div class="hero-bg"></div>
+
   <header>
     <a class="logo" href="/">
       <img src="umni-sigil.png" class="logo-mark" alt="" />
-      <span style="font-family:'Space Mono',monospace;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;color:#f0f0ee;">UMNi-<span style="color:#f0f0ee;">SYSTEMS™</span></span>
+      <span class="logo-text">UMNi-<span style="color:#2563EB;">SYSTEMS™</span></span>
     </a>
     <nav>
-      <a href="/index.html" class="active">Systems</a>
-      <a href="/fx.html" class="fx">FX</a>
-      <a href="/tech.html" class="tech">Tech</a>
+      <a href="#products" class="active">Products</a>
+      <a href="#signals">Signals</a>
+      <a href="#about">About</a>
+      <a href="https://www.mql5.com/en/users/rickvr32/seller" target="_blank" style="color:var(--fx)">MQL5 →</a>
     </nav>
   </header>
 
+  <!-- HERO -->
   <section class="hero">
-    <div class="hero-bg"></div>
-    <p class="hero-eyebrow">Powered by Source Code Holdings</p>
+    <p class="hero-tag">UMNi Systems — Trading Infrastructure</p>
     <h1 class="hero-title">
-      <span class="umni">UMNi</span>
-      <span class="systems">Systems</span>
+      Trading tools<br/>
+      <span class="accent">built for discipline.</span>
     </h1>
-    <p class="hero-sub">
-      Two verticals. One ecosystem. Trading infrastructure built for discipline.
-      Awareness technology built for clarity.
+    <p class="hero-body">
+      MT4 and MT5 telemetry, Telegram-native execution tools, and live signals.
+      Built to replace the terminal noise — not add to it.
     </p>
-
-    <div class="split-cta">
-      <a href="/fx.html" class="cta-card fx">
-        <span class="cta-tag">UMNi-FX</span>
-        <h2 class="cta-title">Trading<br/>Infrastructure</h2>
-        <p class="cta-body">MT4 / MT5 telemetry, Telegram automation, algorithmic signals, and execution tools.</p>
-        <span class="cta-arrow">Enter FX →</span>
-      </a>
-      <a href="/tech.html" class="cta-card tech">
-        <span class="cta-tag">UMNi-Tech</span>
-        <h2 class="cta-title">Awareness<br/>Technology</h2>
-        <p class="cta-body">Psychometric assessment tools, consciousness mapping, and the SCH device ecosystem.</p>
-        <span class="cta-arrow">Enter Tech →</span>
-      </a>
+    <div class="hero-actions">
+      <a href="https://www.mql5.com/en/users/rickvr32/seller" target="_blank" class="btn-primary">View on MQL5 →</a>
+      <a href="https://t.me/UmniSystems" target="_blank" class="btn-ghost">Join Telegram</a>
     </div>
   </section>
 
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-number">26</div>
-      <div class="stat-label">MQL Products</div>
-    </div>
-    <div class="stat">
-      <div class="stat-number">12+</div>
-      <div class="stat-label">Countries Reached</div>
-    </div>
-    <div class="stat">
-      <div class="stat-number">4</div>
-      <div class="stat-label">Hardware Prototypes</div>
-    </div>
-    <div class="stat">
-      <div class="stat-number">1</div>
-      <div class="stat-label">Framework</div>
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat">
+        <div class="stat-number">26</div>
+        <div class="stat-label">MQL Products</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">12+</div>
+        <div class="stat-label">Countries</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">MT4+5</div>
+        <div class="stat-label">Both Platforms</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">£30</div>
+        <div class="stat-label">Signals / month</div>
+      </div>
     </div>
   </div>
 
-  <!-- ABOUT / MISSION -->
-  <div class="about" style="margin-top:5rem;">
-    <div class="about-left">
-      <p class="about-label">About UMNi Systems</p>
-      <h2 class="about-title">Built by a trader.<br/>Designed for clarity.</h2>
+  <!-- MQL5 STRIP -->
+  <div class="mql5-note">
+    <div class="mql5-strip">
+      <div class="mql5-strip-text">
+        All products published on the <strong>MQL5 Marketplace</strong> — the official MetaQuotes platform used by 4M+ traders worldwide. Live products verified and available now.
+      </div>
+      <a href="https://www.mql5.com/en/users/rickvr32/seller" target="_blank" class="mql5-strip-link">Seller profile →</a>
+    </div>
+  </div>
+
+  <!-- MT5 PRODUCTS -->
+  <div class="products" id="products">
+    <div class="products-header">
+      <span class="products-label">MT5 product range</span>
+      <span class="products-count">13 products · MetaTrader 5</span>
+    </div>
+
+    <a href="https://www.mql5.com/en/market/product/171472" target="_blank" class="product-card">
+      <div class="product-emoji-wrap">📢</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-NTFY</span>
+          <span class="product-badge badge-free">Free</span>
+          <span class="product-badge badge-live">Live</span>
+        </div>
+        <p class="product-desc">Lightweight Telegram presence notification. Online / offline alerts, session awareness, spread monitoring. Entry point into the UMNi ecosystem.</p>
+      </div>
+      <div class="product-price">FREE<span class="sub">Lead product</span></div>
+    </a>
+
+    <a href="https://www.mql5.com/en/users/rickvr32/seller" target="_blank" class="product-card">
+      <div class="product-emoji-wrap">📡</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-ALRT</span>
+          <span class="product-badge badge-live">Live</span>
+        </div>
+        <p class="product-desc">Session intelligence via Telegram. Win rate tracking, equity arc, trade summaries, and session-level performance reporting delivered automatically at close.</p>
+      </div>
+      <div class="product-price">$33<span class="sub">One-time</span></div>
+    </a>
+
+    <a href="https://www.mql5.com/en/users/rickvr32/seller" target="_blank" class="product-card">
+      <div class="product-emoji-wrap">🛰️</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-CMND</span>
+          <span class="product-badge badge-dev">In Testing</span>
+        </div>
+        <p class="product-desc">Full Telegram telemetry and remote control. Live account panel, trade-by-trade reporting, MFE/MAE efficiency, remote /buy /sell /close commands. The terminal replacement.</p>
+      </div>
+      <div class="product-price">$69<span class="sub">Coming soon</span></div>
+    </a>
+
+    <a href="#" class="product-card">
+      <div class="product-emoji-wrap">🌐</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-STATE</span>
+          <span class="product-badge badge-soon">In Development</span>
+        </div>
+        <p class="product-desc">Real-time market condition classification. Trending, choppy, volatile, stable — know the environment before entering. Awareness of conditions, not prediction.</p>
+      </div>
+      <div class="product-price">$49<span class="sub">Coming soon</span></div>
+    </a>
+
+    <a href="#" class="product-card">
+      <div class="product-emoji-wrap">🩺</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-HLTH</span>
+          <span class="product-badge badge-soon">In Development</span>
+        </div>
+        <p class="product-desc">Execution health monitoring. Latency, slippage, spread behaviour, broker response timing, and execution quality scoring. See what your broker hides.</p>
+      </div>
+      <div class="product-price">$79<span class="sub">Coming soon</span></div>
+    </a>
+
+    <a href="#" class="product-card">
+      <div class="product-emoji-wrap">⚠️</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-RSK</span>
+          <span class="product-badge badge-soon">In Development</span>
+        </div>
+        <p class="product-desc">Risk visualisation system. Live exposure heatmap, drawdown tracking, correlated pair awareness, equity danger-zone detection. Visualise risk before it becomes damage.</p>
+      </div>
+      <div class="product-price">$49<span class="sub">Coming soon</span></div>
+    </a>
+
+    <a href="#" class="product-card">
+      <div class="product-emoji-wrap">🕐</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-SESH</span>
+          <span class="product-badge badge-soon">In Development</span>
+        </div>
+        <p class="product-desc">Session briefing and open/close alerts. Pre-session market overview, day range, bias, spread — know what you're walking into before every session.</p>
+      </div>
+      <div class="product-price">$29<span class="sub">Coming soon</span></div>
+    </a>
+
+    <a href="#" class="product-card">
+      <div class="product-emoji-wrap">📰</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-NEWS</span>
+          <span class="product-badge badge-soon">In Development</span>
+        </div>
+        <p class="product-desc">Economic calendar awareness. High-impact event alerts at 30 and 5 minutes. News live alerts, post-news spread checks, daily briefings via Telegram.</p>
+      </div>
+      <div class="product-price">$39<span class="sub">Coming soon</span></div>
+    </a>
+
+    <a href="#" class="product-card">
+      <div class="product-emoji-wrap">📋</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-LOG</span>
+          <span class="product-badge badge-soon">In Development</span>
+        </div>
+        <p class="product-desc">Automated trade journal. Every trade logged — entry, exit, pips, MFE, MAE, efficiency, session, reason. Daily and weekly reports via Telegram.</p>
+      </div>
+      <div class="product-price">$39<span class="sub">Coming soon</span></div>
+    </a>
+
+    <a href="#" class="product-card">
+      <div class="product-emoji-wrap">🔗</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-SYNC</span>
+          <span class="product-badge badge-soon">In Development</span>
+        </div>
+        <p class="product-desc">Multi-account trade copier via Telegram. Master broadcasts signals, subscribers execute instantly. Lot multiplier control, SL/TP copy, confirmation alerts.</p>
+      </div>
+      <div class="product-price">$79<span class="sub">Coming soon</span></div>
+    </a>
+
+    <a href="#" class="product-card">
+      <div class="product-emoji-wrap">🔲</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-GRID</span>
+          <span class="product-badge badge-soon">In Development</span>
+        </div>
+        <p class="product-desc">Grid and basket position manager. Automated level placement, lot multiplier progression, average entry tracking, basket take profit and drawdown protection.</p>
+      </div>
+      <div class="product-price">$69<span class="sub">Coming soon</span></div>
+    </a>
+
+    <a href="#" class="product-card">
+      <div class="product-emoji-wrap">🌊</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-FLOW</span>
+          <span class="product-badge badge-soon">In Development</span>
+        </div>
+        <p class="product-desc">Order flow and volume delta awareness. Buy/sell pressure percentage, large order detection, tick speed monitoring. See the pressure before the move.</p>
+      </div>
+      <div class="product-price">$49<span class="sub">Coming soon</span></div>
+    </a>
+
+    <a href="#" class="product-card">
+      <div class="product-emoji-wrap">🤖</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-TA</span>
+          <span class="product-badge badge-soon">In Development</span>
+        </div>
+        <p class="product-desc">Trade Assistant — unified intelligence layer. All telemetry, risk, market state, news, session, flow and journal modules in one Utility. Wraps any existing EA or manual workflow.</p>
+      </div>
+      <div class="product-price">$150<span class="sub">Coming soon</span></div>
+    </a>
+  </div>
+
+  <!-- MT4 DIVIDER -->
+  <div class="section-divider">
+    <div class="divider-line"></div>
+    <span class="divider-label">MT4 Versions</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- MT4 PRODUCTS -->
+  <div class="products">
+    <div class="products-header">
+      <span class="products-label">MT4 product range</span>
+      <span class="products-count">13 products · MetaTrader 4</span>
+    </div>
+
+    <div class="product-card product-card--mt4">
+      <div class="product-emoji-wrap">📢</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-NTFY <span class="platform-tag">MT4</span></span>
+          <span class="product-badge badge-free">Free</span>
+          <span class="product-badge badge-soon">Coming soon</span>
+        </div>
+        <p class="product-desc">MT4 version. Lightweight Telegram presence notification. Online / offline alerts, session awareness, spread monitoring.</p>
+      </div>
+      <div class="product-price">FREE<span class="sub">MT4</span></div>
+    </div>
+
+    <div class="product-card product-card--mt4">
+      <div class="product-emoji-wrap">📡</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-ALRT <span class="platform-tag">MT4</span></span>
+          <span class="product-badge badge-soon">Coming soon</span>
+        </div>
+        <p class="product-desc">MT4 version. Session intelligence via Telegram. Win rate tracking, equity arc, trade summaries, session-level performance reporting.</p>
+      </div>
+      <div class="product-price">$35<span class="sub">MT4</span></div>
+    </div>
+
+    <div class="product-card product-card--mt4">
+      <div class="product-emoji-wrap">🛰️</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-CMND <span class="platform-tag">MT4</span></span>
+          <span class="product-badge badge-soon">Coming soon</span>
+        </div>
+        <p class="product-desc">MT4 version. Full Telegram telemetry and remote control. Live account panel, trade-by-trade reporting, remote commands.</p>
+      </div>
+      <div class="product-price">$70<span class="sub">MT4</span></div>
+    </div>
+
+    <div class="product-card product-card--mt4">
+      <div class="product-emoji-wrap">🌐</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-STATE <span class="platform-tag">MT4</span></span>
+          <span class="product-badge badge-soon">Coming soon</span>
+        </div>
+        <p class="product-desc">MT4 version. Real-time market condition classification. Know the environment before entering.</p>
+      </div>
+      <div class="product-price">$50<span class="sub">MT4</span></div>
+    </div>
+
+    <div class="product-card product-card--mt4">
+      <div class="product-emoji-wrap">🩺</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-HLTH <span class="platform-tag">MT4</span></span>
+          <span class="product-badge badge-soon">Coming soon</span>
+        </div>
+        <p class="product-desc">MT4 version. Execution health monitoring. Latency, slippage, spread behaviour, execution quality scoring.</p>
+      </div>
+      <div class="product-price">$80<span class="sub">MT4</span></div>
+    </div>
+
+    <div class="product-card product-card--mt4">
+      <div class="product-emoji-wrap">⚠️</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-RSK <span class="platform-tag">MT4</span></span>
+          <span class="product-badge badge-soon">Coming soon</span>
+        </div>
+        <p class="product-desc">MT4 version. Risk visualisation. Live exposure heatmap, drawdown tracking, equity danger-zone detection.</p>
+      </div>
+      <div class="product-price">$50<span class="sub">MT4</span></div>
+    </div>
+
+    <div class="product-card product-card--mt4">
+      <div class="product-emoji-wrap">🕐</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-SESH <span class="platform-tag">MT4</span></span>
+          <span class="product-badge badge-soon">Coming soon</span>
+        </div>
+        <p class="product-desc">MT4 version. Session briefing and open/close alerts. Know what you're walking into before every session.</p>
+      </div>
+      <div class="product-price">$30<span class="sub">MT4</span></div>
+    </div>
+
+    <div class="product-card product-card--mt4">
+      <div class="product-emoji-wrap">📰</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-NEWS <span class="platform-tag">MT4</span></span>
+          <span class="product-badge badge-soon">Coming soon</span>
+        </div>
+        <p class="product-desc">MT4 version. Economic calendar awareness. High-impact event alerts, pre-news warnings, post-news spread checks.</p>
+      </div>
+      <div class="product-price">$40<span class="sub">MT4</span></div>
+    </div>
+
+    <div class="product-card product-card--mt4">
+      <div class="product-emoji-wrap">📋</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-LOG <span class="platform-tag">MT4</span></span>
+          <span class="product-badge badge-soon">Coming soon</span>
+        </div>
+        <p class="product-desc">MT4 version. Automated trade journal. Every trade logged with MFE, MAE, efficiency, daily and weekly reports.</p>
+      </div>
+      <div class="product-price">$40<span class="sub">MT4</span></div>
+    </div>
+
+    <div class="product-card product-card--mt4">
+      <div class="product-emoji-wrap">🔗</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-SYNC <span class="platform-tag">MT4</span></span>
+          <span class="product-badge badge-soon">Coming soon</span>
+        </div>
+        <p class="product-desc">MT4 version. Multi-account trade copier via Telegram. Lot multiplier control, SL/TP copy, confirmation alerts.</p>
+      </div>
+      <div class="product-price">$80<span class="sub">MT4</span></div>
+    </div>
+
+    <div class="product-card product-card--mt4">
+      <div class="product-emoji-wrap">🔲</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-GRID <span class="platform-tag">MT4</span></span>
+          <span class="product-badge badge-soon">Coming soon</span>
+        </div>
+        <p class="product-desc">MT4 version. Grid and basket position manager. Automated levels, lot progression, basket take profit, drawdown protection.</p>
+      </div>
+      <div class="product-price">$70<span class="sub">MT4</span></div>
+    </div>
+
+    <div class="product-card product-card--mt4">
+      <div class="product-emoji-wrap">🌊</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-FLOW <span class="platform-tag">MT4</span></span>
+          <span class="product-badge badge-soon">Coming soon</span>
+        </div>
+        <p class="product-desc">MT4 version. Order flow and volume delta awareness. Buy/sell pressure percentage, large order detection.</p>
+      </div>
+      <div class="product-price">$50<span class="sub">MT4</span></div>
+    </div>
+
+    <div class="product-card product-card--mt4">
+      <div class="product-emoji-wrap">🤖</div>
+      <div class="product-info">
+        <div class="product-header">
+          <span class="product-name">UMNi-TA <span class="platform-tag">MT4</span></span>
+          <span class="product-badge badge-soon">Roadmap</span>
+        </div>
+        <p class="product-desc">MT4 version. Trade Assistant — unified intelligence layer. All modules in one Utility. Follows MT5 release.</p>
+      </div>
+      <div class="product-price">$150<span class="sub">MT4</span></div>
+    </div>
+  </div>
+
+  <!-- SIGNALS CTA -->
+  <div class="signals-cta" id="signals">
+    <div class="signals-block">
+      <div>
+        <p class="signals-label">UMNi Signals</p>
+        <h3 class="signals-title">Live signal access — £30/mo</h3>
+        <p class="signals-body">Curated trade signals via Telegram. Full entry, SL, and TP levels. 7-day free trial. 25% affiliate rate. Trade manually or pair with the UMNi-EA for full automation.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.8rem;flex-shrink:0;">
+        <a href="https://whop.com/umni-systems/" target="_blank" class="btn-primary">Join on Whop →</a>
+        <a href="https://t.me/UmniSystems" target="_blank" class="btn-ghost">Telegram</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="about" id="about">
+    <div>
+      <p class="about-label">About</p>
+      <h2 class="about-title">Built by a trader.<br/>Designed for discipline.</h2>
       <div class="about-body">
-        <p>UMNi Systems is an independent technology company building tools for disciplined trading and structured self-awareness. Founded under Source Code Holdings, the company operates two product verticals: UMNi-FX, a suite of MT4/MT5 telemetry and execution tools published on MQL5; and UMNi-Tech, a proprietary psychometric framework and device ecosystem focused on awareness mapping.</p>
-        <p>Both verticals share a common design philosophy: replace noise with signal. No prediction, no hype — only structured feedback that lets the user see more clearly and act with greater precision.</p>
-        <p>Products are built by a solo founder with multi-year live trading experience across algorithmic and manual systems, with active deployment on XAGUSD and FX pairs.</p>
+        <p>UMNi Systems is an independent trading technology company building MT4 and MT5 tools for disciplined execution. Published on the MQL5 Marketplace and distributed via Telegram, the product range covers telemetry, session awareness, risk, execution quality, and automated journaling.</p>
+        <p>Built by a solo founder with multi-year live trading experience across algorithmic and manual systems, with active deployment on XAGUSD and FX pairs. No prediction, no hype — only structured feedback that lets the trader see more clearly.</p>
       </div>
     </div>
     <div class="about-right">
       <div class="about-fact">
         <div class="about-fact-label">Structure</div>
-        <div class="about-fact-value">Independent company · Subsidiary of Source Code Holdings · UK-based</div>
+        <div class="about-fact-value">Independent · Subsidiary of Source Code Holdings · UK-based</div>
       </div>
       <div class="about-fact">
-        <div class="about-fact-label">UMNi-FX Status</div>
-        <div class="about-fact-value">Live on MQL5 · MT4 &amp; MT5 · 26 products across signals, telemetry, and execution</div>
+        <div class="about-fact-label">Platform</div>
+        <div class="about-fact-value">MT4 and MT5 · Published on MQL5 Marketplace · 26 products</div>
       </div>
       <div class="about-fact">
-        <div class="about-fact-label">UMNi-Tech Status</div>
-        <div class="about-fact-value">Psychometric assessments live · 4 hardware prototypes in active development (DP-1, TCE, NES, ABFS)</div>
+        <div class="about-fact-label">Signals</div>
+        <div class="about-fact-value">£30/mo via Whop · 7-day trial · 25% affiliate · Telegram-native</div>
       </div>
       <div class="about-fact">
-        <div class="about-fact-label">IP &amp; Licensing</div>
-        <div class="about-fact-value">Source Code framework IP held by Source Code Holdings · institutional and B2B licensing available by arrangement</div>
+        <div class="about-fact-label">Parent company</div>
+        <div class="about-fact-value"><a href="https://sourcecodeholdings.org" target="_blank">sourcecodeholdings.org</a></div>
       </div>
     </div>
   </div>
 
-  <!-- ECOSYSTEM OVERVIEW -->
-  <div class="ecosystem">
-    <p class="eco-label">The ecosystem</p>
-    <h2 class="eco-title">Everything connects.<br/>Nothing is standalone.</h2>
-    <p class="eco-body">
-      Three tiers. Signals. Execution. Infrastructure. Each one builds on the last.
-    </p>
-
-    <!-- TIER 1 — SIGNALS -->
-    <div style="margin-bottom:1px;">
-      <div style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:#10B981;padding:0.8rem 1.6rem;background:var(--bg2);border-left:2px solid #10B981;">
-        Tier 1 — Signals Access
-      </div>
-    </div>
-    <div class="product-row" style="margin-bottom:0.25rem;">
-      <div class="product-cell" style="border-left:2px solid #10B981;grid-column:span 3;">
-        <span class="product-emoji">⚡</span>
-        <div class="product-info">
-          <div class="product-name">UMNi Signals</div>
-          <div class="product-desc">Live trade signals via Telegram. Reformatted from institutional sources. Full entry, SL, TP levels. Trade manually or with your own EA.</div>
-        </div>
-        <div style="font-family:var(--mono);font-size:0.75rem;font-weight:700;color:#10B981;white-space:nowrap;align-self:center;padding-left:1rem;">£30<span style="font-size:0.6rem;font-weight:400;opacity:0.6;">/mo</span></div>
-      </div>
-    </div>
-    <div style="font-family:var(--mono);font-size:0.6rem;color:var(--muted);padding:0.5rem 1.6rem 1.5rem;letter-spacing:0.05em;">
-      Entry tier · Telegram only · 7-day free trial · Available on Whop
-    </div>
-
-    <!-- TIER 1+ — EA EXECUTION -->
-    <div style="margin-bottom:1px;">
-      <div style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:#F59E0B;padding:0.8rem 1.6rem;background:var(--bg2);border-left:2px solid #F59E0B;">
-        Tier 1+ — Automated Execution
-      </div>
-    </div>
-    <div class="product-row" style="margin-bottom:0.25rem;">
-      <div class="product-cell" style="border-left:2px solid #F59E0B;grid-column:span 3;">
-        <span class="product-emoji">🤖</span>
-        <div class="product-info">
-          <div class="product-name">UMNi-EA</div>
-          <div class="product-desc">Execution agent. Runs directly off the UMNi Signals channel — no manual input required. Account-based safety, daily loss cap, consecutive loss halt, H1 bias filter. Set it, monitor it, let it work.</div>
-        </div>
-        <div style="font-family:var(--mono);font-size:0.75rem;font-weight:700;color:#F59E0B;white-space:nowrap;align-self:center;padding-left:1rem;">£60<span style="font-size:0.6rem;font-weight:400;opacity:0.6;">/mo</span></div>
-      </div>
-    </div>
-    <div style="font-family:var(--mono);font-size:0.6rem;color:var(--muted);padding:0.5rem 1.6rem 1.5rem;letter-spacing:0.05em;">
-      Includes Signals access · MT4 &amp; MT5 · Requires Signals subscription
-    </div>
-
-    <!-- TIER 2 — TRADE ASSISTANT -->
-    <div style="margin-bottom:1px;">
-      <div style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:#7C3AED;padding:0.8rem 1.6rem;background:var(--bg2);border-left:2px solid #7C3AED;">
-        Tier 2 — Trade Assistant
-      </div>
-    </div>
-    <div class="product-row" style="margin-bottom:0.25rem;">
-      <div class="product-cell" style="border-left:2px solid #7C3AED;">
-        <span class="product-emoji">🤖</span>
-        <div class="product-info">
-          <div class="product-name">UMNi-TA</div>
-          <div class="product-desc">Unified intelligence layer. All awareness modules in one EA — monitors your trading, never places trades for you.</div>
-        </div>
-      </div>
-      <div class="product-cell" style="border-left:2px solid #7C3AED;opacity:0.45;">
-        <span class="product-emoji">🤖</span>
-        <div class="product-info">
-          <div class="product-name">UMNi-TA2</div>
-          <div class="product-desc">Signal bridge → Telegram → /accept /decline /auto. Human-in-the-loop execution.</div>
-        </div>
-      </div>
-      <div class="product-cell" style="border-left:2px solid #7C3AED;background:var(--bg);opacity:0.2;">
-        <span class="product-emoji" style="opacity:0.3">·</span>
-        <div class="product-info">
-          <div class="product-name" style="opacity:0.4">TA3</div>
-          <div class="product-desc" style="opacity:0.4">Future roadmap</div>
-        </div>
-      </div>
-    </div>
-    <div style="font-family:var(--mono);font-size:0.6rem;color:var(--muted);padding:0.5rem 1.6rem 1.5rem;letter-spacing:0.05em;">
-      UMNi-TA in development · UMNi-TA2 roadmap · Utilities category · Not currently for sale
-    </div>
-
-    <!-- MQL CATALOGUE -->
-    <div style="margin-bottom:1px;">
-      <div style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--fx);padding:0.8rem 1.6rem;background:var(--bg2);border-left:2px solid var(--fx);">
-        MQL Catalogue — 26 products · MT5 &amp; MT4
-      </div>
-    </div>
-    <div class="product-row">
-      <div class="product-cell fx-product"><span class="product-emoji">📢</span><div class="product-info"><div class="product-name">UMNi-NTFY</div><div class="product-desc">Presence notification — Free</div></div></div>
-      <div class="product-cell fx-product"><span class="product-emoji">📡</span><div class="product-info"><div class="product-name">UMNi-ALRT</div><div class="product-desc">Session intelligence &amp; summaries</div></div></div>
-      <div class="product-cell fx-product"><span class="product-emoji">🛰️</span><div class="product-info"><div class="product-name">UMNi-CMND</div><div class="product-desc">Full telemetry &amp; remote control</div></div></div>
-    </div>
-    <div class="product-row">
-      <div class="product-cell fx-product"><span class="product-emoji">🌐</span><div class="product-info"><div class="product-name">UMNi-STATE</div><div class="product-desc">Market condition classifier</div></div></div>
-      <div class="product-cell fx-product"><span class="product-emoji">🩺</span><div class="product-info"><div class="product-name">UMNi-HLTH</div><div class="product-desc">Execution health monitor</div></div></div>
-      <div class="product-cell fx-product"><span class="product-emoji">⚠️</span><div class="product-info"><div class="product-name">UMNi-RSK</div><div class="product-desc">Risk visualisation system</div></div></div>
-    </div>
-    <div class="product-row">
-      <div class="product-cell fx-product"><span class="product-emoji">🕐</span><div class="product-info"><div class="product-name">UMNi-SESH</div><div class="product-desc">Session briefing &amp; open alerts</div></div></div>
-      <div class="product-cell fx-product"><span class="product-emoji">📰</span><div class="product-info"><div class="product-name">UMNi-NEWS</div><div class="product-desc">Economic calendar awareness</div></div></div>
-      <div class="product-cell fx-product"><span class="product-emoji">📋</span><div class="product-info"><div class="product-name">UMNi-LOG</div><div class="product-desc">Automated trade journal</div></div></div>
-    </div>
-    <div class="product-row" style="margin-bottom:2rem;">
-      <div class="product-cell fx-product"><span class="product-emoji">🔗</span><div class="product-info"><div class="product-name">UMNi-SYNC</div><div class="product-desc">Multi-account trade copier</div></div></div>
-      <div class="product-cell fx-product"><span class="product-emoji">🔲</span><div class="product-info"><div class="product-name">UMNi-GRID</div><div class="product-desc">Grid &amp; basket manager</div></div></div>
-      <div class="product-cell fx-product"><span class="product-emoji">🌊</span><div class="product-info"><div class="product-name">UMNi-FLOW</div><div class="product-desc">Order flow &amp; volume delta</div></div></div>
-    </div>
-
-    <!-- Tech products -->
-    <div style="margin-bottom:1px;">
-      <div style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--tech);padding:0.8rem 1.6rem;background:var(--bg2);border-left:2px solid var(--tech);">
-        UMNi-Tech — Awareness Technology
-      </div>
-    </div>
-    <div class="product-row">
-      <div class="product-cell tech-product">
-        <span class="product-emoji">🧠</span>
-        <div class="product-info">
-          <div class="product-name">Awareness Test</div>
-          <div class="product-desc">Observer Code profiling — free</div>
-        </div>
-      </div>
-      <div class="product-cell tech-product">
-        <span class="product-emoji">📋</span>
-        <div class="product-info">
-          <div class="product-name">Awareness Assessment</div>
-          <div class="product-desc">Full architecture report — £19.99</div>
-        </div>
-      </div>
-      <div class="product-cell tech-product">
-        <span class="product-emoji">⚙️</span>
-        <div class="product-info">
-          <div class="product-name">UMNi Labs</div>
-          <div class="product-desc">DP-1 · TCE · NES · ABFS</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="footer-l">
       UMNi Systems™<br/>
-      © 2026 All rights reserved<br/>
+      © 2026 Source Code Holdings Ltd<br/>
       <span style="opacity:0.5;">umni-systems.com</span>
     </div>
     <div class="footer-r">
       <a href="https://t.me/UmniSystems" target="_blank">Telegram</a> ·
       <a href="https://www.tiktok.com/@UmniSystems" target="_blank">TikTok</a> ·
       <a href="https://www.instagram.com/UmniSystems" target="_blank">Instagram</a><br/>
-      <a href="https://sourcecodeholdings.org" target="_blank">A Source Code Holdings company</a>
+      <a href="https://whop.com/umni-systems/" target="_blank">Whop</a> ·
+      <a href="https://www.mql5.com/en/users/rickvr32/seller" target="_blank">MQL5</a> ·
+      <a href="https://sourcecodeholdings.org" target="_blank">Source Code Holdings</a>
     </div>
   </footer>
 
