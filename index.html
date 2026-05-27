@@ -469,6 +469,25 @@
       line-height: 1.7;
     }
 
+    /* ── CONTACT FORM ── */
+    .contact-field {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #f0f0ee;
+      padding: 10px 14px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+
+    .contact-field:focus {
+      border-color: var(--fx-border);
+    }
+
+    .contact-field::placeholder { color: var(--muted); }
+
     /* ── ABOUT ── */
     .about {
       max-width: 900px;
@@ -1034,8 +1053,6 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
-  
   <!-- CONTACT -->
   <div class="signals-cta" id="contact">
     <div class="signals-block" style="grid-template-columns:1fr auto;align-items:center;">
@@ -1043,15 +1060,16 @@
         <p class="signals-label">Contact</p>
         <h3 class="signals-title">Get in touch</h3>
         <p class="signals-body">Questions about products, signals, or partnerships. All messages reviewed directly.</p>
-        <form id="umni-contact-form" onsubmit="submitUmniContact(event)" style="margin-top:16px;display:flex;flex-direction:column;gap:10px;max-width:420px;">
-          <input type="text" id="umni-name" placeholder="Your name or handle" required style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#f0f0ee;padding:10px 14px;border-radius:8px;font-family:'Space Mono',monospace;font-size:0.72rem;outline:none;" />
-          <input type="text" id="umni-contact" placeholder="Email or Telegram" required style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#f0f0ee;padding:10px 14px;border-radius:8px;font-family:'Space Mono',monospace;font-size:0.72rem;outline:none;" />
-          <textarea id="umni-message" placeholder="Your message" required rows="3" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#f0f0ee;padding:10px 14px;border-radius:8px;font-family:'Space Mono',monospace;font-size:0.72rem;outline:none;resize:vertical;"></textarea>
+
+        <form action="https://formspree.io/f/mvzydakp" method="POST" id="umni-contact-form" style="margin-top:16px;display:flex;flex-direction:column;gap:10px;max-width:420px;">
+          <input type="text" name="name" placeholder="Your name or handle" required class="contact-field" />
+          <input type="text" name="contact" placeholder="Email or Telegram" required class="contact-field" />
+          <textarea name="message" placeholder="Your message" required rows="3" class="contact-field" style="resize:vertical;"></textarea>
           <div style="display:flex;align-items:center;gap:12px;">
-            <button type="submit" id="umni-submit-btn" style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;background:var(--fx);color:#fff;border:none;padding:10px 22px;cursor:pointer;transition:opacity 0.2s;">Send →</button>
-            <span id="umni-contact-status" style="font-size:0.65rem;color:var(--muted);letter-spacing:0.08em;"></span>
+            <button type="submit" style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;background:var(--fx);color:#fff;border:none;padding:10px 22px;cursor:pointer;transition:opacity 0.2s;">Send →</button>
           </div>
         </form>
+
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;flex-shrink:0;">
         <a href="https://t.me/UmniSystems" target="_blank" class="btn-primary">Telegram →</a>
@@ -1059,54 +1077,6 @@
       </div>
     </div>
   </div>
-
-  <script>
-  async function submitUmniContact(e) {
-    e.preventDefault();
-    const btn = document.getElementById('umni-submit-btn');
-    const status = document.getElementById('umni-contact-status');
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
-
-    const name    = document.getElementById('umni-name').value.trim();
-    const contact = document.getElementById('umni-contact').value.trim();
-    const message = document.getElementById('umni-message').value.trim();
-
-    const text = [
-      '⚡ *UMNI SYSTEMS CONTACT*',
-      '',
-      `*Name:* ${name}`,
-      `*Contact:* ${contact}`,
-      '',
-      `*Message:*`,
-      message,
-      '',
-      `_Received via umni-systems.com_`
-    ].join('\n');
-
-    try {
-      const res = await fetch('https://api.telegram.org/bot8758268523:AAE-zisdU9R3J6xq6THkfKQ085odQJewv3A/sendMessage', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ chat_id: '-5285683056', text, parse_mode: 'Markdown' })
-      });
-      const d = await res.json();
-      if (d.ok) {
-        document.getElementById('umni-contact-form').style.display = 'none';
-        status.textContent = 'Message sent ✓';
-        status.style.color = '#10B981';
-      } else {
-        btn.disabled = false;
-        btn.textContent = 'Send →';
-        status.textContent = 'Failed — try Telegram directly';
-      }
-    } catch(err) {
-      btn.disabled = false;
-      btn.textContent = 'Send →';
-      status.textContent = 'Failed — try Telegram directly';
-    }
-  }
-  </script>
 
   <footer class="site-footer">
     <div class="footer-l">
