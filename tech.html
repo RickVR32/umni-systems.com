@@ -1,720 +1,764 @@
+please now update sch 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="UMNi-Tech — Awareness technology and consciousness mapping. Powered by Source Code Holdings." />
-  <title>UMNi-Tech — Awareness Technology</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-  <style>
-
-    :root {
-      --bg: #080808;
-      --bg2: #0d0d0d;
-      --text: #f0f0ee;
-      --muted: #666660;
-      --rule: rgba(255,255,255,0.07);
-
-      --tech: #DC2626;
-      --tech-soft: rgba(220,38,38,0.1);
-      --tech-border: rgba(220,38,38,0.3);
-
-      --mono: 'Space Mono', monospace;
-      --sans: 'DM Sans', sans-serif;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      font-weight: 300;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1000;
-      opacity: 0.4;
-
-      background-image:
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-    }
-
-    .hero-bg {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-
-      background:
-      radial-gradient(
-        ellipse 70% 60% at 20% 80%,
-        rgba(220,38,38,0.07) 0%,
-        transparent 70%
-      );
-    }
-
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-
-      z-index: 99;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      padding: 1.2rem 2.5rem;
-
-      background: rgba(8,8,8,0.9);
-      backdrop-filter: blur(20px);
-
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.9rem;
-
-      text-decoration: none;
-    }
-
-    .logo-mark {
-      width: 36px;
-      height: 36px;
-      object-fit: cover;
-      display: block;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: var(--muted);
-
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-
-      transition: color 0.2s;
-    }
-
-    nav a:hover {
-      color: var(--text);
-    }
-
-    nav a.active {
-      color: var(--tech);
-    }
-
-    .hero {
-      min-height: 100vh;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-
-      max-width: 900px;
-      margin: 0 auto;
-
-      padding: 8rem 2.5rem 4rem;
-
-      position: relative;
-    }
-
-    .hero-tag {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-
-      margin-bottom: 1.5rem;
-
-      color: var(--tech);
-
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-    }
-
-    .hero-tag::before {
-      content: '';
-
-      width: 24px;
-      height: 1px;
-
-      background: var(--tech);
-
-      display: block;
-    }
-
-    .hero-title {
-      font-size: clamp(3rem, 8vw, 6.5rem);
-      font-weight: 700;
-      line-height: 0.95;
-      letter-spacing: -0.03em;
-
-      margin-bottom: 2rem;
-    }
-
-    .hero-title .line2 {
-      display: block;
-      color: var(--tech);
-    }
-
-    .hero-body {
-      max-width: 540px;
-
-      color: var(--muted);
-
-      font-size: 1.05rem;
-      line-height: 1.8;
-
-      margin-bottom: 0.8rem;
-    }
-
-    .hero-body-sub {
-      max-width: 540px;
-
-      color: var(--muted);
-
-      font-size: 0.88rem;
-      line-height: 1.75;
-
-      margin-bottom: 2.5rem;
-
-      opacity: 0.75;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .btn-primary,
-    .btn-ghost,
-    .btn-neutral,
-    .device-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-
-      text-decoration: none;
-
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .btn-primary {
-      background: var(--tech);
-      color: white;
-
-      padding: 0.85rem 1.6rem;
-    }
-
-    .btn-primary:hover {
-      opacity: 0.85;
-    }
-
-    .btn-ghost {
-      border: 1px solid var(--tech-border);
-      color: var(--tech);
-
-      padding: 0.85rem 1.6rem;
-    }
-
-    .btn-ghost:hover {
-      background: var(--tech-soft);
-    }
-
-    .framework-explainer {
-      max-width: 900px;
-      margin: 0 auto;
-
-      padding: 0 2.5rem;
-    }
-
-    .explainer-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-
-      gap: 1px;
-
-      background: var(--rule);
-
-      margin-bottom: 5rem;
-    }
-
-    .explainer-cell {
-      background: var(--bg2);
-      padding: 1.6rem;
-    }
-
-    .explainer-term {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      font-weight: 700;
-
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-
-      color: var(--tech);
-
-      margin-bottom: 0.6rem;
-    }
-
-    .explainer-def {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .section {
-      max-width: 900px;
-      margin: 0 auto;
-
-      padding: 0 2.5rem 5rem;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-
-      padding: 3rem 0 2rem;
-
-      border-top: 1px solid var(--rule);
-    }
-
-    .section-label,
-    .section-tag {
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      text-transform: uppercase;
-    }
-
-    .section-label {
-      color: var(--muted);
-      letter-spacing: 0.2em;
-    }
-
-    .section-tag {
-      color: var(--tech);
-      letter-spacing: 0.1em;
-    }
-
-    .assessment-grid,
-    .device-grid {
-      display: grid;
-      gap: 1px;
-      background: var(--rule);
-    }
-
-    .assessment-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .device-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .assessment-card,
-    .device-card {
-      background: var(--bg);
-      padding: 2rem;
-      position: relative;
-    }
-
-    .assessment-card {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-
-      text-decoration: none;
-
-      transition: background 0.2s;
-    }
-
-    .assessment-card:hover {
-      background: var(--tech-soft);
-    }
-
-    .assessment-card::before {
-      content: '';
-
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-
-      height: 2px;
-
-      background: var(--tech);
-      opacity: 0.4;
-    }
-
-    .card-tag {
-      color: var(--tech);
-
-      font-family: var(--mono);
-      font-size: 0.55rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    .card-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .card-price {
-      color: var(--tech);
-
-      font-family: var(--mono);
-      font-weight: 700;
-    }
-
-    .card-body {
-      color: var(--muted);
-
-      font-size: 0.85rem;
-      line-height: 1.7;
-    }
-
-    .card-positioning {
-      font-family: var(--mono);
-      font-size: 0.58rem;
-      letter-spacing: 0.1em;
-
-      color: var(--tech);
-
-      opacity: 0.7;
-
-      padding: 0.5rem 0.8rem;
-
-      border: 1px solid var(--tech-border);
-      background: var(--tech-soft);
-
-      margin-top: 0.2rem;
-    }
-
-    .card-list,
-    .device-specs {
-      list-style: none;
-
-      color: var(--muted);
-
-      font-family: var(--mono);
-      font-size: 0.58rem;
-      letter-spacing: 0.06em;
-      line-height: 2.2;
-    }
-
-    .card-list li::before,
-    .device-specs li::before {
-      content: '— ';
-      opacity: 0.5;
-    }
-
-    .card-cta {
-      margin-top: auto;
-      padding-top: 0.8rem;
-
-      color: var(--tech);
-
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.12em;
-    }
-
-    .site-footer {
-      max-width: 900px;
-      margin: 0 auto;
-
-      padding: 2.5rem;
-
-      border-top: 1px solid var(--rule);
-
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .footer-l,
-    .footer-r {
-      color: var(--muted);
-
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
-      line-height: 2;
-    }
-
-    .footer-r {
-      text-align: right;
-    }
-
-    .footer-r a {
-      text-decoration: none;
-      color: var(--muted);
-    }
-
-    .footer-r a:hover {
-      color: var(--text);
-    }
-
-    @media (max-width: 640px) {
-
-      header {
-        padding: 1rem 1.2rem;
-      }
-
-      nav {
-        display: none;
-      }
-
-      .hero {
-        padding: 7rem 1.2rem 3rem;
-      }
-
-      .section,
-      .framework-explainer {
-        padding-left: 1.2rem;
-        padding-right: 1.2rem;
-      }
-
-      .assessment-grid,
-      .device-grid,
-      .explainer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .site-footer {
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .footer-r {
-        text-align: left;
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Private infrastructure holding entity." />
+<meta name="robots" content="noindex, nofollow" />
+<title>Source Code Holdings</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --bg:#f2f1ee;
+  --bg-soft:#e9e8e3;
+  --panel:#fafaf8;
+  --text:#0d0d0c;
+  --muted:#8a887f;
+  --line:rgba(0,0,0,0.08);
+  --line-strong:rgba(0,0,0,0.16);
+  --grid-line:rgba(0,0,0,0.045);
+}
+
+[data-theme="dark"]{
+  --bg:#0a0a08;
+  --bg-soft:#121210;
+  --panel:#181816;
+  --text:#e8e6e0;
+  --muted:#72706b;
+  --line:rgba(255,255,255,0.06);
+  --line-strong:rgba(255,255,255,0.14);
+  --grid-line:rgba(255,255,255,0.022);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background-color:var(--bg);
+  background-image:
+    linear-gradient(180deg,var(--grid-line) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);
+  background-size:44px 44px;
+  color:var(--text);
+  font-family:'Geist Mono', monospace;
+  font-weight:300;
+  -webkit-font-smoothing:antialiased;
+  transition:background-color .4s, color .4s;
+}
+
+.container{
+  width:min(1100px, calc(100% - 48px));
+  margin:auto;
+}
+
+/* DARK TOGGLE */
+
+.dark-toggle{
+  position:fixed;
+  top:20px;
+  right:24px;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 14px;
+  background:var(--panel);
+  border:1px solid var(--line-strong);
+  border-radius:999px;
+  cursor:pointer;
+  font-family:'Geist Mono', monospace;
+  font-size:0.66rem;
+  font-weight:300;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  transition:all .2s;
+}
+
+.dark-toggle:hover{
+  color:var(--text);
+  border-color:var(--text);
+}
+
+/* HERO */
+
+.hero{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:60px 0 100px;
+}
+
+.hero-logo{
+  margin-bottom:34px;
+}
+
+.hero-logo img{
+  width:140px;
+  height:auto;
+  display:block;
+  margin:auto;
+  opacity:.92;
+}
+
+.hero-name{
+  font-family:'Cormorant', serif;
+  font-weight:300;
+  font-size:clamp(1.8rem,4vw,2.6rem);
+  letter-spacing:0.34em;
+  text-transform:uppercase;
+}
+
+.hero-divider{
+  width:34px;
+  height:1px;
+  background:var(--line-strong);
+  margin:30px auto;
+}
+
+.hero-copy{
+  max-width:600px;
+  font-size:0.82rem;
+  line-height:2;
+  color:var(--muted);
+  letter-spacing:0.02em;
+}
+
+.hero-tag{
+  margin-top:48px;
+  font-size:0.68rem;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--muted);
+  opacity:.55;
+}
+
+/* STATEMENT */
+
+.section{
+  padding:0 0 120px;
+}
+
+.statement{
+  max-width:760px;
+  margin:auto;
+  background:rgba(255,255,255,0.28);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:56px 54px;
+  backdrop-filter:blur(8px);
+}
+
+[data-theme="dark"] .statement{
+  background:rgba(255,255,255,0.02);
+}
+
+.statement-line{
+  font-family:'Cormorant', serif;
+  font-style:italic;
+  font-weight:300;
+  font-size:clamp(1.5rem,3vw,2.2rem);
+  line-height:1.3;
+  margin-bottom:28px;
+}
+
+.statement-copy{
+  font-size:0.8rem;
+  line-height:2;
+  color:var(--muted);
+  max-width:560px;
+}
+
+/* IP SECTION */
+
+.ip-section{
+  padding:0 0 120px;
+}
+
+.ip-label{
+  font-size:0.6rem;
+  letter-spacing:0.28em;
+  text-transform:uppercase;
+  color:var(--muted);
+  opacity:0.6;
+  margin-bottom:20px;
+  max-width:760px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.ip-header{
+  max-width:760px;
+  margin:0 auto 48px;
+  padding-bottom:32px;
+  border-bottom:1px solid var(--line);
+}
+
+.ip-title{
+  font-family:'Cormorant', serif;
+  font-weight:300;
+  font-size:clamp(1.5rem,3vw,2.2rem);
+  line-height:1.25;
+  margin-bottom:18px;
+}
+
+.ip-body{
+  font-size:0.8rem;
+  line-height:2;
+  color:var(--muted);
+  max-width:520px;
+}
+
+/* FRAMEWORK */
+
+.framework-row{
+  max-width:760px;
+  margin:0 auto 48px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-radius:16px;
+  overflow:hidden;
+}
+
+.framework-cell{
+  background:var(--panel);
+  padding:28px 26px;
+}
+
+[data-theme="dark"] .framework-cell{
+  background:rgba(255,255,255,0.02);
+}
+
+.framework-cell-label{
+  font-size:0.58rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:10px;
+  opacity:0.7;
+}
+
+.framework-cell-title{
+  font-family:'Cormorant', serif;
+  font-weight:300;
+  font-size:1.1rem;
+  margin-bottom:8px;
+}
+
+.framework-cell-body{
+  font-size:0.72rem;
+  color:var(--muted);
+  line-height:1.8;
+}
+
+/* BLUEPRINTS */
+
+.blueprints-label{
+  font-size:0.58rem;
+  letter-spacing:0.24em;
+  text-transform:uppercase;
+  color:var(--muted);
+  opacity:0.55;
+  max-width:760px;
+  margin:0 auto 20px;
+}
+
+.blueprints-grid{
+  max-width:760px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-radius:16px;
+  overflow:hidden;
+}
+
+.blueprint-card{
+  background:var(--panel);
+  overflow:hidden;
+  cursor:pointer;
+  transition:background 0.2s;
+  text-decoration:none;
+  color:inherit;
+  display:block;
+}
+
+[data-theme="dark"] .blueprint-card{
+  background:rgba(255,255,255,0.02);
+}
+
+.blueprint-card:hover{
+  background:var(--bg-soft);
+}
+
+[data-theme="dark"] .blueprint-card:hover{
+  background:rgba(255,255,255,0.05);
+}
+
+.blueprint-img{
+  aspect-ratio:1;
+  overflow:hidden;
+  background:var(--bg-soft);
+}
+
+.blueprint-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:grayscale(20%);
+  transition:transform 0.4s ease, filter 0.3s;
+}
+
+.blueprint-card:hover .blueprint-img img{
+  transform:scale(1.05);
+  filter:grayscale(0%);
+}
+
+.blueprint-info{
+  padding:14px 14px 16px;
+  border-top:1px solid var(--line);
+}
+
+.blueprint-code{
+  font-size:0.58rem;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:4px;
+  opacity:0.7;
+}
+
+.blueprint-name{
+  font-family:'Cormorant', serif;
+  font-weight:300;
+  font-size:1rem;
+  margin-bottom:2px;
+}
+
+.blueprint-status{
+  font-size:0.58rem;
+  letter-spacing:0.08em;
+  color:var(--muted);
+  opacity:0.6;
+}
+
+/* NDA NOTE */
+
+.nda-note{
+  max-width:760px;
+  margin:20px auto 0;
+  padding:16px 20px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  font-size:0.68rem;
+  color:var(--muted);
+  line-height:1.75;
+  letter-spacing:0.02em;
+  opacity:0.75;
+}
+
+/* CONTACT */
+
+.contact{
+  padding-bottom:120px;
+}
+
+.contact-box{
+  max-width:760px;
+  margin:auto;
+  padding-top:42px;
+  border-top:1px solid var(--line);
+}
+
+.contact-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  margin-bottom:24px;
+}
+
+.contact-head h2{
+  font-family:'Cormorant', serif;
+  font-weight:300;
+  font-size:1.5rem;
+  letter-spacing:0.04em;
+}
+
+.contact-head span{
+  font-size:0.65rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.contact-copy{
+  max-width:520px;
+  font-size:0.8rem;
+  line-height:1.9;
+  color:var(--muted);
+  margin-bottom:34px;
+}
+
+.contact-link{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  border:1px solid var(--line-strong);
+  border-radius:999px;
+  padding:10px 22px;
+  color:var(--muted);
+  font-size:0.68rem;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  transition:all .2s;
+}
+
+.contact-link:hover{
+  color:var(--text);
+  border-color:var(--text);
+}
+
+/* FOOTER */
+
+footer{
+  padding:34px 0;
+  border-top:1px solid var(--line);
+  text-align:center;
+  font-size:0.64rem;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+  opacity:.5;
+}
+
+@media(max-width:768px){
+
+  .hero-name{
+    letter-spacing:0.18em;
+    line-height:1.3;
+  }
+
+  .statement{
+    padding:36px 28px;
+  }
+
+  .contact-head{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .framework-row{
+    grid-template-columns:1fr;
+  }
+
+  .blueprints-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:480px){
+  .blueprints-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+</style>
 </head>
 
 <body>
 
-  <div class="hero-bg"></div>
+<button class="dark-toggle" onclick="toggleDark()">
+  <span id="dark-icon">◑</span>
+  <span id="dark-label">Dark</span>
+</button>
 
-  <header>
+<div class="container">
 
-    <a class="logo" href="/index.html">
-
-      <img src="/umni-sigil.png" class="logo-mark" alt="UMNi Logo" />
-
-      <span style="font-family:'Space Mono',monospace;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;color:#f0f0ee;">
-        UMNi-<span style="color:#DC2626;">Tech™</span>
-      </span>
-
-    </a>
-
-    <nav>
-      <a href="/index.html">Systems</a>
-      <a href="/fx.html">FX</a>
-      <a href="/tech.html" class="active">Tech</a>
-    </nav>
-
-  </header>
+  <!-- HERO -->
 
   <section class="hero">
 
-    <p class="hero-tag">
-      UMNi-Tech — Awareness Technology
+    <div class="hero-logo">
+      <img id="site-logo" src="sch_sygil.png" alt="Source Code Holdings" />
+    </div>
+
+    <div class="hero-name">
+      Source Code Holdings
+    </div>
+
+    <div class="hero-divider"></div>
+
+    <p class="hero-copy">
+      A private holding company. We own the IP,
+      the system architecture, and the infrastructure.
+      Our operating companies do the work.
+      We hold, protect, and licence what has been built.
     </p>
 
-    <h1 class="hero-title">
-      Know where<br>
-      <span class="line2">you actually are.</span>
-    </h1>
-
-    <p class="hero-body">
-      Awareness assessment tools powered by the Source Code framework.
-      Free to start. Devices in development.
-      No prediction — only clarity.
-    </p>
-
-    <p class="hero-body-sub">
-      The Source Code framework is a proprietary psychometric system built on 20 structured dimensions of self-awareness.
-      It maps how a person observes, processes, and responds to their environment — returning a structured profile, not a personality type.
-    </p>
-
-    <div class="hero-actions">
-
-      <a href="/test.html" class="btn-primary">
-        Begin assessment →
-      </a>
-
-      <a href="https://sourcecodeholdings.org" target="_blank" class="btn-ghost">
-        The framework
-      </a>
-
+    <div class="hero-tag">
+      Private · Est. 2024
     </div>
 
   </section>
 
-  <!-- ASSESSMENTS -->
+  <!-- STATEMENT -->
 
   <section class="section">
 
-    <div class="section-header">
+    <div class="statement">
 
-      <span class="section-label">
-        Assessment tools
-      </span>
+      <div class="statement-line">
+        Structured for permanence.
+      </div>
 
-      <span class="section-tag">
-        Powered by DP-1
-      </span>
+      <div class="statement-copy">
+        Source Code Holdings Ltd operates as a private holding entity
+        overseeing proprietary systems, intellectual property,
+        and long-term infrastructure interests.
+        <br><br>
+        Public-facing operations are conducted independently
+        through affiliated structures and external entities.
+      </div>
 
     </div>
 
-    <div class="assessment-grid">
+  </section>
 
-      <!-- TEST -->
+  <!-- IP SECTION -->
 
-      <a href="/test.html" class="assessment-card">
+  <section class="ip-section">
 
-        <span class="card-tag">
-          Free · 3 minutes
-        </span>
+    <p class="ip-label">
+      Intellectual Property
+    </p>
 
-        <h2 class="card-title">
-          Awareness Test
-        </h2>
+    <div class="ip-header">
 
-        <p class="card-price">
-          Free
+      <h2 class="ip-title">
+        Proprietary framework.<br>
+        Hardware in development.
+      </h2>
+
+      <p class="ip-body">
+        Source Code Holdings owns a proprietary awareness architecture —
+        a structured framework mapping human behavioural patterns across
+        multiple layers. Software validation is live. Hardware deployment
+        is in active development across four device blueprints.
+      </p>
+
+    </div>
+
+    <!-- FRAMEWORK -->
+
+    <div class="framework-row">
+
+      <div class="framework-cell">
+
+        <p class="framework-cell-label">
+          Framework
         </p>
 
-        <p class="card-body">
-          A lightweight introduction to the UMNi-Tech framework.
-          Sixteen quick questions mapped to the four Observer Codes.
+        <h3 class="framework-cell-title">
+          Awareness Architecture
+        </h3>
+
+        <p class="framework-cell-body">
+          A proprietary system mapping Observer Codes,
+          Balance Scale (−5 → +5), and Drift — the gap between
+          conscious and subconscious behavioural layers.
+          Live and validated through software assessment tools.
         </p>
 
-        <ul class="card-list">
-          <li>Balance Scale score</li>
-          <li>Observer Code ratio</li>
-          <li>Drift indicator</li>
-          <li>Instant interpretation</li>
-        </ul>
+      </div>
 
-        <span class="card-cta">
-          Begin test →
-        </span>
+      <div class="framework-cell">
+
+        <p class="framework-cell-label">
+          Status
+        </p>
+
+        <h3 class="framework-cell-title">
+          Software live · Hardware prototype stage
+        </h3>
+
+        <p class="framework-cell-body">
+          Assessment platform operational.
+          Court-ready documentation in active professional use.
+          Four hardware concepts in prototype development
+          with full render and architecture documentation
+          available under NDA.
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- BLUEPRINTS -->
+
+    <p class="blueprints-label">
+      Hardware Blueprints · In Development
+    </p>
+
+    <div class="blueprints-grid">
+
+      <!-- DEVICE 01 -->
+
+      <a class="blueprint-card" href="dp1_proto.html" target="_blank">
+
+        <div class="blueprint-img">
+          <img src="dp1_render.png" alt="DP-1" />
+        </div>
+
+        <div class="blueprint-info">
+          <p class="blueprint-code">Device 01</p>
+          <p class="blueprint-name">DP-1</p>
+          <p class="blueprint-status">Duality Processor</p>
+        </div>
 
       </a>
 
-      <!-- FULL ASSESSMENT -->
+      <!-- DEVICE 02 -->
 
-      <a href="/assessment.html" class="assessment-card">
+      <a class="blueprint-card" href="abfs_proto.html" target="_blank">
 
-        <span class="card-tag">
-          Full assessment · Advanced
-        </span>
-
-        <h2 class="card-title">
-          Awareness Assessment
-        </h2>
-
-        <p class="card-price">
-          £19.99
-        </p>
-
-        <p class="card-body">
-          Full-spectrum awareness architecture analysis across all twenty Source Codes.
-          Built as the professional-grade entry point into the UMNi framework.
-        </p>
-
-        <div class="card-positioning">
-          Professional / B2B / institutional licensing available
+        <div class="blueprint-img">
+          <img src="abfs_render.png" alt="ABFS" />
         </div>
 
-        <ul class="card-list">
-          <li>All 20 Source Codes mapped</li>
-          <li>Full awareness architecture</li>
-          <li>Advanced drift analysis</li>
-          <li>Downloadable PDF report</li>
-        </ul>
+        <div class="blueprint-info">
+          <p class="blueprint-code">Device 02</p>
+          <p class="blueprint-name">ABFS</p>
+          <p class="blueprint-status">Ambient Field Sensor</p>
+        </div>
 
-        <span class="card-cta">
-          Unlock full assessment →
-        </span>
+      </a>
 
+      <!-- DEVICE 03 -->
+
+      <a class="blueprint-card" href="nes_proto.html" target="_blank">
+
+        <div class="blueprint-img">
+          <img src="nes_render.png" alt="NES" />
+        </div>
+
+        <div class="blueprint-info">
+          <p class="blueprint-code">Device 03</p>
+          <p class="blueprint-name">NES</p>
+          <p class="blueprint-status">Neural Engagement System</p>
+        </div>
+
+      </a>
+
+      <!-- DEVICE 04 -->
+
+      <a class="blueprint-card" href="tce_proto.html" target="_blank">
+
+        <div class="blueprint-img">
+          <img src="tce_render.png" alt="TCE" />
+        </div>
+
+        <div class="blueprint-info">
+          <p class="blueprint-code">Device 04</p>
+          <p class="blueprint-name">TCE</p>
+          <p class="blueprint-status">Terminal Consciousness Engine</p>
+        </div>
+
+      </a>
+
+    </div>
+
+    <p class="nda-note">
+      Full architecture documentation, component specifications,
+      and technical whitepapers are available to qualified partners,
+      investors, and grant assessors under NDA.
+    </p>
+
+  </section>
+
+  <!-- CONTACT -->
+
+  <section class="contact">
+
+    <div class="contact-box">
+
+      <div class="contact-head">
+        <h2>External Communication</h2>
+        <span>Restricted</span>
+      </div>
+
+      <p class="contact-copy">
+        Source Code Holdings Ltd does not engage
+        in public correspondence.
+      </p>
+
+      <a class="contact-link" href="https://umni-systems.com" target="_blank">
+        Access Point →
       </a>
 
     </div>
 
   </section>
 
-  <footer class="site-footer">
+  <!-- FOOTER -->
 
-    <div class="footer-l">
-      UMNi-Tech™ by UMNi Systems<br>
-      © 2026 Source Code Holdings Ltd<br>
-      <span style="opacity:0.5;">umni-systems.com/tech</span>
-    </div>
-
-    <div class="footer-r">
-
-      <a href="https://t.me/UmniSystems" target="_blank">
-        Telegram
-      </a>
-
-      ·
-
-      <a href="https://www.tiktok.com/@UmniSystems" target="_blank">
-        TikTok
-      </a>
-
-      ·
-
-      <a href="https://www.instagram.com/UmniSystems" target="_blank">
-        Instagram
-      </a>
-
-    </div>
-
+  <footer>
+    Source Code Holdings Ltd · © 2024–2026
   </footer>
+
+</div>
+
+<script>
+
+let isDark = false;
+
+function toggleDark(){
+
+  isDark = !isDark;
+
+  document.documentElement.setAttribute(
+    'data-theme',
+    isDark ? 'dark' : 'light'
+  );
+
+  document.getElementById('dark-icon').textContent =
+    isDark ? '○' : '◑';
+
+  document.getElementById('dark-label').textContent =
+    isDark ? 'Light' : 'Dark';
+
+  const logo = document.getElementById('site-logo');
+
+  if(logo){
+    logo.style.filter = isDark
+      ? 'invert(1) brightness(1.8)'
+      : '';
+  }
+}
+
+</script>
 
 </body>
 </html>
