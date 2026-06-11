@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="UMNi Systems — Trading infrastructure for MT4 and MT5. Telegram-native telemetry, execution tools, and live signals. Built by Source Code Holdings." />
-  <title>UMNi Systems — Trading Infrastructure</title>
+  <meta name="description" content="UMNi Systems — Unified Market Network Intelligence. MT4 and MT5 trading infrastructure, Telegram-native telemetry, execution tools, and live signals. Built by Source Code Holdings." />
+  <title>UMNi Systems — Unified Market Network Intelligence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -155,8 +155,19 @@
       color: var(--muted);
       max-width: 500px;
       line-height: 1.8;
-      margin-bottom: 2.5rem;
+      margin-bottom: 0.8rem;
     }
+
+    .hero-acronym {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      opacity: 0.6;
+      margin-bottom: 2rem;
+    }
+
+    .hero-acronym span { color: var(--fx); opacity: 1; }
 
     .hero-actions {
       display: flex;
@@ -369,9 +380,7 @@
     .badge-live    { color: var(--fx); border-color: var(--fx-border); }
     .badge-soon    { color: var(--muted); border-color: var(--rule); }
     .badge-dev     { color: #D97706; border-color: rgba(217,119,6,0.4); }
-    /* Hidden = published on MQL5 but not yet promoted — amber/orange */
     .badge-hidden  { color: #F59E0B; border-color: rgba(245,158,11,0.4); }
-    /* Draft = exists in MQL5 drafts, not yet published */
     .badge-draft   { color: #8B5CF6; border-color: rgba(139,92,246,0.4); }
 
     .product-desc {
@@ -619,10 +628,11 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    .hero-tag     { animation: fadeUp 0.5s ease both; }
-    .hero-title   { animation: fadeUp 0.5s 0.1s ease both; }
-    .hero-body    { animation: fadeUp 0.5s 0.2s ease both; }
-    .hero-actions { animation: fadeUp 0.5s 0.3s ease both; }
+    .hero-tag      { animation: fadeUp 0.5s ease both; }
+    .hero-title    { animation: fadeUp 0.5s 0.1s ease both; }
+    .hero-body     { animation: fadeUp 0.5s 0.2s ease both; }
+    .hero-acronym  { animation: fadeUp 0.5s 0.25s ease both; }
+    .hero-actions  { animation: fadeUp 0.5s 0.3s ease both; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
@@ -662,7 +672,7 @@
 
   <!-- HERO -->
   <section class="hero">
-    <p class="hero-tag">UMNi Systems — Trading Infrastructure</p>
+    <p class="hero-tag">UMNi Systems — Unified Market Network Intelligence</p>
     <h1 class="hero-title">
       Trading tools<br/>
       <span class="accent">built for discipline.</span>
@@ -670,6 +680,9 @@
     <p class="hero-body">
       MT4 and MT5 telemetry, Telegram-native execution tools, and live signals.
       Built to replace the terminal noise — not add to it.
+    </p>
+    <p class="hero-acronym">
+      <span>U</span>nified&nbsp;&nbsp;<span>M</span>arket&nbsp;&nbsp;<span>N</span>etwork&nbsp;&nbsp;<span>I</span>ntelligence
     </p>
     <div class="hero-actions">
       <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" class="btn-primary">View on MQL5 →</a>
@@ -721,18 +734,13 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════
-       MT5 PRODUCTS
-       Public: NTFY, ALRT, CMND, SESH
-       Hidden (published, not promoted): STATE, HLTH, RSK, SESH(covered), NEWS, LOG, SYNC, GRID, FLOW, TA
-  ════════════════════════════════════════════ -->
+  <!-- MT5 PRODUCTS -->
   <div class="products" id="products">
     <div class="products-header">
       <span class="products-label">MT5 product range</span>
       <span class="products-count">13 products · MetaTrader 5</span>
     </div>
 
-    <!-- LIVE on MQL5 (Public) -->
     <a href="https://www.mql5.com/en/market/product/171240" target="_blank" class="product-card">
       <div class="product-emoji-wrap">📢</div>
       <div class="product-info">
@@ -782,7 +790,6 @@
       <div class="product-price">$33<span class="sub">One-time</span></div>
     </a>
 
-    <!-- PUBLISHED but hidden on MQL5 — built, not yet promoted -->
     <a href="#" class="product-card">
       <div class="product-emoji-wrap">🌐</div>
       <div class="product-info">
@@ -899,18 +906,13 @@
     <div class="divider-line"></div>
   </div>
 
-  <!-- ═══════════════════════════════════════════
-       MT4 PRODUCTS
-       Public: NTFY (Free), ALRT, CMND, SESH
-       Drafts: STATE, HLTH, RSK, NEWS, LOG, SYNC, GRID, FLOW, TA
-  ════════════════════════════════════════════ -->
+  <!-- MT4 PRODUCTS -->
   <div class="products">
     <div class="products-header">
       <span class="products-label">MT4 product range</span>
       <span class="products-count">13 products · MetaTrader 4</span>
     </div>
 
-    <!-- MT4 LIVE (Public on MQL5) -->
     <a href="https://www.mql5.com/en/market/product/179558" target="_blank" class="product-card product-card--mt4">
       <div class="product-emoji-wrap">📢</div>
       <div class="product-info">
@@ -960,7 +962,6 @@
       <div class="product-price">$33<span class="sub">MT4</span></div>
     </a>
 
-    <!-- MT4 DRAFTS — in MQL5 drafts, not yet published -->
     <div class="product-card product-card--mt4">
       <div class="product-emoji-wrap">🌐</div>
       <div class="product-info">
@@ -1091,11 +1092,15 @@
       <p class="about-label">About</p>
       <h2 class="about-title">Built by a trader.<br/>Designed for discipline.</h2>
       <div class="about-body">
-        <p>UMNi Systems is an independent trading technology company building MT4 and MT5 tools for disciplined execution. Published on the MQL5 Marketplace and distributed via Telegram, the product range covers telemetry, session awareness, risk, execution quality, and automated journaling.</p>
+        <p>UMNi Systems — Unified Market Network Intelligence — is an independent trading technology company building MT4 and MT5 tools for disciplined execution. Published on the MQL5 Marketplace and distributed via Telegram, the product range covers telemetry, session awareness, risk, execution quality, and automated journaling.</p>
         <p>Built by a solo founder with multi-year live trading experience across algorithmic and manual systems, with active deployment on XAGUSD and FX pairs. No prediction, no hype — only structured feedback that lets the trader see more clearly.</p>
       </div>
     </div>
     <div class="about-right">
+      <div class="about-fact">
+        <div class="about-fact-label">Full name</div>
+        <div class="about-fact-value">Unified Market Network Intelligence</div>
+      </div>
       <div class="about-fact">
         <div class="about-fact-label">Structure</div>
         <div class="about-fact-value">Independent · Subsidiary of Source Code Holdings · UK-based</div>
@@ -1137,7 +1142,7 @@
 
   <footer class="site-footer">
     <div class="footer-l">
-      UMNi Systems™<br/>
+      UMNi Systems™ — Unified Market Network Intelligence<br/>
       © 2026 Source Code Holdings Ltd<br/>
       <span style="opacity:0.5;">umni-systems.com</span>
     </div>
