@@ -411,33 +411,51 @@ function toggleMobileNav() {
 }
 
 (function() {
-  const SYSTEM = `You are UMNi-AMANDA, the AI customer assistant for UMNi Systems.
-UMNi Systems — Unified Market Network Intelligence — builds MT4 and MT5 trading tools published on the MQL5 Marketplace, plus a Telegram-native signals service.
+  // Local FAQ engine — no API call, no key needed, answers instantly from
+  // the same real data already on this page. Telegram is offered as an
+  // option on every reply, never forced — not everyone has it installed.
+  const FAQ = [
+    {
+      test: /price|cost|how much|fee/i,
+      reply: "Pricing:\n• Signals — £30/mo (Telegram, manual execution)\n• Group Trader — £60/mo (signals + auto-execution EA)\n• MQL5 tools — $33–$150 one-time, FREE entry product (NTFY)\n\n7-day free trial on both subscription tiers."
+    },
+    {
+      test: /group trader|auto.?exec|\bea\b|expert advisor/i,
+      reply: "Group Trader (£60/mo) runs a 35-pip basket automatically on your account via our EA — no manual entry needed. You get your own private bot reporting every open and close. Signals-only (£30/mo) is the manual version if you'd rather execute trades yourself."
+    },
+    {
+      test: /signal/i,
+      reply: "Signals are £30/month via Telegram — full entry, SL, and TP levels, 7-day free trial. Pair with Group Trader (£60/mo total) for full automation instead of manual execution."
+    },
+    {
+      test: /product|mql5|tool/i,
+      reply: "26 products across MT4 and MT5 — NTFY is free and live, ALRT/CMND/SESH are live from $33–$66, with STATE/HLTH/RSK/NEWS/LOG/SYNC/GRID/FLOW/TA in the pipeline ($33–$150). Full range on our MQL5 seller page."
+    },
+    {
+      test: /report|track record|proof|result|win rate|performance/i,
+      reply: "Every basket we open and close is logged automatically and published unedited — wins, losses, MAE/MFE, the lot. Check the Reports page in the nav above for the live numbers."
+    },
+    {
+      test: /trial|free/i,
+      reply: "Both subscription tiers (Signals £30/mo and Group Trader £60/mo) come with a 7-day free trial via Whop — no commitment to try it."
+    },
+    {
+      test: /support|help|problem|issue|broken|not working/i,
+      reply: "For account-specific issues or anything urgent, Telegram support gets you a faster response than I can give here."
+    },
+  ];
 
-PRODUCT RANGE (26 total — 13 MT5, 13 MT4):
-Live on MQL5: NTFY (free), ALRT ($33), CMND ($66), SESH ($33)
-Published/coming: STATE ($33), HLTH ($44), RSK ($55), NEWS ($33), LOG ($33), SYNC ($66), GRID ($60), FLOW ($55), TA ($150)
-All products available in both MT4 and MT5 versions.
+  function localAnswer(text) {
+    for (const item of FAQ) {
+      if (item.test.test(text)) return item.reply;
+    }
+    return "I can cover the basics here — pricing, signals, the EA, products, or our track record. For account-specific setup or anything I haven't covered, Telegram gets you straight through to the full bot.";
+  }
 
-SIGNALS SERVICE:
-£30/month — signals only via Telegram
-£60/month — signals + UMNi-EA auto-execution bot
-7-day free trial. 25% affiliate rate.
-Subscribe at: whop.com/umni-systems/
-Telegram channel: t.me/UmniSystems
-
-LINKS:
-MQL5 products: mql5.com/en/users/mrrickielee/seller
-Website: umni-systems.com
-Parent: sourcecodeholdings.org
-
-TONE: Professional, direct, knowledgeable. No fluff. No fake enthusiasm. Answer questions precisely. If you don't know something, say so and direct them to Telegram or the contact form. Keep responses concise — 2-4 sentences unless more detail is genuinely needed. Never make up prices or product features.`;
-
-  const INTRO = "Hi, I'm AMANDA — UMNi's AI assistant. Ask me about products, signals, or the EA.";
-  let history = [];
   let open = false;
   let busy = false;
   let introduced = false;
+  const INTRO = "Hi, I'm AMANDA — UMNi's AI assistant. Ask me about products, signals, or the EA.";
 
   window.toggleAmanda = function() {
     open = !open;
@@ -465,21 +483,33 @@ TONE: Professional, direct, knowledgeable. No fluff. No fake enthusiasm. Answer 
     appendMsg('user', text);
     busy = true;
     document.getElementById('amanda-send').disabled = true;
+    const typingId = appendTyping();
 
-    // The real AMANDA already exists and works — she's live on Telegram,
-    // talking to Claude safely server-side. A browser-only widget can't
-    // call the Anthropic API directly without exposing a key, so this
-    // hands the conversation straight to the real bot instead of faking
-    // a second, broken one in-page.
     setTimeout(() => {
-      appendMsg('amanda', "Let's continue this on Telegram — opening our chat now. 👇");
-      const tgUrl = 'https://t.me/UMNi_Amanda_bot?text=' + encodeURIComponent(text);
-      window.open(tgUrl, '_blank');
+      removeTyping(typingId);
+      const reply = localAnswer(text);
+      appendMsgWithTelegramOption(reply, text);
       busy = false;
       document.getElementById('amanda-send').disabled = false;
       document.getElementById('amanda-input').focus();
-    }, 350);
+    }, 450);
   };
+
+  function appendMsgWithTelegramOption(replyText, originalQuestion) {
+    const box = document.getElementById('amanda-messages');
+    const wrap = document.createElement('div');
+    wrap.className = 'msg msg-amanda';
+    const tgUrl = 'https://t.me/UMNi_Amanda_bot?text=' + encodeURIComponent(originalQuestion);
+    wrap.innerHTML = `
+      <img src="UMNi-AMANDA.png" class="msg-amanda-avatar" alt="" />
+      <div>
+        <div class="msg-bubble">${escHtml(replyText)}</div>
+        <a href="${tgUrl}" target="_blank" style="display:inline-block;margin-top:6px;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--fx);text-decoration:none;border:1px solid var(--fx-border);padding:4px 10px;">Continue on Telegram →</a>
+      </div>
+    `;
+    box.appendChild(wrap);
+    box.scrollTop = box.scrollHeight;
+  }
 
   function appendMsg(role, text) {
     const box = document.getElementById('amanda-messages');
