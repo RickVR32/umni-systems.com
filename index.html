@@ -147,6 +147,21 @@
       .footer-r { text-align: left; }
       .badge-legend-inner { gap: 0.8rem; }
     }
+    .team { max-width: 900px; margin: 0 auto; padding: 0 2.5rem 2rem; border-top: 1px solid var(--rule); padding-top: 4rem; }
+    .team-header { margin-bottom: 2rem; }
+    .team-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+    .team-title { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+    .team-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem; }
+    .team-card { background: var(--bg3); border: 1px solid var(--rule); padding: 1.8rem; transition: border-color 0.2s; }
+    .team-card:hover { border-color: var(--fx-border); }
+    .team-avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 1px solid var(--fx-border); margin-bottom: 1rem; }
+    .team-avatar.emoji { display: flex; align-items: center; justify-content: center; font-size: 1.6rem; background: var(--bg2); }
+    .team-name { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; color: var(--text); margin-bottom: 0.2rem; }
+    .team-role { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fx); margin-bottom: 0.8rem; }
+    .team-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+    @media (max-width: 640px) {
+      .team-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -241,6 +256,33 @@
       <a href="https://t.me/UmniSystems" target="_blank" class="btn-ghost">UMNi-SYSTEMS</a>
     </div>
   </div></div>
+  <div class="team" id="team">
+    <div class="team-header">
+      <p class="team-label">Who you're actually talking to</p>
+      <h2 class="team-title">Meet the system.</h2>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <img src="UMNi-AMANDA.png" class="team-avatar" alt="AMANDA" />
+        <div class="team-name">UMNi-AMANDA</div>
+        <div class="team-role">Customer Support</div>
+        <p class="team-desc">The first voice you'll hear. Answers product and signal questions, walks new subscribers through setup, and hands off to a human when it matters.</p>
+      </div>
+      <div class="team-card">
+        <img src="UMNi-BOT.png" class="team-avatar" alt="BOT" />
+        <div class="team-name">UMNi-BOT</div>
+        <div class="team-role">Execution Engine</div>
+        <p class="team-desc">Runs the Group Trader basket on your account, leg by leg. No emotion, no hesitation, no deviation from the rules it was given.</p>
+      </div>
+      <div class="team-card">
+        <img src="UMNi-Founder.png" class="team-avatar" alt="Founder" />
+        <div class="team-name">UMNi Operator</div>
+        <div class="team-role">Founder &middot; Builds &amp; Trades It</div>
+        <p class="team-desc">Built every system on this page and trades alongside it daily. No outsourced dev, no ghostwritten signals — just one person, building in the open.</p>
+      </div>
+    </div>
+  </div>
+
   <div class="about" id="about">
     <div>
       <p class="about-label">About</p>
