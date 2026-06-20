@@ -456,36 +456,29 @@ TONE: Professional, direct, knowledgeable. No fluff. No fake enthusiasm. Answer 
     el.style.height = Math.min(el.scrollHeight, 80) + 'px';
   };
 
-  window.amandaSend = async function() {
+  window.amandaSend = function() {
     if (busy) return;
     const input = document.getElementById('amanda-input');
     const text = input.value.trim();
     if (!text) return;
     input.value = ''; input.style.height = 'auto';
     appendMsg('user', text);
-    history.push({ role: 'user', content: text });
     busy = true;
     document.getElementById('amanda-send').disabled = true;
-    const typingId = appendTyping();
-    try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, system: SYSTEM, messages: history })
-      });
-      const data = await res.json();
-      removeTyping(typingId);
-      const reply = data?.content?.[0]?.text || "Sorry, I couldn't get a response. Please try again or message us on Telegram.";
-      appendMsg('amanda', reply);
-      history.push({ role: 'assistant', content: reply });
-      if (history.length > 20) history = history.slice(-20);
-    } catch (err) {
-      removeTyping(typingId);
-      appendMsg('amanda', "Having trouble connecting right now. You can reach us on Telegram at t.me/UmniSystems.");
-    }
-    busy = false;
-    document.getElementById('amanda-send').disabled = false;
-    document.getElementById('amanda-input').focus();
+
+    // The real AMANDA already exists and works — she's live on Telegram,
+    // talking to Claude safely server-side. A browser-only widget can't
+    // call the Anthropic API directly without exposing a key, so this
+    // hands the conversation straight to the real bot instead of faking
+    // a second, broken one in-page.
+    setTimeout(() => {
+      appendMsg('amanda', "Let's continue this on Telegram — opening our chat now. 👇");
+      const tgUrl = 'https://t.me/UMNi_Amanda_bot?text=' + encodeURIComponent(text);
+      window.open(tgUrl, '_blank');
+      busy = false;
+      document.getElementById('amanda-send').disabled = false;
+      document.getElementById('amanda-input').focus();
+    }, 350);
   };
 
   function appendMsg(role, text) {
