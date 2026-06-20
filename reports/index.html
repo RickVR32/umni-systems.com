@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="UMNi Systems — Unified Market Network Intelligence. MT4 and MT5 trading infrastructure, Telegram-native telemetry, execution tools, and live signals. Built by Source Code Holdings." />
+  <title>UMNi Systems — Unified Market Network Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080808; --bg2: #0d0d0d; --bg3: #121218;
+      --text: #f0f0ee; --muted: #666660; --rule: rgba(255,255,255,0.07);
+      --fx: #2563EB; --fx-soft: rgba(37,99,235,0.12);
+      --fx-border: rgba(37,99,235,0.3); --fx-glow: rgba(37,99,235,0.08);
+      --mono: 'Space Mono', monospace; --sans: 'DM Sans', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 300; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; opacity: 0.4; }
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 99; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 2.5rem; background: rgba(8,8,8,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--rule); }
+    .logo { display: flex; align-items: center; gap: 0.9rem; text-decoration: none; }
+    .logo-mark { width: 36px; height: 36px; object-fit: cover; flex-shrink: 0; }
+    .logo-text { font-family: var(--mono); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; color: var(--text); }
+    nav { display: flex; align-items: center; gap: 2rem; }
+    nav a { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    nav a:hover { color: var(--text); } nav a.active { color: var(--fx); }
+    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 8rem 2.5rem 5rem; max-width: 900px; margin: 0 auto; position: relative; }
+    .hero-bg { position: fixed; inset: 0; background: radial-gradient(ellipse 70% 60% at 80% 20%, var(--fx-glow) 0%, transparent 70%); pointer-events: none; }
+    .hero-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fx); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.6rem; }
+    .hero-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--fx); }
+    .hero-title { font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 700; letter-spacing: -0.03em; line-height: 0.95; margin-bottom: 2rem; }
+    .hero-title .accent { color: var(--fx); }
+    .hero-body { font-size: 1.05rem; color: var(--muted); max-width: 500px; line-height: 1.8; margin-bottom: 0.8rem; }
+    .hero-acronym { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.18em; color: var(--muted); opacity: 0.6; margin-bottom: 2rem; }
+    .hero-acronym span { color: var(--fx); opacity: 1; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--fx); color: #fff; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.85rem 1.6rem; text-decoration: none; transition: opacity 0.2s; }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--fx-border); color: var(--fx); font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.85rem 1.6rem; text-decoration: none; transition: background 0.2s; }
+    .btn-ghost:hover { background: var(--fx-soft); }
+    .stats-bar { max-width: 900px; margin: 0 auto; padding: 0 2.5rem; }
+    .stats-inner { border: 1px solid var(--rule); display: grid; grid-template-columns: repeat(4, 1fr); }
+    .stat { padding: 2rem 1.5rem; border-right: 1px solid var(--rule); }
+    .stat:last-child { border-right: none; }
+    .stat-number { font-family: var(--mono); font-size: 1.8rem; font-weight: 700; letter-spacing: -0.03em; color: var(--fx); margin-bottom: 0.3rem; }
+    .stat-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+    .mql5-note { max-width: 900px; margin: 3rem auto 0; padding: 0 2.5rem; }
+    .mql5-strip { background: var(--bg2); border: 1px solid var(--fx-border); border-left: 2px solid var(--fx); padding: 0.9rem 1.4rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .mql5-strip-text { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.08em; line-height: 1.6; }
+    .mql5-strip-text strong { color: var(--fx); font-weight: 700; }
+    .mql5-strip-link { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fx); text-decoration: none; white-space: nowrap; border: 1px solid var(--fx-border); padding: 0.4rem 0.8rem; transition: background 0.2s; flex-shrink: 0; }
+    .mql5-strip-link:hover { background: var(--fx-soft); }
+    .products { max-width: 900px; margin: 0 auto; padding: 0 2.5rem 4rem; }
+    .products-header { padding: 3rem 0 2rem; border-top: 1px solid var(--rule); display: flex; align-items: baseline; justify-content: space-between; }
+    .products-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+    .products-count { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--fx); }
+    .product-card { display: grid; grid-template-columns: 60px 1fr auto; align-items: center; gap: 1.5rem; padding: 1.6rem 0; border-bottom: 1px solid var(--rule); text-decoration: none; transition: background 0.2s, padding 0.2s, margin 0.2s; color: var(--text); }
+    .product-card:hover { background: var(--fx-soft); margin: 0 -1.5rem; padding-left: 1.5rem; padding-right: 1.5rem; }
+    .product-emoji-wrap { width: 52px; height: 52px; background: var(--bg3); border: 1px solid var(--fx-border); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+    .product-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.3rem; flex-wrap: wrap; }
+    .product-name { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; color: var(--text); }
+    .product-badge { font-family: var(--mono); font-size: 0.52rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.2rem 0.5rem; border: 1px solid; }
+    .badge-free { color: #16A34A; border-color: rgba(22,163,74,0.4); }
+    .badge-live { color: var(--fx); border-color: var(--fx-border); }
+    .badge-soon { color: var(--muted); border-color: var(--rule); }
+    .badge-hidden { color: #F59E0B; border-color: rgba(245,158,11,0.4); }
+    .badge-draft { color: #8B5CF6; border-color: rgba(139,92,246,0.4); }
+    .product-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+    .product-price { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--fx); text-align: right; white-space: nowrap; }
+    .product-price .sub { display: block; font-size: 0.55rem; font-weight: 400; color: var(--muted); margin-top: 0.2rem; }
+    .product-card--mt4 { opacity: 0.7; border-left: 2px solid rgba(37,99,235,0.25); }
+    .product-card--mt4:hover { opacity: 1; }
+    .platform-tag { font-family: var(--mono); font-size: 0.6rem; color: var(--fx); background: rgba(37,99,235,0.1); border: 1px solid rgba(37,99,235,0.25); padding: 1px 5px; letter-spacing: 0.05em; vertical-align: middle; margin-left: 4px; }
+    .badge-legend { max-width: 900px; margin: 2.5rem auto 0; padding: 0 2.5rem; }
+    .badge-legend-inner { background: var(--bg2); border: 1px solid var(--rule); padding: 0.9rem 1.4rem; display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap; }
+    .badge-legend-label { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-right: 0.4rem; }
+    .legend-item { display: flex; align-items: center; gap: 0.4rem; font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.1em; color: var(--muted); }
+    .section-divider { display: flex; align-items: center; gap: 1rem; padding: 1rem 2.5rem 0; max-width: 900px; margin: 0 auto; }
+    .divider-line { flex: 1; height: 1px; background: var(--rule); }
+    .divider-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+    .signals-cta { max-width: 900px; margin: 0 auto; padding: 0 2.5rem 6rem; }
+    .signals-block { background: var(--bg3); border: 1px solid var(--fx-border); border-left: 3px solid var(--fx); padding: 2.5rem; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2rem; }
+    .signals-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fx); margin-bottom: 0.6rem; }
+    .signals-title { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+    .signals-body { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+    .contact-field { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #f0f0ee; padding: 10px 14px; font-family: 'Space Mono', monospace; font-size: 0.72rem; outline: none; width: 100%; transition: border-color 0.2s; }
+    .contact-field:focus { border-color: var(--fx-border); }
+    .contact-field::placeholder { color: var(--muted); }
+    .about { max-width: 900px; margin: 0 auto; padding: 0 2.5rem 6rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; border-top: 1px solid var(--rule); padding-top: 4rem; }
+    .about-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.2rem; }
+    .about-title { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 1.5rem; }
+    .about-body { font-size: 0.9rem; color: var(--muted); line-height: 1.85; }
+    .about-body p + p { margin-top: 1rem; }
+    .about-right { display: flex; flex-direction: column; gap: 1.2rem; padding-top: 2.4rem; }
+    .about-fact { padding: 1.2rem 1.4rem; background: var(--bg2); border-left: 2px solid var(--rule); }
+    .about-fact-label { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+    .about-fact-value { font-size: 0.88rem; color: var(--text); line-height: 1.6; }
+    .site-footer { border-top: 1px solid var(--rule); max-width: 900px; margin: 0 auto; padding: 2.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .footer-l, .footer-r { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--muted); line-height: 2; }
+    .footer-r { text-align: right; }
+    .footer-r a, .footer-l a { color: var(--muted); text-decoration: none; }
+    .footer-r a:hover, .footer-l a:hover { color: var(--text); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-tag { animation: fadeUp 0.5s ease both; }
+    .hero-title { animation: fadeUp 0.5s 0.1s ease both; }
+    .hero-body { animation: fadeUp 0.5s 0.2s ease both; }
+    .hero-acronym { animation: fadeUp 0.5s 0.25s ease both; }
+    .hero-actions { animation: fadeUp 0.5s 0.3s ease both; }
+    #mobile-menu-toggle {
+      display: none; width: 36px; height: 36px; align-items: center; justify-content: center;
+      background: none; border: 1px solid var(--rule); cursor: pointer; flex-shrink: 0;
+    }
+    #mobile-menu-toggle span { display: block; width: 16px; height: 1.5px; background: var(--text); position: relative; }
+    #mobile-menu-toggle span::before, #mobile-menu-toggle span::after {
+      content: ''; position: absolute; left: 0; width: 16px; height: 1.5px; background: var(--text); transition: transform 0.2s;
+    }
+    #mobile-menu-toggle span::before { top: -5px; }
+    #mobile-menu-toggle span::after { top: 5px; }
+    #mobile-nav-panel {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 98;
+      background: var(--bg); display: none; flex-direction: column;
+      padding: 6rem 2rem 2rem; gap: 0.4rem;
+    }
+    #mobile-nav-panel.open { display: flex; }
+    #mobile-nav-panel a {
+      font-family: var(--mono); font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--text); text-decoration: none; padding: 1.1rem 0; border-bottom: 1px solid var(--rule);
+    }
+    #mobile-nav-panel a.fx { color: var(--fx); }
+    @media (max-width: 640px) {
+      header { padding: 1rem 1.2rem; }
+      nav { display: none; }
+      #mobile-menu-toggle { display: flex; }
+      .hero { padding: 7rem 1.2rem 3rem; }
+      .stats-inner { grid-template-columns: 1fr 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid var(--rule); }
+      .products, .signals-cta, .mql5-note, .about, .badge-legend { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .product-card { grid-template-columns: 48px 1fr; }
+      .product-price { display: none; }
+      .signals-block { grid-template-columns: 1fr; }
+      .about { grid-template-columns: 1fr; gap: 2rem; }
+      .mql5-strip { flex-direction: column; align-items: flex-start; }
+      .site-footer { flex-direction: column; gap: 1rem; }
+      .footer-r { text-align: left; }
+      .badge-legend-inner { gap: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hero-bg"></div>
+  <header>
+    <a class="logo" href="/"><img src="umni-sigil.png" class="logo-mark" alt="" /><span class="logo-text">UMNi-<span style="color:#2563EB;">SYSTEMS&#8482;</span></span></a>
+    <nav>
+      <a href="#products" class="active">Products</a>
+      <a href="#signals">Signals</a>
+      <a href="/reports/">Reports</a>
+      <a href="#about">About</a>
+      <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" style="color:var(--fx)">MQL5 &rarr;</a>
+    </nav>
+    <button id="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Menu"><span></span></button>
+  </header>
+  <div id="mobile-nav-panel">
+    <a href="#products" onclick="toggleMobileNav()">Products</a>
+    <a href="#signals" onclick="toggleMobileNav()">Signals</a>
+    <a href="/reports/">Reports</a>
+    <a href="#about" onclick="toggleMobileNav()">About</a>
+    <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" class="fx">MQL5 &rarr;</a>
+  </div>
+  <section class="hero">
+    <p class="hero-tag">UMNi Systems &mdash; Unified Market Network Intelligence</p>
+    <h1 class="hero-title">Trading tools<br/><span class="accent">built for discipline.</span></h1>
+    <p class="hero-body">MT4 and MT5 telemetry, Telegram-native execution tools, and live signals. Built to replace the terminal noise &mdash; not add to it.</p>
+    <p class="hero-acronym"><span>U</span>nified&nbsp;&nbsp;<span>M</span>arket&nbsp;&nbsp;<span>N</span>etwork&nbsp;&nbsp;<span>I</span>ntelligence</p>
+    <div class="hero-actions">
+      <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" class="btn-primary">View on MQL5 &rarr;</a>
+      <a href="https://t.me/UmniSystems" target="_blank" class="btn-ghost">Join Telegram</a>
+    </div>
+  </section>
+  <div class="stats-bar"><div class="stats-inner">
+    <div class="stat"><div class="stat-number">26</div><div class="stat-label">MQL Products</div></div>
+    <div class="stat"><div class="stat-number">12+</div><div class="stat-label">Countries</div></div>
+    <div class="stat"><div class="stat-number">MT4+5</div><div class="stat-label">Both Platforms</div></div>
+    <div class="stat"><div class="stat-number">&pound;30</div><div class="stat-label">Signals / month</div></div>
+  </div></div>
+  <div class="mql5-note"><div class="mql5-strip">
+    <div class="mql5-strip-text">All products published on the <strong>MQL5 Marketplace</strong> &mdash; the official MetaQuotes platform used by 4M+ traders worldwide. Live products verified and available now.</div>
+    <a href="https://www.mql5.com/en/users/mrrickielee/news" target="_blank" class="mql5-strip-link">Seller profile &rarr;</a>
+  </div></div>
+  <div class="badge-legend"><div class="badge-legend-inner">
+    <span class="badge-legend-label">Status key:</span>
+    <span class="legend-item"><span class="product-badge badge-live">Live</span> Public on MQL5</span>
+    <span class="legend-item"><span class="product-badge badge-hidden">Published</span> On MQL5 &middot; Not yet promoted</span>
+    <span class="legend-item"><span class="product-badge badge-draft">Draft</span> In MQL5 &middot; Pending review</span>
+    <span class="legend-item"><span class="product-badge badge-soon">Coming soon</span> In development</span>
+    <span class="legend-item"><span class="product-badge badge-free">Free</span> No cost</span>
+  </div></div>
+  <div class="products" id="products">
+    <div class="products-header"><span class="products-label">MT5 product range</span><span class="products-count">13 products &middot; MetaTrader 5</span></div>
+    <a href="https://www.mql5.com/en/market/product/171240" target="_blank" class="product-card"><div class="product-emoji-wrap">📢</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NTFY</span><span class="product-badge badge-free">Free</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Lightweight Telegram presence notification. Online / offline alerts, session awareness, spread monitoring. Entry point into the UMNi ecosystem.</p></div><div class="product-price">FREE<span class="sub">Lead product</span></div></a>
+    <a href="https://www.mql5.com/en/market/product/171329" target="_blank" class="product-card"><div class="product-emoji-wrap">📡</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-ALRT</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Session intelligence via Telegram. Win rate tracking, equity arc, trade summaries, and session-level performance reporting delivered automatically at close.</p></div><div class="product-price">$33<span class="sub">One-time</span></div></a>
+    <a href="https://www.mql5.com/en/market/product/171472" target="_blank" class="product-card"><div class="product-emoji-wrap">🛰️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-CMND</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Full Telegram telemetry and remote control. Live account panel, trade-by-trade reporting, MFE/MAE efficiency, remote /buy /sell /close commands. The terminal replacement.</p></div><div class="product-price">$66<span class="sub">One-time</span></div></a>
+    <a href="https://www.mql5.com/en/market/product/179369" target="_blank" class="product-card"><div class="product-emoji-wrap">🕐</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SESH</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Session briefing and open/close alerts. Pre-session market overview, day range, bias, spread &mdash; know what you're walking into before every session.</p></div><div class="product-price">$33<span class="sub">One-time</span></div></a>
+    <a href="#" class="product-card"><div class="product-emoji-wrap">🌐</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-STATE</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Real-time market condition classification. Trending, choppy, volatile, stable &mdash; know the environment before entering.</p></div><div class="product-price">$33<span class="sub">Coming soon</span></div></a>
+    <a href="#" class="product-card"><div class="product-emoji-wrap">🩺</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-HLTH</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Execution health monitoring. Latency, slippage, spread behaviour, broker response timing, and execution quality scoring. See what your broker hides.</p></div><div class="product-price">$44<span class="sub">Coming soon</span></div></a>
+    <a href="#" class="product-card"><div class="product-emoji-wrap">⚠️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-RSK</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Risk visualisation system. Live exposure heatmap, drawdown tracking, correlated pair awareness, equity danger-zone detection.</p></div><div class="product-price">$55<span class="sub">Coming soon</span></div></a>
+    <a href="#" class="product-card"><div class="product-emoji-wrap">📰</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NEWS</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Economic calendar awareness. High-impact event alerts at 30 and 5 minutes. News live alerts, post-news spread checks, daily briefings via Telegram.</p></div><div class="product-price">$33<span class="sub">Coming soon</span></div></a>
+    <a href="#" class="product-card"><div class="product-emoji-wrap">📋</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-LOG</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Automated trade journal. Every trade logged &mdash; entry, exit, pips, MFE, MAE, efficiency, session, reason. Daily and weekly reports via Telegram.</p></div><div class="product-price">$33<span class="sub">Coming soon</span></div></a>
+    <a href="#" class="product-card"><div class="product-emoji-wrap">🔗</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SYNC</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Multi-account trade copier via Telegram. Master broadcasts signals, subscribers execute instantly. Lot multiplier control, SL/TP copy, confirmation alerts.</p></div><div class="product-price">$66<span class="sub">Coming soon</span></div></a>
+    <a href="#" class="product-card"><div class="product-emoji-wrap">🔲</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-GRID</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Grid and basket position manager. Automated level placement, lot multiplier progression, average entry tracking, basket take profit and drawdown protection.</p></div><div class="product-price">$60<span class="sub">Coming soon</span></div></a>
+    <a href="#" class="product-card"><div class="product-emoji-wrap">🌊</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-FLOW</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Order flow and volume delta awareness. Buy/sell pressure percentage, large order detection, tick speed monitoring. See the pressure before the move.</p></div><div class="product-price">$55<span class="sub">Coming soon</span></div></a>
+    <a href="#" class="product-card"><div class="product-emoji-wrap">🤖</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-TA</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Trade Assistant &mdash; unified intelligence layer. All telemetry, risk, market state, news, session, flow and journal modules in one Utility.</p></div><div class="product-price">$150<span class="sub">Coming soon</span></div></a>
+  </div>
+  <div class="section-divider"><div class="divider-line"></div><span class="divider-label">MT4 Versions</span><div class="divider-line"></div></div>
+  <div class="products">
+    <div class="products-header"><span class="products-label">MT4 product range</span><span class="products-count">13 products &middot; MetaTrader 4</span></div>
+    <a href="https://www.mql5.com/en/market/product/179558" target="_blank" class="product-card product-card--mt4"><div class="product-emoji-wrap">📢</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NTFY <span class="platform-tag">MT4</span></span><span class="product-badge badge-free">Free</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">MT4 version. Lightweight Telegram presence notification. Online / offline alerts, session awareness, spread monitoring.</p></div><div class="product-price">FREE<span class="sub">MT4</span></div></a>
+    <a href="https://www.mql5.com/en/market/product/179561" target="_blank" class="product-card product-card--mt4"><div class="product-emoji-wrap">📡</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-ALRT <span class="platform-tag">MT4</span></span><span class="product-badge badge-live">Live</span></div><p class="product-desc">MT4 version. Session intelligence via Telegram. Win rate tracking, equity arc, trade summaries, session-level performance reporting.</p></div><div class="product-price">$33<span class="sub">MT4</span></div></a>
+    <a href="https://www.mql5.com/en/market/product/179559" target="_blank" class="product-card product-card--mt4"><div class="product-emoji-wrap">🛰️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-CMND <span class="platform-tag">MT4</span></span><span class="product-badge badge-live">Live</span></div><p class="product-desc">MT4 version. Full Telegram telemetry and remote control. Live account panel, trade-by-trade reporting, remote commands.</p></div><div class="product-price">$66<span class="sub">MT4</span></div></a>
+    <a href="https://www.mql5.com/en/market/product/179560" target="_blank" class="product-card product-card--mt4"><div class="product-emoji-wrap">🕐</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SESH <span class="platform-tag">MT4</span></span><span class="product-badge badge-live">Live</span></div><p class="product-desc">MT4 version. Session briefing and open/close alerts. Know what you're walking into before every session.</p></div><div class="product-price">$33<span class="sub">MT4</span></div></a>
+    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🌐</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-STATE <span class="platform-tag">MT4</span></span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">MT4 version. Real-time market condition classification. Know the environment before entering.</p></div><div class="product-price">$33<span class="sub">MT4</span></div></div>
+    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🩺</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-HLTH <span class="platform-tag">MT4</span></span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">MT4 version. Execution health monitoring. Latency, slippage, spread behaviour, execution quality scoring.</p></div><div class="product-price">$44<span class="sub">MT4</span></div></div>
+    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">⚠️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-RSK <span class="platform-tag">MT4</span></span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">MT4 version. Risk visualisation. Live exposure heatmap, drawdown tracking, equity danger-zone detection.</p></div><div class="product-price">$55<span class="sub">MT4</span></div></div>
+    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">📰</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NEWS <span class="platform-tag">MT4</span></span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">MT4 version. Economic calendar awareness. High-impact event alerts, pre-news warnings, post-news spread checks.</p></div><div class="product-price">$33<span class="sub">MT4</span></div></div>
+    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">📋</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-LOG <span class="platform-tag">MT4</span></span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">MT4 version. Automated trade journal. Every trade logged with MFE, MAE, efficiency, daily and weekly reports.</p></div><div class="product-price">$33<span class="sub">MT4</span></div></div>
+    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🔗</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SYNC <span class="platform-tag">MT4</span></span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">MT4 version. Multi-account trade copier via Telegram. Lot multiplier control, SL/TP copy, confirmation alerts.</p></div><div class="product-price">$66<span class="sub">MT4</span></div></div>
+    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🔲</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-GRID <span class="platform-tag">MT4</span></span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">MT4 version. Grid and basket position manager. Automated levels, lot progression, basket take profit, drawdown protection.</p></div><div class="product-price">$60<span class="sub">MT4</span></div></div>
+    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🌊</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-FLOW <span class="platform-tag">MT4</span></span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">MT4 version. Order flow and volume delta awareness. Buy/sell pressure percentage, large order detection.</p></div><div class="product-price">$55<span class="sub">MT4</span></div></div>
+    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🤖</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-TA <span class="platform-tag">MT4</span></span><span class="product-badge badge-draft">Draft</span></div><p class="product-desc">MT4 version. Trade Assistant &mdash; unified intelligence layer. All modules in one Utility. Follows MT5 release.</p></div><div class="product-price">$150<span class="sub">MT4</span></div></div>
+  </div>
+  <div class="signals-cta" id="signals"><div class="signals-block">
+    <div>
+      <p class="signals-label">UMNi Signals</p>
+      <h3 class="signals-title">Live signal access &mdash; &pound;30/mo</h3>
+      <p class="signals-body">Curated trade signals via Telegram. Full entry, SL, and TP levels. 7-day free trial. 25% affiliate rate. Trade manually or pair with the UMNi-EA for full automation. See the <a href="/reports/" style="color:var(--fx);">verified trade record &rarr;</a></p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.8rem;flex-shrink:0;">
+      <a href="https://whop.com/umni-systems/" target="_blank" class="btn-primary">UMNi-SIGNALS &rarr;</a>
+      <a href="https://t.me/UmniSystems" target="_blank" class="btn-ghost">UMNi-SYSTEMS</a>
+    </div>
+  </div></div>
+  <div class="about" id="about">
+    <div>
+      <p class="about-label">About</p>
+      <h2 class="about-title">Built by a trader.<br/>Designed for discipline.</h2>
+      <div class="about-body">
+        <p>UMNi Systems &mdash; Unified Market Network Intelligence &mdash; is an independent trading technology company building MT4 and MT5 tools for disciplined execution. Published on the MQL5 Marketplace and distributed via Telegram, the product range covers telemetry, session awareness, risk, execution quality, and automated journaling.</p>
+        <p>Built by a solo founder with multi-year live trading experience across algorithmic and manual systems, with active deployment on XAGUSD and FX pairs. No prediction, no hype &mdash; only structured feedback that lets the trader see more clearly.</p>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="about-fact"><div class="about-fact-label">Full name</div><div class="about-fact-value">Unified Market Network Intelligence</div></div>
+      <div class="about-fact"><div class="about-fact-label">Structure</div><div class="about-fact-value">Independent &middot; Subsidiary of Source Code Holdings &middot; UK-based</div></div>
+      <div class="about-fact"><div class="about-fact-label">Platform</div><div class="about-fact-value">MT4 and MT5 &middot; Published on MQL5 Marketplace &middot; 26 products</div></div>
+      <div class="about-fact"><div class="about-fact-label">Signals</div><div class="about-fact-value">&pound;30/mo via Whop &middot; 7-day trial &middot; 25% affiliate &middot; Telegram-native</div></div>
+      <div class="about-fact"><div class="about-fact-label">Parent company</div><div class="about-fact-value"><a href="https://sourcecodeholdings.org" target="_blank">sourcecodeholdings.org</a></div></div>
+    </div>
+  </div>
+  <div class="signals-cta" id="contact"><div class="signals-block" style="grid-template-columns:1fr;">
+    <div>
+      <p class="signals-label">Contact</p>
+      <h3 class="signals-title">Get in touch</h3>
+      <p class="signals-body">Questions about products, signals, or partnerships. All messages reviewed directly.</p>
+      <form action="https://formspree.io/f/mvzydakp" method="POST" id="umni-contact-form" style="margin-top:16px;display:flex;flex-direction:column;gap:10px;max-width:420px;">
+        <input type="text" name="name" placeholder="Your name or handle" required class="contact-field" />
+        <input type="text" name="contact" placeholder="Email or Telegram" required class="contact-field" />
+        <textarea name="message" placeholder="Your message" required rows="3" class="contact-field" style="resize:vertical;"></textarea>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button type="submit" style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;background:var(--fx);color:#fff;border:none;padding:10px 22px;cursor:pointer;transition:opacity 0.2s;">Send &rarr;</button>
+        </div>
+      </form>
+    </div>
+  </div></div>
+  <footer class="site-footer">
+    <div class="footer-l">UMNi Systems&#8482; &mdash; Unified Market Network Intelligence<br/>&copy; 2026 Source Code Holdings Ltd<br/><span style="opacity:0.5;">umni-systems.com</span></div>
+    <div class="footer-r">
+      <a href="https://t.me/UmniSystems" target="_blank">Telegram</a> &middot; <a href="https://www.tiktok.com/@UmniSystems" target="_blank">TikTok</a> &middot; <a href="https://www.instagram.com/umni.systems/" target="_blank">Instagram</a><br/>
+      <a href="https://whop.com/umni-systems/" target="_blank">Whop</a> &middot; <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank">MQL5</a> &middot; <a href="https://sourcecodeholdings.org" target="_blank">Source Code Holdings</a>
+    </div>
+  </footer>
+
+<style>
+  #amanda-toggle {
+    position: fixed; bottom: 1.8rem; right: 1.8rem; z-index: 9000;
+    width: 56px; height: 56px; border-radius: 50%;
+    border: 1.5px solid var(--fx-border); background: var(--bg2);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 0 0 rgba(37,99,235,0); overflow: hidden; padding: 0;
+  }
+  #amanda-toggle:hover { border-color: var(--fx); box-shadow: 0 0 20px rgba(37,99,235,0.25); }
+  #amanda-toggle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+  #amanda-badge { position: absolute; top: -2px; right: -2px; width: 12px; height: 12px; background: #16A34A; border-radius: 50%; border: 2px solid var(--bg); display: block; }
+  #amanda-panel {
+    position: fixed; bottom: 5.2rem; right: 1.8rem; z-index: 8999;
+    width: 360px; max-height: 520px; background: var(--bg2);
+    border: 1px solid var(--fx-border); border-bottom: 2px solid var(--fx);
+    display: flex; flex-direction: column;
+    transform: translateY(12px); opacity: 0; pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(37,99,235,0.08);
+  }
+  #amanda-panel.open { opacity: 1; transform: translateY(0); pointer-events: all; }
+  .amanda-header { display: flex; align-items: center; gap: 0.75rem; padding: 0.9rem 1rem; border-bottom: 1px solid var(--rule); flex-shrink: 0; }
+  .amanda-avatar { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1px solid var(--fx-border); flex-shrink: 0; }
+  .amanda-header-info { flex: 1; }
+  .amanda-name { font-family: var(--mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: var(--text); line-height: 1.2; }
+  .amanda-status { font-family: var(--mono); font-size: 0.52rem; letter-spacing: 0.12em; color: #16A34A; display: flex; align-items: center; gap: 0.3rem; margin-top: 0.15rem; }
+  .amanda-status::before { content: ''; width: 5px; height: 5px; background: #16A34A; border-radius: 50%; display: block; }
+  .amanda-close { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); cursor: pointer; background: none; border: none; padding: 0.2rem 0.4rem; line-height: 1; transition: color 0.15s; }
+  .amanda-close:hover { color: var(--text); }
+  .amanda-messages { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; min-height: 260px; max-height: 340px; scroll-behavior: smooth; }
+  .amanda-messages::-webkit-scrollbar { width: 4px; }
+  .amanda-messages::-webkit-scrollbar-track { background: transparent; }
+  .amanda-messages::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 2px; }
+  .msg { max-width: 88%; font-size: 0.82rem; line-height: 1.6; }
+  .msg-amanda { display: flex; gap: 0.5rem; align-items: flex-start; }
+  .msg-amanda-avatar { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; flex-shrink: 0; margin-top: 2px; opacity: 0.85; }
+  .msg-bubble { background: var(--bg3); border: 1px solid var(--rule); padding: 0.55rem 0.8rem; color: var(--text); font-family: var(--sans); font-size: 0.82rem; line-height: 1.65; }
+  .msg-user { align-self: flex-end; }
+  .msg-user .msg-bubble { background: var(--fx-soft); border-color: var(--fx-border); color: var(--text); }
+  .msg-typing .msg-bubble { display: flex; align-items: center; gap: 3px; padding: 0.7rem 0.9rem; }
+  .typing-dot { width: 5px; height: 5px; background: var(--muted); border-radius: 50%; animation: typingBounce 1.2s ease infinite; }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typingBounce { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-5px); opacity: 1; } }
+  .amanda-input-row { display: flex; gap: 0.5rem; padding: 0.75rem 1rem; border-top: 1px solid var(--rule); flex-shrink: 0; }
+  #amanda-input { flex: 1; background: var(--bg3); border: 1px solid var(--rule); color: var(--text); font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.04em; padding: 0.6rem 0.8rem; outline: none; transition: border-color 0.15s; resize: none; line-height: 1.5; min-height: 36px; max-height: 80px; }
+  #amanda-input:focus { border-color: var(--fx-border); }
+  #amanda-input::placeholder { color: var(--muted); }
+  #amanda-send { background: var(--fx); border: none; color: #fff; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.6rem 0.9rem; cursor: pointer; transition: opacity 0.15s; white-space: nowrap; align-self: flex-end; }
+  #amanda-send:hover { opacity: 0.85; }
+  #amanda-send:disabled { opacity: 0.4; cursor: not-allowed; }
+  .amanda-footer-note { font-family: var(--mono); font-size: 0.48rem; letter-spacing: 0.1em; color: var(--muted); text-align: center; padding: 0 1rem 0.55rem; opacity: 0.5; }
+  @media (max-width: 420px) {
+    #amanda-panel { width: calc(100vw - 2rem); right: 1rem; }
+    #amanda-toggle { bottom: 1.2rem; right: 1.2rem; }
+    #amanda-panel { bottom: 4.6rem; right: 1rem; }
+  }
+</style>
+
+<div id="amanda-toggle" title="Chat with UMNi-AMANDA" onclick="toggleAmanda()">
+  <img src="UMNi-AMANDA.png" alt="AMANDA" />
+  <span id="amanda-badge"></span>
+</div>
+
+<div id="amanda-panel">
+  <div class="amanda-header">
+    <img src="UMNi-AMANDA.png" class="amanda-avatar" alt="" />
+    <div class="amanda-header-info">
+      <div class="amanda-name">UMNi-AMANDA</div>
+      <div class="amanda-status">Online · UMNi Systems</div>
+    </div>
+    <button class="amanda-close" onclick="toggleAmanda()">&#10005;</button>
+  </div>
+  <div class="amanda-messages" id="amanda-messages"></div>
+  <div class="amanda-input-row">
+    <textarea id="amanda-input" placeholder="Ask about products, signals, or the EA..." rows="1" onkeydown="amandaKeydown(event)" oninput="autoResize(this)"></textarea>
+    <button id="amanda-send" onclick="amandaSend()">Send &rarr;</button>
+  </div>
+  <div class="amanda-footer-note">UMNi-AMANDA &middot; Powered by AI &middot; UMNi Systems</div>
+</div>
+
+<script>
+function toggleMobileNav() {
+  document.getElementById('mobile-nav-panel').classList.toggle('open');
+}
+
+(function() {
+  const SYSTEM = `You are UMNi-AMANDA, the AI customer assistant for UMNi Systems.
+UMNi Systems — Unified Market Network Intelligence — builds MT4 and MT5 trading tools published on the MQL5 Marketplace, plus a Telegram-native signals service.
+
+PRODUCT RANGE (26 total — 13 MT5, 13 MT4):
+Live on MQL5: NTFY (free), ALRT ($33), CMND ($66), SESH ($33)
+Published/coming: STATE ($33), HLTH ($44), RSK ($55), NEWS ($33), LOG ($33), SYNC ($66), GRID ($60), FLOW ($55), TA ($150)
+All products available in both MT4 and MT5 versions.
+
+SIGNALS SERVICE:
+£30/month — signals only via Telegram
+£60/month — signals + UMNi-EA auto-execution bot
+7-day free trial. 25% affiliate rate.
+Subscribe at: whop.com/umni-systems/
+Telegram channel: t.me/UmniSystems
+
+LINKS:
+MQL5 products: mql5.com/en/users/mrrickielee/seller
+Website: umni-systems.com
+Parent: sourcecodeholdings.org
+
+TONE: Professional, direct, knowledgeable. No fluff. No fake enthusiasm. Answer questions precisely. If you don't know something, say so and direct them to Telegram or the contact form. Keep responses concise — 2-4 sentences unless more detail is genuinely needed. Never make up prices or product features.`;
+
+  const INTRO = "Hi, I'm AMANDA — UMNi's AI assistant. Ask me about products, signals, or the EA.";
+  let history = [];
+  let open = false;
+  let busy = false;
+  let introduced = false;
+
+  window.toggleAmanda = function() {
+    open = !open;
+    const panel = document.getElementById('amanda-panel');
+    panel.classList.toggle('open', open);
+    if (open && !introduced) { introduced = true; setTimeout(() => appendMsg('amanda', INTRO), 120); }
+    if (open) { setTimeout(() => document.getElementById('amanda-input').focus(), 250); }
+  };
+
+  window.amandaKeydown = function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); amandaSend(); }
+  };
+
+  window.autoResize = function(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+  };
+
+  window.amandaSend = async function() {
+    if (busy) return;
+    const input = document.getElementById('amanda-input');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = ''; input.style.height = 'auto';
+    appendMsg('user', text);
+    history.push({ role: 'user', content: text });
+    busy = true;
+    document.getElementById('amanda-send').disabled = true;
+    const typingId = appendTyping();
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, system: SYSTEM, messages: history })
+      });
+      const data = await res.json();
+      removeTyping(typingId);
+      const reply = data?.content?.[0]?.text || "Sorry, I couldn't get a response. Please try again or message us on Telegram.";
+      appendMsg('amanda', reply);
+      history.push({ role: 'assistant', content: reply });
+      if (history.length > 20) history = history.slice(-20);
+    } catch (err) {
+      removeTyping(typingId);
+      appendMsg('amanda', "Having trouble connecting right now. You can reach us on Telegram at t.me/UmniSystems.");
+    }
+    busy = false;
+    document.getElementById('amanda-send').disabled = false;
+    document.getElementById('amanda-input').focus();
+  };
+
+  function appendMsg(role, text) {
+    const box = document.getElementById('amanda-messages');
+    const wrap = document.createElement('div');
+    if (role === 'amanda') {
+      wrap.className = 'msg msg-amanda';
+      wrap.innerHTML = `<img src="UMNi-AMANDA.png" class="msg-amanda-avatar" alt="" /><div class="msg-bubble">${escHtml(text)}</div>`;
+    } else {
+      wrap.className = 'msg msg-user';
+      wrap.innerHTML = `<div class="msg-bubble">${escHtml(text)}</div>`;
+    }
+    box.appendChild(wrap);
+    box.scrollTop = box.scrollHeight;
+    return wrap;
+  }
+
+  function appendTyping() {
+    const box = document.getElementById('amanda-messages');
+    const id = 'typing-' + Date.now();
+    const wrap = document.createElement('div');
+    wrap.className = 'msg msg-amanda msg-typing';
+    wrap.id = id;
+    wrap.innerHTML = `<img src="UMNi-AMANDA.png" class="msg-amanda-avatar" alt="" /><div class="msg-bubble"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
+    box.appendChild(wrap);
+    box.scrollTop = box.scrollHeight;
+    return id;
+  }
+
+  function removeTyping(id) { const el = document.getElementById(id); if (el) el.remove(); }
+
+  function escHtml(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br/>');
+  }
+})();
+</script>
+
+</body>
+</html>
