@@ -159,6 +159,9 @@
     .team-name { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; color: var(--text); margin-bottom: 0.2rem; }
     .team-role { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fx); margin-bottom: 0.8rem; }
     .team-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+    .team-link { display: block; text-decoration: none; color: inherit; }
+    .team-link .team-card { cursor: pointer; }
+    .team-more { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fx); margin-top: 1rem; display: inline-block; }
     @media (max-width: 640px) {
       .team-grid { grid-template-columns: 1fr; }
     }
@@ -172,6 +175,7 @@
       <a href="#products" class="active">Products</a>
       <a href="#signals">Signals</a>
       <a href="/reports/">Reports</a>
+      <a href="/umni-bot.html">UMNi-BOT</a>
       <a href="#about">About</a>
       <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" style="color:var(--fx)">MQL5 &rarr;</a>
     </nav>
@@ -181,6 +185,7 @@
     <a href="#products" onclick="toggleMobileNav()">Products</a>
     <a href="#signals" onclick="toggleMobileNav()">Signals</a>
     <a href="/reports/">Reports</a>
+    <a href="/umni-bot.html">UMNi-BOT</a>
     <a href="#about" onclick="toggleMobileNav()">About</a>
     <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" class="fx">MQL5 &rarr;</a>
   </div>
@@ -249,7 +254,7 @@
     <div>
       <p class="signals-label">UMNi Signals</p>
       <h3 class="signals-title">Live signal access &mdash; &pound;30/mo</h3>
-      <p class="signals-body">Curated trade signals via Telegram. Full entry, SL, and TP levels. 7-day free trial. 25% affiliate rate. Trade manually or pair with the UMNi-EA for full automation. See the <a href="/reports/" style="color:var(--fx);">verified trade record &rarr;</a></p>
+      <p class="signals-body">Curated trade signals via Telegram. Full entry, SL, and TP levels. 7-day free trial. 25% affiliate rate. Trade manually or pair with <a href="/umni-bot.html" style="color:var(--fx);">UMNi-BOT &rarr;</a> for full automation. See the <a href="/reports/" style="color:var(--fx);">verified trade record &rarr;</a></p>
     </div>
     <div style="display:flex;flex-direction:column;gap:0.8rem;flex-shrink:0;">
       <a href="https://whop.com/umni-systems/" target="_blank" class="btn-primary">UMNi-SIGNALS &rarr;</a>
@@ -268,12 +273,15 @@
         <div class="team-role">Customer Support</div>
         <p class="team-desc">The first voice you'll hear. Answers product and signal questions, walks new subscribers through setup, and hands off to a human when it matters.</p>
       </div>
-      <div class="team-card">
-        <img src="UMNi-BOT.png" class="team-avatar" alt="BOT" />
-        <div class="team-name">UMNi-BOT</div>
-        <div class="team-role">Execution Engine</div>
-        <p class="team-desc">Runs the Group Trader basket on your account, leg by leg. No emotion, no hesitation, no deviation from the rules it was given.</p>
-      </div>
+      <a class="team-link" href="/umni-bot.html">
+        <div class="team-card">
+          <img src="UMNi-BOT.png" class="team-avatar" alt="BOT" />
+          <div class="team-name">UMNi-BOT</div>
+          <div class="team-role">Execution Engine</div>
+          <p class="team-desc">Runs the Group Trader basket on your account, leg by leg. No emotion, no hesitation, no deviation from the rules it was given.</p>
+          <span class="team-more">See what it does &rarr;</span>
+        </div>
+      </a>
       <div class="team-card">
         <img src="UMNi-Founder.png" class="team-avatar" alt="Founder" />
         <div class="team-name">UMNi Operator</div>
@@ -421,11 +429,11 @@ function toggleMobileNav() {
     },
     {
       test: /group trader|auto.?exec|\bea\b|expert advisor/i,
-      reply: "Group Trader (£60/mo) runs a 35-pip basket automatically on your account via our EA — no manual entry needed. You get your own private bot reporting every open and close. Signals-only (£30/mo) is the manual version if you'd rather execute trades yourself."
+      reply: "Group Trader (£60/mo) runs a 35-pip basket automatically on your account via our EA — no manual entry needed. You get your own private bot reporting every open and close. Signals-only (£30/mo) is the manual version if you'd rather execute trades yourself. See umni-systems.com/umni-bot.html for the full setup guide."
     },
     {
       test: /signal/i,
-      reply: "Signals are £30/month via Telegram — full entry, SL, and TP levels, 7-day free trial. Pair with Group Trader (£60/mo total) for full automation instead of manual execution."
+      reply: "Signals are £30/month via Telegram — full entry, SL, and TP levels, 7-day free trial. Pair with UMNi-BOT (£60/mo total) for full automation instead of manual execution."
     },
     {
       test: /product|mql5|tool/i,
@@ -438,6 +446,10 @@ function toggleMobileNav() {
     {
       test: /trial|free/i,
       reply: "Both subscription tiers (Signals £30/mo and Group Trader £60/mo) come with a 7-day free trial via Whop — no commitment to try it."
+    },
+    {
+      test: /bot|umni-bot|ea\b|expert advisor|automat/i,
+      reply: "UMNi-BOT is our execution engine — it trades signals on your own MT4/MT5 account automatically, leg by leg. Requirements, screenshots, and setup steps are all at umni-systems.com/umni-bot.html"
     },
     {
       test: /support|help|problem|issue|broken|not working/i,
