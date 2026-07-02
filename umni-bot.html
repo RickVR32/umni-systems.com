@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="UMNi-BOT — the execution engine that trades UMNi signals on your own MT4 or MT5 account automatically. What it does, what you need, and how to get set up." />
+  <title>UMNi-BOT — Automated Execution | UMNi Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080808; --bg2: #0d0d0d; --bg3: #121218;
+      --text: #f0f0ee; --muted: #666660; --rule: rgba(255,255,255,0.07);
+      --fx: #2563EB; --fx-soft: rgba(37,99,235,0.12);
+      --fx-border: rgba(37,99,235,0.3); --fx-glow: rgba(37,99,235,0.08);
+      --mono: 'Space Mono', monospace; --sans: 'DM Sans', sans-serif;
+      --ok: #16A34A;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 300; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; opacity: 0.4; }
+
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 99; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 2.5rem; background: rgba(8,8,8,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--rule); }
+    .logo { display: flex; align-items: center; gap: 0.9rem; text-decoration: none; }
+    .logo-mark { width: 36px; height: 36px; object-fit: cover; flex-shrink: 0; }
+    .logo-text { font-family: var(--mono); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; color: var(--text); }
+    nav { display: flex; align-items: center; gap: 2rem; }
+    nav a { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    nav a:hover { color: var(--text); } nav a.active { color: var(--fx); }
+    #mobile-menu-toggle { display: none; width: 36px; height: 36px; align-items: center; justify-content: center; background: none; border: 1px solid var(--rule); cursor: pointer; flex-shrink: 0; }
+    #mobile-menu-toggle span { display: block; width: 16px; height: 1.5px; background: var(--text); position: relative; }
+    #mobile-menu-toggle span::before, #mobile-menu-toggle span::after { content: ''; position: absolute; left: 0; width: 16px; height: 1.5px; background: var(--text); }
+    #mobile-menu-toggle span::before { top: -5px; } #mobile-menu-toggle span::after { top: 5px; }
+    #mobile-nav-panel { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 98; background: var(--bg); display: none; flex-direction: column; padding: 6rem 2rem 2rem; gap: 0.4rem; }
+    #mobile-nav-panel.open { display: flex; }
+    #mobile-nav-panel a { font-family: var(--mono); font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); text-decoration: none; padding: 1.1rem 0; border-bottom: 1px solid var(--rule); }
+    #mobile-nav-panel a.fx { color: var(--fx); }
+
+    .hero { min-height: 72vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 9rem 2.5rem 4rem; max-width: 900px; margin: 0 auto; position: relative; }
+    .hero-bg { position: fixed; inset: 0; background: radial-gradient(ellipse 70% 60% at 80% 20%, var(--fx-glow) 0%, transparent 70%); pointer-events: none; }
+    .hero-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fx); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.6rem; }
+    .hero-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--fx); }
+    .hero-title { font-size: clamp(2.6rem, 7vw, 5rem); font-weight: 700; letter-spacing: -0.03em; line-height: 0.98; margin-bottom: 1.6rem; }
+    .hero-title .accent { color: var(--fx); }
+    .hero-body { font-size: 1.05rem; color: var(--muted); max-width: 540px; line-height: 1.8; margin-bottom: 2rem; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--fx); color: #fff; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.85rem 1.6rem; text-decoration: none; transition: opacity 0.2s; border: none; cursor: pointer; }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--fx-border); color: var(--fx); font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.85rem 1.6rem; text-decoration: none; transition: background 0.2s; }
+    .btn-ghost:hover { background: var(--fx-soft); }
+
+    .section { max-width: 900px; margin: 0 auto; padding: 4rem 2.5rem 0; border-top: 1px solid var(--rule); }
+    .section-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+    .section-title { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 2.2rem; max-width: 560px; }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 4rem; }
+    .feature-card { background: var(--bg2); padding: 1.8rem 1.6rem 2rem; }
+    .feature-icon { width: 40px; height: 40px; background: var(--bg3); border: 1px solid var(--fx-border); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; margin-bottom: 1.1rem; }
+    .feature-name { font-family: var(--mono); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 0.6rem; }
+    .feature-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+
+    .req-list { border: 1px solid var(--rule); margin-bottom: 4rem; }
+    .req-item { display: grid; grid-template-columns: 44px 1fr; gap: 1.2rem; padding: 1.3rem 1.5rem; border-bottom: 1px solid var(--rule); align-items: flex-start; }
+    .req-item:last-child { border-bottom: none; }
+    .req-num { font-family: var(--mono); font-size: 0.7rem; color: var(--fx); font-weight: 700; padding-top: 0.15rem; }
+    .req-name { font-family: var(--mono); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.03em; margin-bottom: 0.35rem; }
+    .req-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+    .req-desc code { font-family: var(--mono); font-size: 0.78rem; background: var(--bg3); color: var(--fx); padding: 0.1rem 0.4rem; border: 1px solid var(--fx-border); }
+
+    .shot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 4rem; }
+    .shot { background: var(--bg2); border: 1px solid var(--rule); overflow: hidden; }
+    .shot img { display: block; width: 100%; height: 220px; object-fit: cover; object-position: top; background: var(--bg3); }
+    .shot-caption { padding: 0.9rem 1.1rem; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.05em; color: var(--muted); border-top: 1px solid var(--rule); }
+    .shot-placeholder {
+      height: 220px; display: flex; align-items: center; justify-content: center;
+      background: repeating-linear-gradient(135deg, var(--bg3), var(--bg3) 10px, var(--bg2) 10px, var(--bg2) 20px);
+      color: var(--muted); font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em;
+      text-align: center; padding: 1rem; text-transform: uppercase;
+    }
+    @media (max-width: 640px) { .shot-grid { grid-template-columns: 1fr; } }
+
+    .final-cta { max-width: 900px; margin: 0 auto; padding: 0 2.5rem 6rem; }
+    .final-block { background: var(--bg3); border: 1px solid var(--fx-border); border-left: 3px solid var(--fx); padding: 2.5rem; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2rem; }
+    .final-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fx); margin-bottom: 0.6rem; }
+    .final-title { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+    .final-body { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+    @media (max-width: 640px) { .final-block { grid-template-columns: 1fr; } .section { padding-left: 1.2rem; padding-right: 1.2rem; } .final-cta { padding-left: 1.2rem; padding-right: 1.2rem; } .feature-grid { grid-template-columns: 1fr; } .req-item { grid-template-columns: 32px 1fr; } .hero { padding: 7rem 1.2rem 3rem; } }
+
+    .site-footer { border-top: 1px solid var(--rule); max-width: 900px; margin: 0 auto; padding: 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-l, .footer-r { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--muted); line-height: 2; }
+    .footer-r { text-align: right; }
+    .footer-r a, .footer-l a { color: var(--muted); text-decoration: none; }
+    .footer-r a:hover, .footer-l a:hover { color: var(--text); }
+    @media (max-width: 640px) { .footer-r { text-align: left; } }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-tag { animation: fadeUp 0.5s ease both; }
+    .hero-title { animation: fadeUp 0.5s 0.1s ease both; }
+    .hero-body { animation: fadeUp 0.5s 0.2s ease both; }
+    .hero-actions { animation: fadeUp 0.5s 0.3s ease both; }
+  </style>
+</head>
+<body>
+  <div class="hero-bg"></div>
+
+  <header>
+    <a class="logo" href="/"><img src="umni-sigil.png" class="logo-mark" alt="" /><span class="logo-text">UMNi-<span style="color:#2563EB;">SYSTEMS&#8482;</span></span></a>
+    <nav>
+      <a href="/#products">Products</a>
+      <a href="/#signals">Signals</a>
+      <a href="/reports/">Reports</a>
+      <a href="/#about">About</a>
+      <a href="/umni-bot.html" class="active">UMNi-BOT</a>
+    </nav>
+    <button id="mobile-menu-toggle" onclick="document.getElementById('mobile-nav-panel').classList.toggle('open')" aria-label="Menu"><span></span></button>
+  </header>
+  <div id="mobile-nav-panel">
+    <a href="/#products" onclick="this.parentElement.classList.remove('open')">Products</a>
+    <a href="/#signals" onclick="this.parentElement.classList.remove('open')">Signals</a>
+    <a href="/reports/">Reports</a>
+    <a href="/#about" onclick="this.parentElement.classList.remove('open')">About</a>
+    <a href="https://whop.com/umni-systems/" target="_blank" class="fx">Join on Whop &rarr;</a>
+  </div>
+
+  <section class="hero">
+    <p class="hero-tag">UMNi Systems &mdash; Execution Engine</p>
+    <h1 class="hero-title">Signals traded<br/><span class="accent">on your account.</span></h1>
+    <p class="hero-body">UMNi-BOT is the expert advisor that turns every UMNi signal into a real order on your own MT4 or MT5 account &mdash; leg by leg, full basket, no manual entry. Same execution you're already watching in the channel, just on your terminal instead of ours.</p>
+    <div class="hero-actions">
+      <a href="https://whop.com/umni-systems/" target="_blank" class="btn-primary">Join on Whop &rarr;</a>
+      <a href="#setup" class="btn-ghost">See setup steps</a>
+    </div>
+  </section>
+
+  <div class="section">
+    <p class="section-label">What it does</p>
+    <h2 class="section-title">One EA. Full basket execution. Zero deviation.</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">&#9889;</div>
+        <div class="feature-name">AUTO-EXECUTION</div>
+        <p class="feature-desc">Every signal fires straight to your terminal the moment it's confirmed &mdash; no copy-pasting entries, no lag between seeing it and trading it.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128188;</div>
+        <div class="feature-name">FULL-BASKET LOGIC</div>
+        <p class="feature-desc">Opens the complete leg structure per signal, manages SL/TP per leg, and closes the whole basket together &mdash; the same discipline every time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128241;</div>
+        <div class="feature-name">TELEGRAM TELEMETRY</div>
+        <p class="feature-desc">Your own private bot reports every open, close, and basket result straight to your phone &mdash; you always know what your account just did.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="setup">
+    <p class="section-label">Requirements</p>
+    <h2 class="section-title">What you need before you attach it.</h2>
+    <div class="req-list">
+      <div class="req-item">
+        <div class="req-num">01</div>
+        <div>
+          <div class="req-name">MT4 or MT5 terminal + broker account</div>
+          <p class="req-desc">Any broker that supports expert advisors works. UMNi-BOT trades XAUUSD — check your broker offers it before signing up.</p>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-num">02</div>
+        <div>
+          <div class="req-name">Algo trading enabled</div>
+          <p class="req-desc">In your terminal: <code>Tools &rarr; Options &rarr; Expert Advisors</code>, tick "Allow Algo Trading," then confirm the AutoTrading toggle in the toolbar is green.</p>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-num">03</div>
+        <div>
+          <div class="req-name">WebRequest URL whitelisted</div>
+          <p class="req-desc">Add <code>api.telegram.org</code> to your allowed URLs list (same Expert Advisors options tab) — this is how the EA talks to your personal bot.</p>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-num">04</div>
+        <div>
+          <div class="req-name">Your own Telegram bot token</div>
+          <p class="req-desc">Message <code>@BotFather</code> on Telegram, send <code>/newbot</code>, and follow the prompts. Takes under a minute and it's free — this becomes your bot's private line to your account.</p>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-num">05</div>
+        <div>
+          <div class="req-name">An active UMNi subscription</div>
+          <p class="req-desc">Join via Whop below. Once you're in, send your bot token over and your instance gets activated within 24 hours.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">See it running</p>
+    <h2 class="section-title">What UMNi-BOT actually looks like in production.</h2>
+    <div class="shot-grid">
+      <div class="shot">
+        <img src="umni-bot-shot-terminal.png" alt="UMNi-BOT running in MT4" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'shot-placeholder',textContent:'MT4/MT5 terminal — basket open, live P&L'}))" />
+        <div class="shot-caption">Live basket · MT4 terminal</div>
+      </div>
+      <div class="shot">
+        <img src="umni-bot-shot-signal.png" alt="UMNi-BOT signal message" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'shot-placeholder',textContent:'Telegram — signal received & basket opened'}))" />
+        <div class="shot-caption">Signal delivery · Telegram</div>
+      </div>
+      <div class="shot">
+        <img src="umni-bot-shot-report.png" alt="UMNi-BOT daily report" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'shot-placeholder',textContent:'Daily results — pips, win rate, streak'}))" />
+        <div class="shot-caption">Daily report · Telegram</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="final-cta">
+    <div class="final-block">
+      <div>
+        <p class="final-label">Ready when you are</p>
+        <h3 class="final-title">Stop watching. Start banking.</h3>
+        <p class="final-body">Join UMNi Signals, send over your bot token, and UMNi-BOT starts trading your account within 24 hours.</p>
+      </div>
+      <a href="https://whop.com/umni-systems/" target="_blank" class="btn-primary">Join on Whop &rarr;</a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-l">UMNi Systems&#8482; &mdash; Unified Market Network Intelligence<br/>&copy; 2026 Source Code Holdings Ltd<br/><span style="opacity:0.5;">umni-systems.com</span></div>
+    <div class="footer-r">
+      <a href="https://t.me/UmniSystems" target="_blank">Telegram</a> &middot; <a href="https://www.tiktok.com/@UmniSystems" target="_blank">TikTok</a> &middot; <a href="https://www.instagram.com/umni.systems/" target="_blank">Instagram</a><br/>
+      <a href="https://whop.com/umni-systems/" target="_blank">Whop</a> &middot; <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank">MQL5</a> &middot; <a href="https://sourcecodeholdings.org" target="_blank">Source Code Holdings</a>
+    </div>
+  </footer>
+</body>
+</html>
