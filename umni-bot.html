@@ -60,6 +60,7 @@
     .feature-icon { width: 40px; height: 40px; background: var(--bg3); border: 1px solid var(--fx-border); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; margin-bottom: 1.1rem; }
     .feature-name { font-family: var(--mono); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 0.6rem; }
     .feature-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+    .feature-badge { display: inline-block; font-family: var(--mono); font-size: 0.5rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fx); border: 1px solid var(--fx-border); padding: 0.15rem 0.4rem; margin-bottom: 0.7rem; }
 
     .req-list { border: 1px solid var(--rule); margin-bottom: 4rem; }
     .req-item { display: grid; grid-template-columns: 44px 1fr; gap: 1.2rem; padding: 1.3rem 1.5rem; border-bottom: 1px solid var(--rule); align-items: flex-start; }
@@ -136,7 +137,7 @@
 
   <div class="section">
     <p class="section-label">What it does</p>
-    <h2 class="section-title">One EA. Full basket execution. Zero deviation.</h2>
+    <h2 class="section-title">One EA. Adaptive execution. Zero deviation.</h2>
     <div class="feature-grid">
       <div class="feature-card">
         <div class="feature-icon">&#9889;</div>
@@ -152,6 +153,24 @@
         <div class="feature-icon">&#128241;</div>
         <div class="feature-name">TELEGRAM TELEMETRY</div>
         <p class="feature-desc">Your own private bot reports every open, close, and basket result straight to your phone &mdash; you always know what your account just did.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-badge">New</span>
+        <div class="feature-icon">&#128274;</div>
+        <div class="feature-name">SMART RATCHET SYSTEM</div>
+        <p class="feature-desc">Legs bank early profit automatically, then the runners' stop-loss ratchets up in stages as price moves further in your favour &mdash; turning a flat win/loss into a protected, scaling outcome instead of an all-or-nothing target.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-badge">New</span>
+        <div class="feature-icon">&#129517;</div>
+        <div class="feature-name">REGIME-AWARE RISK</div>
+        <p class="feature-desc">Reads live market conditions on a rolling basis &mdash; trending, ranging, volatile, or dead &mdash; and adapts lot size, targets, and stops automatically. Trading pauses entirely when the market isn't worth being in.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-badge">New</span>
+        <div class="feature-icon">&#128220;</div>
+        <div class="feature-name">REASON-LOGGED DECISIONS</div>
+        <p class="feature-desc">Every regime shift and ratchet trigger is logged with the reasoning behind it &mdash; model-driven, but fully auditable. Nothing about how your account is being managed is a black box.</p>
       </div>
     </div>
   </div>
