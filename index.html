@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="UMNi Systems — Unified Market Network Intelligence. MT4 and MT5 trading infrastructure, Telegram-native telemetry, execution tools, and live signals. Built by Source Code Holdings." />
   <title>UMNi Systems — Unified Market Network Intelligence</title>
+  <link rel="icon" href="/umni-sigil.png" type="image/png" />
+  <link rel="canonical" href="https://umni-systems.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://umni-systems.com/" />
+  <meta property="og:title" content="UMNi Systems — Unified Market Network Intelligence" />
+  <meta property="og:description" content="MT4 and MT5 trading infrastructure, Telegram-native telemetry, execution tools, and live signals. Built by Source Code Holdings." />
+  <meta property="og:image" content="https://umni-systems.com/umni-sigil.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="UMNi Systems — Unified Market Network Intelligence" />
+  <meta name="twitter:description" content="MT4 and MT5 trading infrastructure, Telegram-native telemetry, execution tools, and live signals." />
+  <meta name="twitter:image" content="https://umni-systems.com/umni-sigil.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -58,7 +69,7 @@
     .products-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
     .products-count { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--fx); }
     .product-card { display: grid; grid-template-columns: 60px 1fr auto; align-items: center; gap: 1.5rem; padding: 1.6rem 0; border-bottom: 1px solid var(--rule); text-decoration: none; transition: background 0.2s, padding 0.2s, margin 0.2s; color: var(--text); }
-    .product-card:hover { background: var(--fx-soft); margin: 0 -1.5rem; padding-left: 1.5rem; padding-right: 1.5rem; }
+    a.product-card:hover { background: var(--fx-soft); margin: 0 -1.5rem; padding-left: 1.5rem; padding-right: 1.5rem; }
     .product-emoji-wrap { width: 52px; height: 52px; background: var(--bg3); border: 1px solid var(--fx-border); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
     .product-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.3rem; flex-wrap: wrap; }
     .product-name { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; color: var(--text); }
@@ -170,7 +181,7 @@
 <body>
   <div class="hero-bg"></div>
   <header>
-    <a class="logo" href="/"><img src="umni-sigil.png" class="logo-mark" alt="" /><span class="logo-text">UMNi-<span style="color:#2563EB;">SYSTEMS&#8482;</span></span></a>
+    <a class="logo" href="/"><img src="umni-sigil.png" class="logo-mark" alt="UMNi Systems logo" width="36" height="36" /><span class="logo-text">UMNi-<span style="color:#2563EB;">SYSTEMS&#8482;</span></span></a>
     <nav>
       <a href="#products" class="active">Products</a>
       <a href="#signals">Signals</a>
@@ -191,7 +202,7 @@
   </div>
   <section class="hero">
     <p class="hero-tag">UMNi Systems &mdash; Unified Market Network Intelligence</p>
-    <h1 class="hero-title">Trading tools<br/><span class="accent">built for discipline.</span></h1>
+    <h1 class="hero-title">Trading tools <br/><span class="accent">built for discipline.</span></h1>
     <p class="hero-body">MT4 and MT5 telemetry, Telegram-native execution tools, and live signals. Built to replace the terminal noise &mdash; not add to it.</p>
     <p class="hero-acronym"><span>U</span>nified&nbsp;&nbsp;<span>M</span>arket&nbsp;&nbsp;<span>N</span>etwork&nbsp;&nbsp;<span>I</span>ntelligence</p>
     <div class="hero-actions">
@@ -223,15 +234,15 @@
     <a href="https://www.mql5.com/en/market/product/171329" target="_blank" class="product-card"><div class="product-emoji-wrap">📡</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-ALRT</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Session intelligence via Telegram. Win rate tracking, equity arc, trade summaries, and session-level performance reporting delivered automatically at close.</p></div><div class="product-price">$33<span class="sub">One-time</span></div></a>
     <a href="https://www.mql5.com/en/market/product/171472" target="_blank" class="product-card"><div class="product-emoji-wrap">🛰️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-CMND</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Full Telegram telemetry and remote control. Live account panel, trade-by-trade reporting, MFE/MAE efficiency, remote /buy /sell /close commands. The terminal replacement.</p></div><div class="product-price">$66<span class="sub">One-time</span></div></a>
     <a href="https://www.mql5.com/en/market/product/179369" target="_blank" class="product-card"><div class="product-emoji-wrap">🕐</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SESH</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Session briefing and open/close alerts. Pre-session market overview, day range, bias, spread &mdash; know what you're walking into before every session.</p></div><div class="product-price">$33<span class="sub">One-time</span></div></a>
-    <a href="#" class="product-card"><div class="product-emoji-wrap">🌐</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-STATE</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Real-time market condition classification. Trending, choppy, volatile, stable &mdash; know the environment before entering.</p></div><div class="product-price">$33<span class="sub">Coming soon</span></div></a>
-    <a href="#" class="product-card"><div class="product-emoji-wrap">🩺</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-HLTH</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Execution health monitoring. Latency, slippage, spread behaviour, broker response timing, and execution quality scoring. See what your broker hides.</p></div><div class="product-price">$44<span class="sub">Coming soon</span></div></a>
-    <a href="#" class="product-card"><div class="product-emoji-wrap">⚠️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-RSK</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Risk visualisation system. Live exposure heatmap, drawdown tracking, correlated pair awareness, equity danger-zone detection.</p></div><div class="product-price">$55<span class="sub">Coming soon</span></div></a>
-    <a href="#" class="product-card"><div class="product-emoji-wrap">📰</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NEWS</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Economic calendar awareness. High-impact event alerts at 30 and 5 minutes. News live alerts, post-news spread checks, daily briefings via Telegram.</p></div><div class="product-price">$33<span class="sub">Coming soon</span></div></a>
-    <a href="#" class="product-card"><div class="product-emoji-wrap">📋</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-LOG</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Automated trade journal. Every trade logged &mdash; entry, exit, pips, MFE, MAE, efficiency, session, reason. Daily and weekly reports via Telegram.</p></div><div class="product-price">$33<span class="sub">Coming soon</span></div></a>
-    <a href="#" class="product-card"><div class="product-emoji-wrap">🔗</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SYNC</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Multi-account trade copier via Telegram. Master broadcasts signals, subscribers execute instantly. Lot multiplier control, SL/TP copy, confirmation alerts.</p></div><div class="product-price">$66<span class="sub">Coming soon</span></div></a>
-    <a href="#" class="product-card"><div class="product-emoji-wrap">🔲</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-GRID</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Grid and basket position manager. Automated level placement, lot multiplier progression, average entry tracking, basket take profit and drawdown protection.</p></div><div class="product-price">$60<span class="sub">Coming soon</span></div></a>
-    <a href="#" class="product-card"><div class="product-emoji-wrap">🌊</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-FLOW</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Order flow and volume delta awareness. Buy/sell pressure percentage, large order detection, tick speed monitoring. See the pressure before the move.</p></div><div class="product-price">$55<span class="sub">Coming soon</span></div></a>
-    <a href="#" class="product-card"><div class="product-emoji-wrap">🤖</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-TA</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Trade Assistant &mdash; unified intelligence layer. All telemetry, risk, market state, news, session, flow and journal modules in one Utility.</p></div><div class="product-price">$150<span class="sub">Coming soon</span></div></a>
+    <div class="product-card"><div class="product-emoji-wrap">🌐</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-STATE</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Real-time market condition classification. Trending, choppy, volatile, stable &mdash; know the environment before entering.</p></div><div class="product-price">$33<span class="sub">Coming soon</span></div></div>
+    <div class="product-card"><div class="product-emoji-wrap">🩺</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-HLTH</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Execution health monitoring. Latency, slippage, spread behaviour, broker response timing, and execution quality scoring. See what your broker hides.</p></div><div class="product-price">$44<span class="sub">Coming soon</span></div></div>
+    <div class="product-card"><div class="product-emoji-wrap">⚠️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-RSK</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Risk visualisation system. Live exposure heatmap, drawdown tracking, correlated pair awareness, equity danger-zone detection.</p></div><div class="product-price">$55<span class="sub">Coming soon</span></div></div>
+    <div class="product-card"><div class="product-emoji-wrap">📰</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NEWS</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Economic calendar awareness. High-impact event alerts at 30 and 5 minutes. News live alerts, post-news spread checks, daily briefings via Telegram.</p></div><div class="product-price">$33<span class="sub">Coming soon</span></div></div>
+    <div class="product-card"><div class="product-emoji-wrap">📋</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-LOG</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Automated trade journal. Every trade logged &mdash; entry, exit, pips, MFE, MAE, efficiency, session, reason. Daily and weekly reports via Telegram.</p></div><div class="product-price">$33<span class="sub">Coming soon</span></div></div>
+    <div class="product-card"><div class="product-emoji-wrap">🔗</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SYNC</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Multi-account trade copier via Telegram. Master broadcasts signals, subscribers execute instantly. Lot multiplier control, SL/TP copy, confirmation alerts.</p></div><div class="product-price">$66<span class="sub">Coming soon</span></div></div>
+    <div class="product-card"><div class="product-emoji-wrap">🔲</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-GRID</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Grid and basket position manager. Automated level placement, lot multiplier progression, average entry tracking, basket take profit and drawdown protection.</p></div><div class="product-price">$60<span class="sub">Coming soon</span></div></div>
+    <div class="product-card"><div class="product-emoji-wrap">🌊</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-FLOW</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Order flow and volume delta awareness. Buy/sell pressure percentage, large order detection, tick speed monitoring. See the pressure before the move.</p></div><div class="product-price">$55<span class="sub">Coming soon</span></div></div>
+    <div class="product-card"><div class="product-emoji-wrap">🤖</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-TA</span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">Trade Assistant &mdash; unified intelligence layer. All telemetry, risk, market state, news, session, flow and journal modules in one Utility.</p></div><div class="product-price">$150<span class="sub">Coming soon</span></div></div>
   </div>
   <div class="section-divider"><div class="divider-line"></div><span class="divider-label">MT4 Versions</span><div class="divider-line"></div></div>
   <div class="products">
@@ -268,14 +279,14 @@
     </div>
     <div class="team-grid">
       <div class="team-card">
-        <img src="UMNi-AMANDA.png" class="team-avatar" alt="AMANDA" />
+        <img src="UMNi-AMANDA.png" class="team-avatar" alt="UMNi-AMANDA avatar" width="56" height="56" loading="lazy" />
         <div class="team-name">UMNi-AMANDA</div>
         <div class="team-role">Customer Support</div>
         <p class="team-desc">The first voice you'll hear. Answers product and signal questions, walks new subscribers through setup, and hands off to a human when it matters.</p>
       </div>
       <a class="team-link" href="/umni-bot.html">
         <div class="team-card">
-          <img src="UMNi-BOT.png" class="team-avatar" alt="BOT" />
+          <img src="UMNi-BOT.png" class="team-avatar" alt="UMNi-BOT avatar" width="56" height="56" loading="lazy" />
           <div class="team-name">UMNi-BOT</div>
           <div class="team-role">Execution Engine</div>
           <p class="team-desc">Runs the Group Trader basket on your account, leg by leg. No emotion, no hesitation, no deviation from the rules it was given.</p>
@@ -283,7 +294,7 @@
         </div>
       </a>
       <div class="team-card">
-        <img src="UMNi-Founder.png" class="team-avatar" alt="Founder" />
+        <img src="UMNi-Founder.png" class="team-avatar" alt="UMNi Founder avatar" width="56" height="56" loading="lazy" />
         <div class="team-name">UMNi Operator</div>
         <div class="team-role">Founder &middot; Builds &amp; Trades It</div>
         <p class="team-desc">Built every system on this page and trades alongside it daily. No outsourced dev, no ghostwritten signals — just one person, building in the open.</p>
@@ -294,7 +305,7 @@
   <div class="about" id="about">
     <div>
       <p class="about-label">About</p>
-      <h2 class="about-title">Built by a trader.<br/>Designed for discipline.</h2>
+      <h2 class="about-title">Built by a trader. <br/>Designed for discipline.</h2>
       <div class="about-body">
         <p>UMNi Systems &mdash; Unified Market Network Intelligence &mdash; is an independent trading technology company building MT4 and MT5 tools for disciplined execution. Published on the MQL5 Marketplace and distributed via Telegram, the product range covers telemetry, session awareness, risk, execution quality, and automated journaling.</p>
         <p>Built by a solo founder with multi-year live trading experience across algorithmic and manual systems, with active deployment on XAGUSD and FX pairs. No prediction, no hype &mdash; only structured feedback that lets the trader see more clearly.</p>
@@ -392,18 +403,18 @@
 </style>
 
 <div id="amanda-toggle" title="Chat with UMNi-AMANDA" onclick="toggleAmanda()">
-  <img src="UMNi-AMANDA.png" alt="AMANDA" />
+  <img src="UMNi-AMANDA.png" alt="Chat with UMNi-AMANDA" width="56" height="56" />
   <span id="amanda-badge"></span>
 </div>
 
 <div id="amanda-panel">
   <div class="amanda-header">
-    <img src="UMNi-AMANDA.png" class="amanda-avatar" alt="" />
+    <img src="UMNi-AMANDA.png" class="amanda-avatar" alt="" width="34" height="34" />
     <div class="amanda-header-info">
       <div class="amanda-name">UMNi-AMANDA</div>
       <div class="amanda-status">Online · UMNi Systems</div>
     </div>
-    <button class="amanda-close" onclick="toggleAmanda()">&#10005;</button>
+    <button class="amanda-close" onclick="toggleAmanda()" aria-label="Close chat">&#10005;</button>
   </div>
   <div class="amanda-messages" id="amanda-messages"></div>
   <div class="amanda-input-row">
@@ -513,7 +524,7 @@ function toggleMobileNav() {
     wrap.className = 'msg msg-amanda';
     const tgUrl = 'https://t.me/UMNi_Amanda_bot?text=' + encodeURIComponent(originalQuestion);
     wrap.innerHTML = `
-      <img src="UMNi-AMANDA.png" class="msg-amanda-avatar" alt="" />
+      <img src="UMNi-AMANDA.png" class="msg-amanda-avatar" alt="" width="22" height="22" />
       <div>
         <div class="msg-bubble">${escHtml(replyText)}</div>
         <a href="${tgUrl}" target="_blank" style="display:inline-block;margin-top:6px;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;color:var(--fx);text-decoration:none;border:1px solid var(--fx-border);padding:4px 10px;">Continue on Telegram →</a>
@@ -528,7 +539,7 @@ function toggleMobileNav() {
     const wrap = document.createElement('div');
     if (role === 'amanda') {
       wrap.className = 'msg msg-amanda';
-      wrap.innerHTML = `<img src="UMNi-AMANDA.png" class="msg-amanda-avatar" alt="" /><div class="msg-bubble">${escHtml(text)}</div>`;
+      wrap.innerHTML = `<img src="UMNi-AMANDA.png" class="msg-amanda-avatar" alt="" width="22" height="22" /><div class="msg-bubble">${escHtml(text)}</div>`;
     } else {
       wrap.className = 'msg msg-user';
       wrap.innerHTML = `<div class="msg-bubble">${escHtml(text)}</div>`;
@@ -544,7 +555,7 @@ function toggleMobileNav() {
     const wrap = document.createElement('div');
     wrap.className = 'msg msg-amanda msg-typing';
     wrap.id = id;
-    wrap.innerHTML = `<img src="UMNi-AMANDA.png" class="msg-amanda-avatar" alt="" /><div class="msg-bubble"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
+    wrap.innerHTML = `<img src="UMNi-AMANDA.png" class="msg-amanda-avatar" alt="" width="22" height="22" /><div class="msg-bubble"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
     box.appendChild(wrap);
     box.scrollTop = box.scrollHeight;
     return id;
