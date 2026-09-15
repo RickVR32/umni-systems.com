@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="UMNi Systems — Unified Market Network Intelligence. MT4 and MT5 trading infrastructure, Telegram-native telemetry, execution tools, and live signals. Built by Source Code Holdings." />
+  <meta name="description" content="UMNi Systems — Unified Market Network Intelligence. MT4 and MT5 trading infrastructure, Telegram-native telemetry, and execution tools. Built by Source Code Holdings." />
   <title>UMNi Systems — Unified Market Network Intelligence</title>
   <link rel="icon" href="/umni-favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="/umni-favicon-180.png" />
@@ -11,11 +11,11 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://umni-systems.com/" />
   <meta property="og:title" content="UMNi Systems — Unified Market Network Intelligence" />
-  <meta property="og:description" content="MT4 and MT5 trading infrastructure, Telegram-native telemetry, execution tools, and live signals. Built by Source Code Holdings." />
+  <meta property="og:description" content="MT4 and MT5 trading infrastructure, Telegram-native telemetry, and execution tools. Built by Source Code Holdings." />
   <meta property="og:image" content="https://umni-systems.com/umni-sigil.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="UMNi Systems — Unified Market Network Intelligence" />
-  <meta name="twitter:description" content="MT4 and MT5 trading infrastructure, Telegram-native telemetry, execution tools, and live signals." />
+  <meta name="twitter:description" content="MT4 and MT5 trading infrastructure, Telegram-native telemetry, and execution tools." />
   <meta name="twitter:image" content="https://umni-systems.com/umni-sigil.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -163,7 +163,7 @@
     .team-header { margin-bottom: 2rem; }
     .team-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
     .team-title { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
-    .team-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem; }
+    .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
     .team-card { background: var(--bg3); border: 1px solid var(--rule); padding: 1.8rem; transition: border-color 0.2s; }
     .team-card:hover { border-color: var(--fx-border); }
     .team-avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 1px solid var(--fx-border); margin-bottom: 1rem; }
@@ -185,9 +185,7 @@
     <a class="logo" href="/"><img src="umni-sigil.png" class="logo-mark" alt="UMNi Systems logo" width="36" height="36" /><span class="logo-text">UMNi-<span style="color:#2563EB;">SYSTEMS&#8482;</span></span></a>
     <nav>
       <a href="#products" class="active">Products</a>
-      <a href="#signals">Signals</a>
       <a href="/reports/">Reports</a>
-      <a href="/umni-bot.html">UMNi-BOT</a>
       <a href="#about">About</a>
       <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" style="color:var(--fx)">MQL5 &rarr;</a>
     </nav>
@@ -195,27 +193,24 @@
   </header>
   <div id="mobile-nav-panel">
     <a href="#products" onclick="toggleMobileNav()">Products</a>
-    <a href="#signals" onclick="toggleMobileNav()">Signals</a>
     <a href="/reports/">Reports</a>
-    <a href="/umni-bot.html">UMNi-BOT</a>
     <a href="#about" onclick="toggleMobileNav()">About</a>
     <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" class="fx">MQL5 &rarr;</a>
   </div>
   <section class="hero">
     <p class="hero-tag">UMNi Systems &mdash; Unified Market Network Intelligence</p>
     <h1 class="hero-title">Trading tools <br/><span class="accent">built for discipline.</span></h1>
-    <p class="hero-body">MT4 and MT5 telemetry, Telegram-native execution tools, and live signals. Built to replace the terminal noise &mdash; not add to it.</p>
+    <p class="hero-body">MT4 and MT5 telemetry and Telegram-native execution tools. Built to replace the terminal noise &mdash; not add to it.</p>
     <p class="hero-acronym"><span>U</span>nified&nbsp;&nbsp;<span>M</span>arket&nbsp;&nbsp;<span>N</span>etwork&nbsp;&nbsp;<span>I</span>ntelligence</p>
     <div class="hero-actions">
       <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" class="btn-primary">View on MQL5 &rarr;</a>
       <a href="https://t.me/UmniSystems" target="_blank" class="btn-ghost">Join Telegram</a>
     </div>
   </section>
-  <div class="stats-bar"><div class="stats-inner">
+  <div class="stats-bar"><div class="stats-inner" style="grid-template-columns:repeat(3, 1fr);">
     <div class="stat"><div class="stat-number">26</div><div class="stat-label">MQL Products</div></div>
     <div class="stat"><div class="stat-number">12+</div><div class="stat-label">Countries</div></div>
     <div class="stat"><div class="stat-number">MT4+5</div><div class="stat-label">Both Platforms</div></div>
-    <div class="stat"><div class="stat-number">&pound;30</div><div class="stat-label">Signals / month</div></div>
   </div></div>
   <div class="mql5-note"><div class="mql5-strip">
     <div class="mql5-strip-text">All products published on the <strong>MQL5 Marketplace</strong> &mdash; the official MetaQuotes platform used by 4M+ traders worldwide. Live products verified and available now.</div>
@@ -262,17 +257,6 @@
     <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🌊</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-FLOW <span class="platform-tag">MT4</span></span><span class="product-badge badge-hidden">Published</span></div><p class="product-desc">MT4 version. Order flow and volume delta awareness. Buy/sell pressure percentage, large order detection.</p></div><div class="product-price">$55<span class="sub">MT4</span></div></div>
     <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🤖</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-TA <span class="platform-tag">MT4</span></span><span class="product-badge badge-draft">Draft</span></div><p class="product-desc">MT4 version. Trade Assistant &mdash; unified intelligence layer. All modules in one Utility. Follows MT5 release.</p></div><div class="product-price">$150<span class="sub">MT4</span></div></div>
   </div>
-  <div class="signals-cta" id="signals"><div class="signals-block">
-    <div>
-      <p class="signals-label">UMNi Signals</p>
-      <h3 class="signals-title">Live signal access &mdash; &pound;30/mo</h3>
-      <p class="signals-body">Curated trade signals via Telegram. Full entry, SL, and TP levels. 7-day free trial. 25% affiliate rate. Trade manually or pair with <a href="/umni-bot.html" style="color:var(--fx);">UMNi-BOT &rarr;</a> for full automation. See the <a href="/reports/" style="color:var(--fx);">verified trade record &rarr;</a></p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:0.8rem;flex-shrink:0;">
-      <a href="https://whop.com/umni-systems/" target="_blank" class="btn-primary">UMNi-SIGNALS &rarr;</a>
-      <a href="https://t.me/UmniSystems" target="_blank" class="btn-ghost">UMNi-SYSTEMS</a>
-    </div>
-  </div></div>
   <div class="team" id="team">
     <div class="team-header">
       <p class="team-label">Who you're actually talking to</p>
@@ -283,22 +267,13 @@
         <img src="UMNi-AMANDA.png" class="team-avatar" alt="UMNi-AMANDA avatar" width="56" height="56" loading="lazy" />
         <div class="team-name">UMNi-AMANDA</div>
         <div class="team-role">Customer Support</div>
-        <p class="team-desc">The first voice you'll hear. Answers product and signal questions, walks new subscribers through setup, and hands off to a human when it matters.</p>
+        <p class="team-desc">The first voice you'll hear. Answers product questions, walks new customers through setup, and hands off to a human when it matters.</p>
       </div>
-      <a class="team-link" href="/umni-bot.html">
-        <div class="team-card">
-          <img src="UMNi-BOT.png" class="team-avatar" alt="UMNi-BOT avatar" width="56" height="56" loading="lazy" />
-          <div class="team-name">UMNi-BOT</div>
-          <div class="team-role">Execution Engine</div>
-          <p class="team-desc">Runs the Group Trader basket on your account, leg by leg. No emotion, no hesitation, no deviation from the rules it was given.</p>
-          <span class="team-more">See what it does &rarr;</span>
-        </div>
-      </a>
       <div class="team-card">
         <img src="UMNi-Founder.png" class="team-avatar" alt="UMNi Founder avatar" width="56" height="56" loading="lazy" />
         <div class="team-name">UMNi Operator</div>
         <div class="team-role">Founder &middot; Builds &amp; Trades It</div>
-        <p class="team-desc">Built every system on this page and trades alongside it daily. No outsourced dev, no ghostwritten signals — just one person, building in the open.</p>
+        <p class="team-desc">Built every system on this page and trades alongside it daily. No outsourced dev, no ghostwriting — just one person, building in the open.</p>
       </div>
     </div>
   </div>
@@ -316,7 +291,6 @@
       <div class="about-fact"><div class="about-fact-label">Full name</div><div class="about-fact-value">Unified Market Network Intelligence</div></div>
       <div class="about-fact"><div class="about-fact-label">Structure</div><div class="about-fact-value">Independent &middot; Subsidiary of Source Code Holdings &middot; UK-based</div></div>
       <div class="about-fact"><div class="about-fact-label">Platform</div><div class="about-fact-value">MT4 and MT5 &middot; Published on MQL5 Marketplace &middot; 26 products</div></div>
-      <div class="about-fact"><div class="about-fact-label">Signals</div><div class="about-fact-value">&pound;30/mo via Whop &middot; 7-day trial &middot; 25% affiliate &middot; Telegram-native</div></div>
       <div class="about-fact"><div class="about-fact-label">Parent company</div><div class="about-fact-value"><a href="https://sourcecodeholdings.org" target="_blank">sourcecodeholdings.org</a></div></div>
     </div>
   </div>
@@ -324,7 +298,7 @@
     <div>
       <p class="signals-label">Contact</p>
       <h3 class="signals-title">Get in touch</h3>
-      <p class="signals-body">Questions about products, signals, or partnerships. All messages reviewed directly.</p>
+      <p class="signals-body">Questions about products or partnerships. All messages reviewed directly.</p>
       <form action="https://formspree.io/f/mvzydakp" method="POST" id="umni-contact-form" style="margin-top:16px;display:flex;flex-direction:column;gap:10px;max-width:420px;">
         <input type="text" name="name" placeholder="Your name or handle" required class="contact-field" />
         <input type="text" name="contact" placeholder="Email or Telegram" required class="contact-field" />
@@ -339,7 +313,7 @@
     <div class="footer-l">UMNi Systems&#8482; &mdash; Unified Market Network Intelligence<br/>&copy; 2026 Source Code Holdings Ltd<br/><span style="opacity:0.5;">umni-systems.com</span></div>
     <div class="footer-r">
       <a href="https://t.me/UmniSystems" target="_blank">Telegram</a> &middot; <a href="https://www.tiktok.com/@UmniSystems" target="_blank">TikTok</a> &middot; <a href="https://www.instagram.com/umni.systems/" target="_blank">Instagram</a><br/>
-      <a href="https://whop.com/umni-systems/" target="_blank">Whop</a> &middot; <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank">MQL5</a> &middot; <a href="https://sourcecodeholdings.org" target="_blank">Source Code Holdings</a>
+      <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank">MQL5</a> &middot; <a href="https://sourcecodeholdings.org" target="_blank">Source Code Holdings</a>
     </div>
   </footer>
 
@@ -419,7 +393,7 @@
   </div>
   <div class="amanda-messages" id="amanda-messages"></div>
   <div class="amanda-input-row">
-    <textarea id="amanda-input" placeholder="Ask about products, signals, or the EA..." rows="1" onkeydown="amandaKeydown(event)" oninput="autoResize(this)"></textarea>
+    <textarea id="amanda-input" placeholder="Ask about products or the MQL5 range..." rows="1" onkeydown="amandaKeydown(event)" oninput="autoResize(this)"></textarea>
     <button id="amanda-send" onclick="amandaSend()">Send &rarr;</button>
   </div>
   <div class="amanda-footer-note">UMNi-AMANDA &middot; Powered by AI &middot; UMNi Systems</div>
@@ -437,31 +411,11 @@ function toggleMobileNav() {
   const FAQ = [
     {
       test: /price|cost|how much|fee/i,
-      reply: "Pricing:\n• Signals — £30/mo (Telegram, manual execution)\n• Group Trader — £60/mo (signals + auto-execution EA)\n• MQL5 tools — $33–$150 one-time, FREE entry product (NTFY)\n\n7-day free trial on both subscription tiers."
-    },
-    {
-      test: /group trader|auto.?exec|\bea\b|expert advisor/i,
-      reply: "Group Trader (£60/mo) runs a 35-pip basket automatically on your account via our EA — no manual entry needed. You get your own private bot reporting every open and close. Signals-only (£30/mo) is the manual version if you'd rather execute trades yourself. See umni-systems.com/umni-bot.html for the full setup guide."
-    },
-    {
-      test: /signal/i,
-      reply: "Signals are £30/month via Telegram — full entry, SL, and TP levels, 7-day free trial. Pair with UMNi-BOT (£60/mo total) for full automation instead of manual execution."
+      reply: "MQL5 tools — $33–$150 one-time, FREE entry product (NTFY). Full range on our MQL5 seller page."
     },
     {
       test: /product|mql5|tool/i,
       reply: "26 products across MT4 and MT5 — NTFY is free and live, ALRT/CMND/SESH are live from $33–$66, with STATE/HLTH/RSK/NEWS/LOG/SYNC/GRID/FLOW/TA in the pipeline ($33–$150). Full range on our MQL5 seller page."
-    },
-    {
-      test: /report|track record|proof|result|win rate|performance/i,
-      reply: "Every basket we open and close is logged automatically and published unedited — wins, losses, MAE/MFE, the lot. Check the Reports page in the nav above for the live numbers."
-    },
-    {
-      test: /trial|free/i,
-      reply: "Both subscription tiers (Signals £30/mo and Group Trader £60/mo) come with a 7-day free trial via Whop — no commitment to try it."
-    },
-    {
-      test: /bot|umni-bot|ea\b|expert advisor|automat/i,
-      reply: "UMNi-BOT is our execution engine — it trades signals on your own MT4/MT5 account automatically, leg by leg. Requirements, screenshots, and setup steps are all at umni-systems.com/umni-bot.html"
     },
     {
       test: /support|help|problem|issue|broken|not working/i,
@@ -473,13 +427,13 @@ function toggleMobileNav() {
     for (const item of FAQ) {
       if (item.test.test(text)) return item.reply;
     }
-    return "I can cover the basics here — pricing, signals, the EA, products, or our track record. For account-specific setup or anything I haven't covered, Telegram gets you straight through to the full bot.";
+    return "I can cover the basics here — products and pricing. For account-specific setup or anything I haven't covered, Telegram gets you straight through to the full bot.";
   }
 
   let open = false;
   let busy = false;
   let introduced = false;
-  const INTRO = "Hi, I'm AMANDA — UMNi's AI assistant. Ask me about products, signals, or the EA.";
+  const INTRO = "Hi, I'm AMANDA — UMNi's AI assistant. Ask me about the product range.";
 
   window.toggleAmanda = function() {
     open = !open;
