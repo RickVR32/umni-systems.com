@@ -216,6 +216,26 @@
       .team { padding-left: 1.2rem; padding-right: 1.2rem; }
       .team-grid { grid-template-columns: 1fr; }
     }
+
+    /* ---- World-reach hero map ---- */
+    .hero-wrap { position: relative; overflow: hidden; }
+    #worldmap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; pointer-events: none; }
+    .hero-map-fade { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background: linear-gradient(90deg, rgba(8,8,8,0.9) 0%, rgba(8,8,8,0.6) 32%, rgba(8,8,8,0.1) 62%, rgba(8,8,8,0) 100%),
+                  linear-gradient(0deg, var(--bg) 0%, rgba(8,8,8,0) 26%), linear-gradient(180deg, var(--bg) 0%, rgba(8,8,8,0) 18%); }
+    .hero-reach { display: inline-flex; align-items: center; gap: 0.7rem; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 2rem; padding: 0.55rem 0.9rem; border: 1px solid var(--fx-border); background: rgba(8,8,8,0.55); backdrop-filter: blur(6px); animation: fadeUp 0.6s 0.22s ease both; align-self: flex-start; }
+    .hero-reach strong { color: var(--text); font-weight: 700; }
+    .hero-reach .reach-now { color: var(--fx2); min-width: 9.5em; display: inline-block; transition: opacity 0.35s; }
+    .reach-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--fx2); box-shadow: 0 0 0 0 rgba(91,141,239,0.6); animation: reachPulse 1.8s ease-out infinite; }
+    @keyframes reachPulse { 0% { box-shadow: 0 0 0 0 rgba(91,141,239,0.6); } 100% { box-shadow: 0 0 0 10px rgba(91,141,239,0); } }
+    .map-caption { position: absolute; right: 7rem; bottom: 1.6rem; z-index: 1; font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); opacity: 0.7; }
+    .map-caption span { color: var(--fx2); }
+    @media (max-width: 640px) {
+      .hero-map-fade { background: linear-gradient(0deg, var(--bg) 0%, rgba(8,8,8,0.88) 45%, rgba(8,8,8,0.35) 100%); }
+      .hero-reach { font-size: 0.55rem; gap: 0.5rem; flex-wrap: wrap; }
+      .map-caption { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { .reach-dot, .hero-reach { animation: none; } }
   </style>
 </head>
 <body>
@@ -240,24 +260,30 @@
     <a href="#contact" onclick="toggleMobileNav()">Custom builds</a>
     <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" rel="noopener" class="fx">MQL5 &rarr;</a>
   </div>
+  <div class="hero-wrap">
+  <canvas id="worldmap" aria-hidden="true"></canvas>
+  <div class="hero-map-fade"></div>
   <section class="hero">
     <p class="hero-tag">UMNi Systems &mdash; Unified Market Network Intelligence</p>
     <h1 class="hero-title">Trading tools <br/>built for <span class="accent">discipline.</span></h1>
     <p class="hero-body">MT4 and MT5 telemetry and Telegram-native execution tools. Built to replace the terminal noise &mdash; not add to it.</p>
     <p class="hero-acronym"><span>U</span>nified&nbsp;&nbsp;<span>M</span>arket&nbsp;&nbsp;<span>N</span>etwork&nbsp;&nbsp;<span>I</span>ntelligence</p>
+    <div class="hero-reach"><span class="reach-dot"></span><span>Downloaded in <strong id="reach-count">21</strong> countries</span><span class="reach-now" id="reach-now">United Kingdom</span></div>
     <div class="hero-actions">
       <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" rel="noopener" class="btn-primary">View on MQL5 &rarr;</a>
       <a href="#releases" class="btn-ghost">Release schedule</a>
       <a href="https://t.me/UmniSystems" target="_blank" rel="noopener" class="btn-ghost">Join Telegram</a>
     </div>
   </section>
+  <div class="map-caption">MQL5 downloads by country &middot; <span>live reach</span></div>
+  </div>
   <div class="stats-bar"><div class="stats-inner">
-    <div class="stat"><div class="stat-number">8</div><div class="stat-label">Live on MQL5 now</div></div>
+    <div class="stat"><div class="stat-number">10</div><div class="stat-label">Live on MQL5 now</div></div>
     <div class="stat"><div class="stat-number">24</div><div class="stat-label">Tools by 16 November</div></div>
     <div class="stat"><div class="stat-number">MT4+5</div><div class="stat-label">Every tool, both platforms</div></div>
   </div></div>
   <div class="mql5-note"><div class="mql5-strip">
-    <div class="mql5-strip-text">Published on the <strong>MQL5 Marketplace</strong>, the official MetaQuotes store. Four tools are live now on MT4 and MT5. A <strong>new tool releases every Monday</strong> through to the Trade Agent launch on 16 November.</div>
+    <div class="mql5-strip-text">Published on the <strong>MQL5 Marketplace</strong>, the official MetaQuotes store. Five tools are live now on MT4 and MT5. A <strong>new tool releases every Monday</strong> through to the Trade Agent launch on 16 November.</div>
     <a href="https://www.mql5.com/en/users/mrrickielee/seller" target="_blank" rel="noopener" class="mql5-strip-link">Seller profile &rarr;</a>
   </div></div>
 
@@ -267,8 +293,8 @@
     <h2 class="schedule-title">A new tool every Monday.</h2>
     <p class="schedule-intro">Each tool ships on MT5 and MT4 on its release day. Every tool can be bought outright or rented, and there's a free tool (NTFY) to start with.</p>
     <ol class="schedule-list">
-      <li class="schedule-row is-next"><div class="schedule-date">Mon 28 Sep<small>Next release</small></div><div class="schedule-icon">📰</div><div class="schedule-name">UMNi-NEWS<span>Economic calendar alerts via Telegram. MT5 first, MT4 follows.</span></div><div class="schedule-price">$49<small>or rent</small></div></li>
-      <li class="schedule-row"><div class="schedule-date">Mon 5 Oct</div><div class="schedule-icon">🛡️</div><div class="schedule-name">UMNi-RISK<span>Exposure, drawdown and daily-limit guard. Built for prop firm accounts.</span></div><div class="schedule-price">$79<small>or rent</small></div></li>
+      <li class="schedule-row"><div class="schedule-date">Mon 28 Sep<small>Released</small></div><div class="schedule-icon">📰</div><div class="schedule-name">UMNi-NEWS<span>Economic calendar alerts via Telegram. Live on MT5 and MT4.</span></div><div class="schedule-price">$49<small>Live now</small></div></li>
+      <li class="schedule-row is-next"><div class="schedule-date">Mon 5 Oct<small>Next release</small></div><div class="schedule-icon">🛡️</div><div class="schedule-name">UMNi-RISK<span>Exposure, drawdown and daily-limit guard. Built for prop firm accounts.</span></div><div class="schedule-price">$79<small>or rent</small></div></li>
       <li class="schedule-row"><div class="schedule-date">Mon 12 Oct</div><div class="schedule-icon">📊</div><div class="schedule-name">UMNi-STATE<span>Market condition classification.</span></div><div class="schedule-price">$49<small>or rent</small></div></li>
       <li class="schedule-row"><div class="schedule-date">Mon 19 Oct</div><div class="schedule-icon">🔗</div><div class="schedule-name">UMNi-SYNC<span>Multi-account trade copier via Telegram.</span></div><div class="schedule-price">$79<small>or rent</small></div></li>
       <li class="schedule-row"><div class="schedule-date">Mon 26 Oct</div><div class="schedule-icon">🏥</div><div class="schedule-name">UMNi-HLTH<span>Execution and broker health monitoring.</span></div><div class="schedule-price">$49<small>or rent</small></div></li>
@@ -293,14 +319,14 @@
         <div class="section-kicker"><span class="num">02</span></div>
         <span class="products-label">MT5 product range</span>
       </div>
-      <span class="products-count">4 live &middot; 8 scheduled &middot; MetaTrader 5</span>
+      <span class="products-count">5 live &middot; 7 scheduled &middot; MetaTrader 5</span>
     </div>
     <a href="https://www.mql5.com/en/market/product/171240" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">🔔</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NTFY</span><span class="product-badge badge-free">Free</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Lightweight Telegram notifications. Online / offline alerts, trade open and close, session summaries. The free way into the UMNi range.</p></div><div class="product-price">FREE<span class="sub">Start here</span></div></a>
     <a href="https://www.mql5.com/en/market/product/171329" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">📡</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-ALRT</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Detailed trade alerts via Telegram. MFE / MAE and exit efficiency, session context, trade summaries and session-level reporting.</p></div><div class="product-price">$33<span class="sub">12-month rental</span></div></a>
     <a href="https://www.mql5.com/en/market/product/171472" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">🛰️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-CMND</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Full Telegram telemetry and remote control. Live account panel, trade-by-trade reporting, MFE/MAE efficiency, remote /buy /sell /close commands. The terminal replacement.</p></div><div class="product-price">$66<span class="sub">12-month rental</span></div></a>
     <a href="https://www.mql5.com/en/market/product/179369" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">🕐</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SESH</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Session briefing and open/close alerts. Pre-session market overview, day range, bias, spread &mdash; know what you're walking into before every session.</p></div><div class="product-price">$49<span class="sub">or $35 / 6 months</span></div></a>
-    <div class="product-card"><div class="product-emoji-wrap">📰</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NEWS</span><span class="product-badge badge-next">28 Sep</span></div><p class="product-desc">Economic calendar awareness. High-impact event alerts at 30 and 5 minutes. News live alerts, post-news spread checks, daily briefings via Telegram.</p></div><div class="product-price">$49<span class="sub">Releasing 28 Sep</span></div></div>
-    <div class="product-card"><div class="product-emoji-wrap">🛡️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-RISK</span><span class="product-badge badge-date">5 Oct</span></div><p class="product-desc">Risk guard. Live exposure and drawdown tracking, daily loss limits, equity danger-zone alerts. Built with prop firm rules in mind.</p></div><div class="product-price">$79<span class="sub">Releasing 5 Oct</span></div></div>
+    <a href="https://www.mql5.com/en/market/product/179402" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">📰</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NEWS</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Economic calendar awareness. High-impact event alerts at 30 and 5 minutes. News live alerts, post-news spread checks, daily briefings via Telegram.</p></div><div class="product-price">$49<span class="sub">or $35 / 6 months</span></div></a>
+    <div class="product-card"><div class="product-emoji-wrap">🛡️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-RISK</span><span class="product-badge badge-next">5 Oct</span></div><p class="product-desc">Risk guard. Live exposure and drawdown tracking, daily loss limits, equity danger-zone alerts. Built with prop firm rules in mind.</p></div><div class="product-price">$79<span class="sub">Releasing 5 Oct</span></div></div>
     <div class="product-card"><div class="product-emoji-wrap">📊</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-STATE</span><span class="product-badge badge-date">12 Oct</span></div><p class="product-desc">Real-time market condition classification. Trending, choppy, volatile, stable &mdash; know the environment before entering.</p></div><div class="product-price">$49<span class="sub">Releasing 12 Oct</span></div></div>
     <div class="product-card"><div class="product-emoji-wrap">🔗</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SYNC</span><span class="product-badge badge-date">19 Oct</span></div><p class="product-desc">Multi-account trade copier via Telegram. Master broadcasts signals, subscribers execute instantly. Lot multiplier control, SL/TP copy, confirmation alerts.</p></div><div class="product-price">$79<span class="sub">Releasing 19 Oct</span></div></div>
     <div class="product-card"><div class="product-emoji-wrap">🏥</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-HLTH</span><span class="product-badge badge-date">26 Oct</span></div><p class="product-desc">Execution health monitoring. Latency, spread spikes, broker response timing and execution quality grades. See what your broker hides.</p></div><div class="product-price">$49<span class="sub">Releasing 26 Oct</span></div></div>
@@ -311,13 +337,13 @@
 
   <div class="section-divider"><div class="divider-line"></div><span class="divider-label">MT4 Versions</span><div class="divider-line"></div></div>
   <div class="products">
-    <div class="products-header"><span class="products-label">MT4 product range</span><span class="products-count">4 live &middot; 7 scheduled &middot; MetaTrader 4</span></div>
+    <div class="products-header"><span class="products-label">MT4 product range</span><span class="products-count">5 live &middot; 6 scheduled &middot; MetaTrader 4</span></div>
     <a href="https://www.mql5.com/en/market/product/179558" target="_blank" rel="noopener" class="product-card product-card--mt4"><div class="product-emoji-wrap">🔔</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NTFY <span class="platform-tag">MT4</span></span><span class="product-badge badge-free">Free</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">MT4 version. Lightweight Telegram notifications. Online / offline alerts, trade open and close, session summaries.</p></div><div class="product-price">FREE<span class="sub">MT4</span></div></a>
     <a href="https://www.mql5.com/en/market/product/179561" target="_blank" rel="noopener" class="product-card product-card--mt4"><div class="product-emoji-wrap">📡</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-ALRT <span class="platform-tag">MT4</span></span><span class="product-badge badge-live">Live</span></div><p class="product-desc">MT4 version. Detailed trade alerts via Telegram with MFE / MAE, session context and trade summaries.</p></div><div class="product-price">$33<span class="sub">12-month rental</span></div></a>
     <a href="https://www.mql5.com/en/market/product/179559" target="_blank" rel="noopener" class="product-card product-card--mt4"><div class="product-emoji-wrap">🛰️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-CMND <span class="platform-tag">MT4</span></span><span class="product-badge badge-live">Live</span></div><p class="product-desc">MT4 version. Full Telegram telemetry and remote control. Live account panel, trade-by-trade reporting, remote commands.</p></div><div class="product-price">$66<span class="sub">12-month rental</span></div></a>
     <a href="https://www.mql5.com/en/market/product/179560" target="_blank" rel="noopener" class="product-card product-card--mt4"><div class="product-emoji-wrap">🕐</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SESH <span class="platform-tag">MT4</span></span><span class="product-badge badge-live">Live</span></div><p class="product-desc">MT4 version. Session briefing and open/close alerts. Know what you're walking into before every session.</p></div><div class="product-price">$49<span class="sub">or $35 / 6 months</span></div></a>
-    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">📰</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NEWS <span class="platform-tag">MT4</span></span><span class="product-badge badge-soon">After MT5</span></div><p class="product-desc">MT4 version. Economic calendar awareness. Follows the MT5 release once the MT4 calendar feed is finished.</p></div><div class="product-price">$49<span class="sub">MT4</span></div></div>
-    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🛡️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-RISK <span class="platform-tag">MT4</span></span><span class="product-badge badge-date">5 Oct</span></div><p class="product-desc">MT4 version. Exposure, drawdown and daily-limit guard with equity danger-zone alerts.</p></div><div class="product-price">$79<span class="sub">MT4</span></div></div>
+    <a href="https://www.mql5.com/en/market/product/179563" target="_blank" rel="noopener" class="product-card product-card--mt4"><div class="product-emoji-wrap">📰</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NEWS <span class="platform-tag">MT4</span></span><span class="product-badge badge-live">Live</span></div><p class="product-desc">MT4 version. Economic calendar downloads automatically. Pre-news warnings, live alerts and daily briefings via Telegram.</p></div><div class="product-price">$49<span class="sub">MT4</span></div></a>
+    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🛡️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-RISK <span class="platform-tag">MT4</span></span><span class="product-badge badge-next">5 Oct</span></div><p class="product-desc">MT4 version. Exposure, drawdown and daily-limit guard with equity danger-zone alerts.</p></div><div class="product-price">$79<span class="sub">MT4</span></div></div>
     <div class="product-card product-card--mt4"><div class="product-emoji-wrap">📊</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-STATE <span class="platform-tag">MT4</span></span><span class="product-badge badge-date">12 Oct</span></div><p class="product-desc">MT4 version. Real-time market condition classification. Know the environment before entering.</p></div><div class="product-price">$49<span class="sub">MT4</span></div></div>
     <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🔗</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SYNC <span class="platform-tag">MT4</span></span><span class="product-badge badge-date">19 Oct</span></div><p class="product-desc">MT4 version. Multi-account trade copier via Telegram. Lot multiplier control, SL/TP copy, confirmation alerts.</p></div><div class="product-price">$79<span class="sub">MT4</span></div></div>
     <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🏥</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-HLTH <span class="platform-tag">MT4</span></span><span class="product-badge badge-date">26 Oct</span></div><p class="product-desc">MT4 version. Execution health monitoring. Latency, spread spikes, execution quality grades.</p></div><div class="product-price">$49<span class="sub">MT4</span></div></div>
@@ -361,7 +387,7 @@
     <div class="about-right">
       <div class="about-fact"><div class="about-fact-label">Full name</div><div class="about-fact-value">Unified Market Network Intelligence</div></div>
       <div class="about-fact"><div class="about-fact-label">Structure</div><div class="about-fact-value">A Source Code Holdings brand &middot; UK-based</div></div>
-      <div class="about-fact"><div class="about-fact-label">Platform</div><div class="about-fact-value">MT4 and MT5 &middot; MQL5 Marketplace &middot; 8 live, new releases every Monday</div></div>
+      <div class="about-fact"><div class="about-fact-label">Platform</div><div class="about-fact-value">MT4 and MT5 &middot; MQL5 Marketplace &middot; 10 live, new releases every Monday</div></div>
       <div class="about-fact"><div class="about-fact-label">Custom builds</div><div class="about-fact-value">Bespoke EAs, bots and Telegram tools. <a href="#contact">Get in touch</a></div></div>
       <div class="about-fact"><div class="about-fact-label">Parent company</div><div class="about-fact-value"><a href="https://sourcecodeholdings.org" target="_blank" rel="noopener">sourcecodeholdings.org</a></div></div>
     </div>
@@ -486,7 +512,7 @@ function toggleMobileNav() {
   const FAQ = [
     {
       test: /when|release|launch|coming|date|schedule|next|new/i,
-      reply: "A new tool releases every Monday on MT5 and MT4: NEWS 28 Sep, RISK 5 Oct, STATE 12 Oct, SYNC 19 Oct, HLTH 26 Oct, FLOW 2 Nov, GRID 9 Nov. The Trade Agent launches 16 Nov at a $79 launch price."
+      reply: "A new tool releases every Monday on MT5 and MT4. NEWS is live now. Next up: RISK 5 Oct, STATE 12 Oct, SYNC 19 Oct, HLTH 26 Oct, FLOW 2 Nov, GRID 9 Nov. The Trade Agent launches 16 Nov at a $79 launch price."
     },
     {
       test: /custom|bespoke|build me|hire|my strategy|develop/i,
@@ -494,11 +520,11 @@ function toggleMobileNav() {
     },
     {
       test: /price|cost|how much|fee|rent|buy/i,
-      reply: "NTFY is free. SESH is $49 to buy or $35 for 6 months. ALRT is $33 and CMND is $66, both as 12-month rentals. New tools are $49–$79 to buy, with rental options. The Trade Agent is $149, with a $79 launch price on 16 Nov."
+      reply: "NTFY is free. SESH is $49 to buy or $35 for 6 months. ALRT is $33 and CMND is $66, both as 12-month rentals. NEWS is $49 to buy or $35 for 6 months. New tools are $49–$79 to buy, with rental options. The Trade Agent is $149, with a $79 launch price on 16 Nov."
     },
     {
       test: /product|mql5|tool|range|agent/i,
-      reply: "4 tools are live on MT4 and MT5 now: NTFY (free), ALRT, CMND and SESH. NEWS, RISK, STATE, SYNC, HLTH, FLOW and GRID release weekly from 28 Sep, and the Trade Agent brings everything together on 16 Nov."
+      reply: "5 tools are live on MT4 and MT5 now: NTFY (free), ALRT, CMND, SESH and NEWS. RISK, STATE, SYNC, HLTH, FLOW and GRID release weekly from 5 Oct, and the Trade Agent brings everything together on 16 Nov."
     },
     {
       test: /support|help|problem|issue|broken|not working|setup|install/i,
@@ -607,5 +633,99 @@ function toggleMobileNav() {
 })();
 </script>
 
+
+<script>
+/* UMNi world-reach hero — MQL5 downloads by country. Edit MARKETS to update. tier: 1 = downloads, 2 = strong, 3 = top market */
+(function(){
+  var HOME = {name:'United Kingdom', lat:51.5, lon:-0.1};
+  var MARKETS = [
+    {name:'Vietnam',lat:21.0,lon:105.8,tier:3},{name:'India',lat:20.6,lon:78.9,tier:2},{name:'Indonesia',lat:-6.2,lon:106.8,tier:2},
+    {name:'United States',lat:39.8,lon:-98.6,tier:2},{name:'Germany',lat:51.2,lon:10.4,tier:1},{name:'Sweden',lat:60.1,lon:18.6,tier:1},
+    {name:'Poland',lat:52.1,lon:19.4,tier:1},{name:'Romania',lat:45.9,lon:25.0,tier:1},{name:'Ukraine',lat:49.0,lon:31.2,tier:1},
+    {name:'Italy',lat:42.8,lon:12.6,tier:1},{name:'Turkey',lat:39.0,lon:35.2,tier:1},{name:'Morocco',lat:31.8,lon:-7.1,tier:1},
+    {name:'Saudi Arabia',lat:24.0,lon:45.0,tier:1},{name:'Pakistan',lat:30.4,lon:69.3,tier:1},{name:'Thailand',lat:15.9,lon:100.9,tier:1},
+    {name:'Malaysia',lat:3.1,lon:101.7,tier:1},{name:'Nigeria',lat:9.1,lon:8.7,tier:1},{name:'Kenya',lat:-1.3,lon:36.8,tier:1},
+    {name:'Colombia',lat:4.6,lon:-74.1,tier:1},{name:'Australia',lat:-25.3,lon:133.8,tier:1}
+  ];
+  var GRID = {"cols": 200, "rows": 78, "land": "AAAAAAAB///////8AAAAAz+Ag+AAAAAAAAAAAAAAc//z////wAA/4AAAAgH8AAAAAAAAAAAAPltfz////8AAHcAAAAAEFwAAAAAAAAAAAP///wA////AAAAAAB+AR//gAf4AAAAAAAHw3d+AD///gAAAAAA4En///OEwAAAAAAAD/98/4Af//wAAAAAA4D/////0fwAAAD/4Hj/zv/4H//8AAAP4ADx////////4YP//////////////////8P/8bgAAAAAABCCf//////////////////u+ADgAAAAAAAAA/////////////////////////////////w7//////87PAfgAQAD+//////////////8B//////8BfQD4AACB/P/////////////4AX/X///+AX2AEAAAMf7////////////HoAAPAP///4F/wAAAAOH+///////////AHgAANAB////5/+AAAADg+P//////////gD4AAcAAP////v/4AAAD8H///////////9A4ADAAAA////7/+AAAA/v////////////wEAoAAAAP/////+gAAAB/////////////0CAAAAAAA//////eAAAAf////////////9hAAAAAAAH/////7gAAAB////////////+QgAAAAAAB/////8AAAAAf//v+////////IgAAAAAAAf////kAAAAB/zfwPv///////jwAAAAAAAH////4AAAAAfwb959///////BwAAAAAAAB////4AAAIAH2zf//f//////wYAAAAAAAAf///8AAAAwB8Bn//z/////8cGAAAAAAAAD////AAAAAAI/Amv///////jHAAAAAAAAAf///wAAAAAD/wAL///////4/wAAAAAAAAB///wAAAAAh//mB////////HAAAAAAAAAAf//4AAAAAA//9/////////wgAAAAAAAAAL/9mAAAAAAv////+//////8AAAAAAAAAAA/8AwAAAAAf/////3/////+EAAAAAAAAAAH/AHAAAAAD/////+//////wAAAAAAAAAAAvwAIAAAAB////9/+H////0AAAAAABAAAAB8F7AAAAA///////g////wAAAAAAAEAAAAfnF4AAAAH////7/4D/H+wQAAAAAAAAAAAj/w/wAAAB/////f8A/g/sEAAAAAAAAAAAAP4ABAAAMf////38AHwP8DAAAAAAAAAAAAAPwAAAACP////+8AB4A/gQAAAAAAAAAAAAAcAAAAAD/////8YAeBP4HAAAAAAAAAAAAADD2gAAAf/////4ALgTeDwAAAgAAAAAAAAA+/4AAAD/////8AA4EyBMAAAAAAAAAAAAAD//AAAAf/////AADAMAHgAIBAAAAAAAAAAH/+AAAD+f///gAAgFgPQAACAAAQAAAAAAB//wAAAAB///4AAABsHGAAAAAACAAAAAAA//8AAAAAf//8AAAAfDwQAAAAAAAAAAAAAf//gAAAAX//8AAAADz/kAAAAAAAAAAAAEH//+AAAAB//+AAAAAO+8+AAAAAAAAAAAAB///+AAAAP//AAAAAD3s/8IAAAAAAAAAAAf///4AAAD//wAAAAAYDgPuAAAAAAAAAAAH///+AAAAf/8AAAAAD8BJ8IAAAAAIAAAAA////gAAAH//AAAAAAD/othwAAAACAAAAAP///wAAAB//4AAAAAIDgAMEAAAAAAAAAAB///4AAAAf/+kAAAAAAI8wAAIIAAAAAAAAf//+AAAAH//jAAAAAABvOAAAAAAQAAAAAD///gAAAD//7wAAAAAA/7gAwIAAAAAAAAAP//wAAAA//48AAAAAAP/4AEMEAAAAAAAAB//8AAAAH/8PAAAAAAH//AAAIBAAAAAAAAf//AAAAB//DiAAAAAP//4BQAAAAAAAAAAH//gAAAAP/w4AAAAAH///AAAAAAAAAAAAB//AAAAAD/8OAAAAAB///4AAAAAAAAAAAA//gAAAAA/8AAAAAAAf//+AAAAAAAAAAAAP/4AAAAAH/AAAAAAAH///wAAAAAAAAAAAD/8AAAAAB/gAAAAAAA///4AAAAAAAAAAAA//AAAAAAP4AAAAAAAP//+AAAAAAAAAAAAP/gAAAAAD4AAAAAAAD4H/AAAAAAAAAAAAH/AAAAAAAAAAAAAAAAAA/wAIAAAAAAAAAB/4AAAAAAAAAAAAAAAAAH4ABgAAAAAAAAAf4AAAAAAAAAAAAAAAAAAUAA4AAAAAAAAAH8AAAAAAAAAAAAAAAAAADgAcAAAAAAAAAB+AAAAAAAAAAAAAAAAAAA4AGAAAAAAAAAA/AAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAPgAAAAAAAAAAgAAAAAAAAADgAAAAAAAAAD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAPDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "hl": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH//AAAAAAAAAAAAAADAAAAAAAAAAAAAAAAv/wAAAAAAAAAAAAAB4AAAAAAAAAAAAAAAf/8AAAAAAAAAAAAAA8AAAAAAAAAAAAAAAT//AAAAAAAAAAAAAAeAAAAAAAAAAAAAAAA//wAAAAAAAAAAAAAHAAAAAAAAAAAAAAAAD6CgAAAAAAAAAAAAD4AAAAAAAAAAAAAAAAOAMAAAAAAAAAAAEA6AAAAAAAAAAAAAAAANAAwAAAAAAAAAADgEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsH+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAADj/ggAAAAAAAAAAAAgAAAAAAAAAAAAAAABh9/8AAAAAAAAAAAAAAAAAAP/+AAAAAAAAAPD/wAAAAAAAAAAAAAAAAAH///gEAAAAAAAg/4AAAAAAAAAAAAAAAAAB///8PgAAAAAA4PgAAAAAAAAAAAAAAAAAAf///PgAAAAAADAAAAAAAAAAAAAAAAAAAAH////4AAAAAAAYEwAAAAAAAAAAAAAAAAAB////4AAAAAAAAD/4AAAAAAAAAAAAAAAAAP///8AAAAAAABgf+AAAAAAAAAAAAAAAAAD////AAAAAAAAACgAAHAAAAAAAAAAAAAAAf///gAAAAADgAAAAAB8AAAAAAAAAAAAAAB///wAAAAAB4AAAAAA/AAAAAAAAAAAAAAAAf/4AAAAAA8AAAHAAf4AAAAAAAAAAAAAAAC5iAAAAAAMAAAH8A/+AwAAAAAAAAAAAAAAEAwAAAAAOAAAA/wH/4cAAAAAAAAAAAAAAAAAAAAAACAAAAP8D//uAAAAAAAAAAAAAAAAAAAAAABAAAAB/gD/5AAAAAAAAABAAAAAAAAAAAAAQAAAAP+A//QcAAAAAAAAEAAAAAAAAAAAAAAAAAD/gD/ASAAAAAAAAAAAAAAAAAAAAAAAAAAAeAA/gNgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHwB0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4AegAAAAAAAAAAAAAAAAAAAAAAD8AAAAAOBGIAAAAAAAAAAAAAAABAAAAAAA/AAAAALAAEAAAAAAAAAAAAAAAAgAAAAAAPgAAAAAwASAAAAAAAAAAAAAAAAcAAAAAAH4AAAAAAAEAAAAAAAAAAAAAAAAHwAAAAAAYAAAAAAAAgMAAAAAAAAAAAAAAB8AAAAAAAAAaAAAABoGCAAAAAAAAAAAAAA/gAAAAAAAAHgAAAAPDwQAAAAAAAAAAAAAHgAAAAAAAAB4AAAABz5kAAAAAAAAAAAAAAcAAAAAAAAAeAAAAAMe4YAAAAAAAAAAAAAAAAAAAAAAABAAAAABjs7wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAICAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4AJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAvEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfzgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAH///AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB///4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAf//+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAH///gAAAAAAAAAAAAAAAAAAAAAAAAAAAAA///4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAP9/+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4H/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"};
+  var COUNT = MARKETS.length + 1; // + home
+  var cv = document.getElementById('worldmap'); if (!cv) return;
+  var ctx = cv.getContext('2d');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function unpack(s,n){ var b=atob(s), out=new Uint8Array(n); for(var i=0;i<n;i++) out[i]=(b.charCodeAt(i>>3)>>(7-(i&7)))&1; return out; }
+  var N = GRID.cols*GRID.rows, land = unpack(GRID.land,N), hl = unpack(GRID.hl,N);
+  var dots = [];
+  for (var r=0;r<GRID.rows;r++) for (var c=0;c<GRID.cols;c++){ var i=r*GRID.cols+c; if(land[i]) dots.push({lon:(c+0.5)/GRID.cols*360-180, lat:82-(r+0.5)/GRID.rows*140, hl:hl[i], ph:Math.random()*6.28}); }
+  var W,H,dpr,scale,ox,oy,mx=0,my=0,tmx=0,tmy=0;
+  function layout(){
+    dpr = Math.min(window.devicePixelRatio||1, 2);
+    var rect = cv.getBoundingClientRect(); W = rect.width; H = rect.height;
+    cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    var mobile = W < 700;
+    var mapW = mobile ? W*2.1 : Math.min(W*1.04, H*2.9);
+    scale = mapW/360;
+    ox = mobile ? (W - mapW)/2 - mapW*0.14 : W - mapW*0.99;
+    oy = mobile ? H*0.07 : Math.max(H*0.08, (H - 140*scale)/2);
+  }
+  function P(lon,lat){ return [ox + (lon+180)*scale + mx, oy + (82-lat)*scale + my]; }
+  // arcs from home to each market
+  var arcs = MARKETS.map(function(m,k){ return {m:m, start:k*0.9, dur:2.6}; });
+  var cycle = MARKETS.length*0.9 + 3;
+  function bez(a,b,t){
+    var mxp=(a[0]+b[0])/2, myp=(a[1]+b[1])/2, d=Math.hypot(b[0]-a[0],b[1]-a[1]);
+    var cx=mxp, cy=myp - d*0.35;
+    var u=1-t; return [u*u*a[0]+2*u*t*cx+t*t*b[0], u*u*a[1]+2*u*t*cy+t*t*b[1]];
+  }
+  var t0 = performance.now(), running = true;
+  function frame(now){
+    if (!running) return;
+    var t = (now - t0)/1000;
+    mx += (tmx-mx)*0.04; my += (tmy-my)*0.04;
+    ctx.clearRect(0,0,W,H);
+    var ds = Math.max(1.1, scale*0.62);
+    for (var i=0;i<dots.length;i++){
+      var d=dots[i], p=P(d.lon,d.lat);
+      if (p[0]<-4||p[0]>W+4) continue;
+      var tw = reduce ? 0.5 : 0.5+0.5*Math.sin(t*1.3+d.ph);
+      if (d.hl){ ctx.fillStyle='rgba(91,141,239,'+(0.55+0.35*tw).toFixed(3)+')'; ctx.fillRect(p[0]-ds/2-0.2,p[1]-ds/2-0.2,ds+0.4,ds+0.4); }
+      else { ctx.fillStyle='rgba(240,240,238,'+(0.07+0.06*tw).toFixed(3)+')'; ctx.fillRect(p[0]-ds/2,p[1]-ds/2,ds,ds); }
+    }
+    var home = P(HOME.lon,HOME.lat), tc = reduce ? 1e9 : t % cycle;
+    // arcs
+    arcs.forEach(function(a){
+      var b = P(a.m.lon,a.m.lat), lt = reduce ? 1 : (tc - a.start)/a.dur;
+      var alpha = reduce ? 0.18 : (lt<0 ? 0.06 : lt<1 ? 0.35 : Math.max(0.06, 0.35 - (lt-1)*0.12));
+      ctx.beginPath(); for (var s=0;s<=1.0001;s+=0.04){ var q=bez(home,b,s); s===0?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1]); }
+      ctx.strokeStyle='rgba(91,141,239,'+alpha.toFixed(3)+')'; ctx.lineWidth=1; ctx.stroke();
+      if (!reduce && lt>0 && lt<1){
+        var e = 1-Math.pow(1-lt,2);
+        for (var k=0;k<10;k++){ var tt=e-k*0.018; if(tt<0)break; var q=bez(home,b,tt); ctx.fillStyle='rgba(157,184,245,'+(0.9-k*0.09).toFixed(2)+')'; ctx.beginPath(); ctx.arc(q[0],q[1],2.2-k*0.17,0,6.283); ctx.fill(); }
+      }
+      if (!reduce && lt>=1 && lt<1.8){ var rr=(lt-1)/0.8; ctx.strokeStyle='rgba(91,141,239,'+(0.8*(1-rr)).toFixed(3)+')'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(b[0],b[1],4+rr*22,0,6.283); ctx.stroke(); }
+    });
+    // markers
+    MARKETS.concat([{name:HOME.name,lat:HOME.lat,lon:HOME.lon,tier:4}]).forEach(function(m,k){
+      var p=P(m.lon,m.lat), base = m.tier===4?3.6:m.tier===3?4.2:m.tier===2?3.2:2.4;
+      var pulse = reduce ? 0 : ((t*0.6 + k*0.37) % 1);
+      ctx.strokeStyle = 'rgba(91,141,239,'+(0.55*(1-pulse)).toFixed(3)+')'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(p[0],p[1], base + pulse*(m.tier>=3?18:11), 0, 6.283); ctx.stroke();
+      ctx.fillStyle = m.tier===4 ? '#f0f0ee' : (m.tier===3 ? '#9db8f5' : '#5B8DEF');
+      ctx.shadowColor='rgba(91,141,239,0.9)'; ctx.shadowBlur = m.tier>=3?14:8;
+      ctx.beginPath(); ctx.arc(p[0],p[1],base*0.6,0,6.283); ctx.fill(); ctx.shadowBlur=0;
+    });
+    requestAnimationFrame(frame);
+  }
+  layout(); window.addEventListener('resize', layout);
+  if (!reduce) window.addEventListener('mousemove', function(e){ tmx=(e.clientX/window.innerWidth-0.5)*-18; tmy=(e.clientY/window.innerHeight-0.5)*-10; });
+  if ('IntersectionObserver' in window){ new IntersectionObserver(function(en){ var v=en[0].isIntersecting; if(v&&!running){running=true;requestAnimationFrame(frame);} running=v; }).observe(cv); }
+  requestAnimationFrame(frame);
+  // reach chip
+  var cnt=document.getElementById('reach-count'), now=document.getElementById('reach-now');
+  if (cnt) cnt.textContent = COUNT;
+  if (now){ var names=[HOME.name].concat(MARKETS.map(function(m){return m.name;})), j=0;
+    now.textContent=names[0];
+    if(!reduce) setInterval(function(){ j=(j+1)%names.length; now.style.opacity=0; setTimeout(function(){ now.textContent=names[j]; now.style.opacity=1; },350); }, 2200); }
+})();
+</script>
 </body>
 </html>
