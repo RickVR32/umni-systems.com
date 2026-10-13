@@ -217,25 +217,36 @@
       .team-grid { grid-template-columns: 1fr; }
     }
 
-    /* ---- World-reach hero map ---- */
-    .hero-wrap { position: relative; overflow: hidden; }
-    #worldmap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; pointer-events: none; }
-    .hero-map-fade { position: absolute; inset: 0; z-index: 0; pointer-events: none;
-      background: linear-gradient(90deg, rgba(8,8,8,0.9) 0%, rgba(8,8,8,0.6) 32%, rgba(8,8,8,0.1) 62%, rgba(8,8,8,0) 100%),
-                  linear-gradient(0deg, var(--bg) 0%, rgba(8,8,8,0) 26%), linear-gradient(180deg, var(--bg) 0%, rgba(8,8,8,0) 18%); }
-    .hero-reach { display: inline-flex; align-items: center; gap: 0.7rem; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 2rem; padding: 0.55rem 0.9rem; border: 1px solid var(--fx-border); background: rgba(8,8,8,0.55); backdrop-filter: blur(6px); animation: fadeUp 0.6s 0.22s ease both; align-self: flex-start; }
-    .hero-reach strong { color: var(--text); font-weight: 700; }
-    .hero-reach .reach-now { color: var(--fx2); min-width: 9.5em; display: inline-block; transition: opacity 0.35s; }
-    .reach-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--fx2); box-shadow: 0 0 0 0 rgba(91,141,239,0.6); animation: reachPulse 1.8s ease-out infinite; }
+
+    /* ---- Global reach map (MQL5 downloads by country) ---- */
+    .hero-wrap .hero { min-height: auto; padding-top: 9rem; padding-bottom: 3rem; }
+    .reach { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem 4.5rem; position: relative; z-index: 1; animation: fadeUp 0.7s 0.35s ease both; }
+    .reach-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+    .reach-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fx); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.6rem; }
+    .reach-label .live { width: 7px; height: 7px; border-radius: 50%; background: var(--fx2); animation: reachPulse 1.8s ease-out infinite; }
     @keyframes reachPulse { 0% { box-shadow: 0 0 0 0 rgba(91,141,239,0.6); } 100% { box-shadow: 0 0 0 10px rgba(91,141,239,0); } }
-    .map-caption { position: absolute; right: 7rem; bottom: 1.6rem; z-index: 1; font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); opacity: 0.7; }
-    .map-caption span { color: var(--fx2); }
+    .reach-title { font-family: var(--serif); font-size: clamp(1.7rem, 3.4vw, 2.6rem); font-weight: 500; letter-spacing: -0.01em; line-height: 1.1; }
+    .reach-title .accent { color: var(--fx2); font-style: italic; }
+    .reach-sub { font-size: 0.85rem; color: var(--muted); margin-top: 0.4rem; }
+    .reach-legend { display: flex; gap: 1.1rem; flex-wrap: wrap; font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .reach-legend i { display: inline-block; width: 9px; height: 9px; margin-right: 0.45rem; vertical-align: -1px; }
+    .lg-top { background: #9db8f5; box-shadow: 0 0 8px #5B8DEF; } .lg-dl { background: #2563EB; } .lg-home { background: #f0f0ee; border-radius: 50%; } .lg-none { background: rgba(240,240,238,0.16); }
+    .reach-map { position: relative; border: 1px solid var(--rule); background: radial-gradient(ellipse 70% 60% at 60% 40%, rgba(37,99,235,0.07), transparent 70%), linear-gradient(160deg, #0b0b10, #080808); aspect-ratio: 240 / 94; }
+    #worldmap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; }
+    .reach-tip { position: absolute; pointer-events: none; transform: translate(-50%, calc(-100% - 12px)); background: rgba(8,8,8,0.92); border: 1px solid var(--fx-border); padding: 0.4rem 0.65rem; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; color: var(--text); white-space: nowrap; opacity: 0; transition: opacity 0.15s; }
+    .reach-tip span { color: var(--fx2); }
+    .reach-list { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1.1rem; }
+    .reach-chip { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--rule); padding: 0.38rem 0.6rem; cursor: default; transition: color 0.2s, border-color 0.2s, background 0.2s; }
+    .reach-chip b { color: var(--fx2); font-weight: 700; margin-left: 0.35rem; }
+    .reach-chip.top { color: var(--text); border-color: var(--fx-border); }
+    .reach-chip.on { color: var(--text); border-color: var(--fx2); background: var(--fx-soft); }
+    .reach-note { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.1em; color: var(--muted); opacity: 0.6; margin-top: 0.9rem; }
     @media (max-width: 640px) {
-      .hero-map-fade { background: linear-gradient(0deg, var(--bg) 0%, rgba(8,8,8,0.88) 45%, rgba(8,8,8,0.35) 100%); }
-      .hero-reach { font-size: 0.55rem; gap: 0.5rem; flex-wrap: wrap; }
-      .map-caption { display: none; }
+      .hero-wrap .hero { padding-top: 7rem; }
+      .reach { padding-left: 1.2rem; padding-right: 1.2rem; padding-bottom: 3rem; }
+      .reach-map { aspect-ratio: 240 / 120; }
     }
-    @media (prefers-reduced-motion: reduce) { .reach-dot, .hero-reach { animation: none; } }
+    @media (prefers-reduced-motion: reduce) { .reach, .reach-label .live { animation: none; } }
   </style>
 </head>
 <body>
@@ -261,21 +272,30 @@
     <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" rel="noopener" class="fx">MQL5 &rarr;</a>
   </div>
   <div class="hero-wrap">
-  <canvas id="worldmap" aria-hidden="true"></canvas>
-  <div class="hero-map-fade"></div>
   <section class="hero">
     <p class="hero-tag">UMNi Systems &mdash; Unified Market Network Intelligence</p>
     <h1 class="hero-title">Trading tools <br/>built for <span class="accent">discipline.</span></h1>
     <p class="hero-body">MT4 and MT5 telemetry and Telegram-native execution tools. Built to replace the terminal noise &mdash; not add to it.</p>
     <p class="hero-acronym"><span>U</span>nified&nbsp;&nbsp;<span>M</span>arket&nbsp;&nbsp;<span>N</span>etwork&nbsp;&nbsp;<span>I</span>ntelligence</p>
-    <div class="hero-reach"><span class="reach-dot"></span><span>Downloaded in <strong id="reach-count">21</strong> countries</span><span class="reach-now" id="reach-now">United Kingdom</span></div>
     <div class="hero-actions">
       <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" rel="noopener" class="btn-primary">View on MQL5 &rarr;</a>
       <a href="#releases" class="btn-ghost">Release schedule</a>
       <a href="https://t.me/UmniSystems" target="_blank" rel="noopener" class="btn-ghost">Join Telegram</a>
     </div>
   </section>
-  <div class="map-caption">MQL5 downloads by country &middot; <span>live reach</span></div>
+  <div class="reach" id="reach">
+    <div class="reach-head">
+      <div>
+        <p class="reach-label"><span class="live"></span>Global reach &mdash; MQL5 Market</p>
+        <h2 class="reach-title">Downloaded in <span class="accent" id="reach-count">21</span> countries</h2>
+        <p class="reach-sub">Where UMNi tools are being downloaded, across every product on MT4 and MT5.</p>
+      </div>
+      <div class="reach-legend"><span><i class="lg-top"></i>Most downloads</span><span><i class="lg-dl"></i>Downloaded</span><span><i class="lg-home"></i>Home &middot; UK</span><span><i class="lg-none"></i>Not yet</span></div>
+    </div>
+    <div class="reach-map"><canvas id="worldmap" role="img" aria-label="World map of countries where UMNi tools have been downloaded"></canvas><div class="reach-tip" id="reach-tip"></div></div>
+    <div class="reach-list" id="reach-list"></div>
+    <p class="reach-note">Source: MQL5 seller statistics &middot; updated <span id="reach-updated"></span></p>
+  </div>
   </div>
   <div class="stats-bar"><div class="stats-inner">
     <div class="stat"><div class="stat-number">10</div><div class="stat-label">Live on MQL5 now</div></div>
@@ -635,96 +655,94 @@ function toggleMobileNav() {
 
 
 <script>
-/* UMNi world-reach hero — MQL5 downloads by country. Edit MARKETS to update. tier: 1 = downloads, 2 = strong, 3 = top market */
+/* UMNi global reach map. Edit MARKETS to update (keep order — it matches the map data).
+   top:true = most downloads. Add n:<count> to show real download numbers (shading then scales by n). */
 (function(){
-  var HOME = {name:'United Kingdom', lat:51.5, lon:-0.1};
+  var UPDATED = '12 Oct 2026';
   var MARKETS = [
-    {name:'Vietnam',lat:21.0,lon:105.8,tier:3},{name:'India',lat:20.6,lon:78.9,tier:2},{name:'Indonesia',lat:-6.2,lon:106.8,tier:2},
-    {name:'United States',lat:39.8,lon:-98.6,tier:2},{name:'Germany',lat:51.2,lon:10.4,tier:1},{name:'Sweden',lat:60.1,lon:18.6,tier:1},
-    {name:'Poland',lat:52.1,lon:19.4,tier:1},{name:'Romania',lat:45.9,lon:25.0,tier:1},{name:'Ukraine',lat:49.0,lon:31.2,tier:1},
-    {name:'Italy',lat:42.8,lon:12.6,tier:1},{name:'Turkey',lat:39.0,lon:35.2,tier:1},{name:'Morocco',lat:31.8,lon:-7.1,tier:1},
-    {name:'Saudi Arabia',lat:24.0,lon:45.0,tier:1},{name:'Pakistan',lat:30.4,lon:69.3,tier:1},{name:'Thailand',lat:15.9,lon:100.9,tier:1},
-    {name:'Malaysia',lat:3.1,lon:101.7,tier:1},{name:'Nigeria',lat:9.1,lon:8.7,tier:1},{name:'Kenya',lat:-1.3,lon:36.8,tier:1},
-    {name:'Colombia',lat:4.6,lon:-74.1,tier:1},{name:'Australia',lat:-25.3,lon:133.8,tier:1}
+    {name:'United Kingdom',lat:53.0,lon:-1.5,home:true},{name:'Vietnam',lat:16.0,lon:106.5,top:true},{name:'India',lat:22.5,lon:79},
+    {name:'Indonesia',lat:-2.5,lon:113},{name:'United States',lat:39.5,lon:-98.5},{name:'Germany',lat:51.2,lon:10.4},
+    {name:'Sweden',lat:62,lon:16},{name:'Poland',lat:52.1,lon:19.4},{name:'Romania',lat:45.9,lon:25},
+    {name:'Ukraine',lat:49,lon:31.2},{name:'Italy',lat:42.8,lon:12.6},{name:'Turkey',lat:39,lon:35.2},
+    {name:'Morocco',lat:31.8,lon:-7.1},{name:'Saudi Arabia',lat:24,lon:45},{name:'Pakistan',lat:30.4,lon:69.3},
+    {name:'Thailand',lat:15.5,lon:101},{name:'Malaysia',lat:3.5,lon:102},{name:'Nigeria',lat:9.1,lon:8.7},
+    {name:'Kenya',lat:0.2,lon:37.9},{name:'Colombia',lat:4,lon:-73.5},{name:'Australia',lat:-25.3,lon:133.8}
   ];
-  var GRID = {"cols": 200, "rows": 78, "land": "AAAAAAAB///////8AAAAAz+Ag+AAAAAAAAAAAAAAc//z////wAA/4AAAAgH8AAAAAAAAAAAAPltfz////8AAHcAAAAAEFwAAAAAAAAAAAP///wA////AAAAAAB+AR//gAf4AAAAAAAHw3d+AD///gAAAAAA4En///OEwAAAAAAAD/98/4Af//wAAAAAA4D/////0fwAAAD/4Hj/zv/4H//8AAAP4ADx////////4YP//////////////////8P/8bgAAAAAABCCf//////////////////u+ADgAAAAAAAAA/////////////////////////////////w7//////87PAfgAQAD+//////////////8B//////8BfQD4AACB/P/////////////4AX/X///+AX2AEAAAMf7////////////HoAAPAP///4F/wAAAAOH+///////////AHgAANAB////5/+AAAADg+P//////////gD4AAcAAP////v/4AAAD8H///////////9A4ADAAAA////7/+AAAA/v////////////wEAoAAAAP/////+gAAAB/////////////0CAAAAAAA//////eAAAAf////////////9hAAAAAAAH/////7gAAAB////////////+QgAAAAAAB/////8AAAAAf//v+////////IgAAAAAAAf////kAAAAB/zfwPv///////jwAAAAAAAH////4AAAAAfwb959///////BwAAAAAAAB////4AAAIAH2zf//f//////wYAAAAAAAAf///8AAAAwB8Bn//z/////8cGAAAAAAAAD////AAAAAAI/Amv///////jHAAAAAAAAAf///wAAAAAD/wAL///////4/wAAAAAAAAB///wAAAAAh//mB////////HAAAAAAAAAAf//4AAAAAA//9/////////wgAAAAAAAAAL/9mAAAAAAv////+//////8AAAAAAAAAAA/8AwAAAAAf/////3/////+EAAAAAAAAAAH/AHAAAAAD/////+//////wAAAAAAAAAAAvwAIAAAAB////9/+H////0AAAAAABAAAAB8F7AAAAA///////g////wAAAAAAAEAAAAfnF4AAAAH////7/4D/H+wQAAAAAAAAAAAj/w/wAAAB/////f8A/g/sEAAAAAAAAAAAAP4ABAAAMf////38AHwP8DAAAAAAAAAAAAAPwAAAACP////+8AB4A/gQAAAAAAAAAAAAAcAAAAAD/////8YAeBP4HAAAAAAAAAAAAADD2gAAAf/////4ALgTeDwAAAgAAAAAAAAA+/4AAAD/////8AA4EyBMAAAAAAAAAAAAAD//AAAAf/////AADAMAHgAIBAAAAAAAAAAH/+AAAD+f///gAAgFgPQAACAAAQAAAAAAB//wAAAAB///4AAABsHGAAAAAACAAAAAAA//8AAAAAf//8AAAAfDwQAAAAAAAAAAAAAf//gAAAAX//8AAAADz/kAAAAAAAAAAAAEH//+AAAAB//+AAAAAO+8+AAAAAAAAAAAAB///+AAAAP//AAAAAD3s/8IAAAAAAAAAAAf///4AAAD//wAAAAAYDgPuAAAAAAAAAAAH///+AAAAf/8AAAAAD8BJ8IAAAAAIAAAAA////gAAAH//AAAAAAD/othwAAAACAAAAAP///wAAAB//4AAAAAIDgAMEAAAAAAAAAAB///4AAAAf/+kAAAAAAI8wAAIIAAAAAAAAf//+AAAAH//jAAAAAABvOAAAAAAQAAAAAD///gAAAD//7wAAAAAA/7gAwIAAAAAAAAAP//wAAAA//48AAAAAAP/4AEMEAAAAAAAAB//8AAAAH/8PAAAAAAH//AAAIBAAAAAAAAf//AAAAB//DiAAAAAP//4BQAAAAAAAAAAH//gAAAAP/w4AAAAAH///AAAAAAAAAAAAB//AAAAAD/8OAAAAAB///4AAAAAAAAAAAA//gAAAAA/8AAAAAAAf//+AAAAAAAAAAAAP/4AAAAAH/AAAAAAAH///wAAAAAAAAAAAD/8AAAAAB/gAAAAAAA///4AAAAAAAAAAAA//AAAAAAP4AAAAAAAP//+AAAAAAAAAAAAP/gAAAAAD4AAAAAAAD4H/AAAAAAAAAAAAH/AAAAAAAAAAAAAAAAAA/wAIAAAAAAAAAB/4AAAAAAAAAAAAAAAAAH4ABgAAAAAAAAAf4AAAAAAAAAAAAAAAAAAUAA4AAAAAAAAAH8AAAAAAAAAAAAAAAAAADgAcAAAAAAAAAB+AAAAAAAAAAAAAAAAAAA4AGAAAAAAAAAA/AAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAPgAAAAAAAAAAgAAAAAAAAADgAAAAAAAAAD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAPDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "hl": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH//AAAAAAAAAAAAAADAAAAAAAAAAAAAAAAv/wAAAAAAAAAAAAAB4AAAAAAAAAAAAAAAf/8AAAAAAAAAAAAAA8AAAAAAAAAAAAAAAT//AAAAAAAAAAAAAAeAAAAAAAAAAAAAAAA//wAAAAAAAAAAAAAHAAAAAAAAAAAAAAAAD6CgAAAAAAAAAAAAD4AAAAAAAAAAAAAAAAOAMAAAAAAAAAAAEA6AAAAAAAAAAAAAAAANAAwAAAAAAAAAADgEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsH+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAADj/ggAAAAAAAAAAAAgAAAAAAAAAAAAAAABh9/8AAAAAAAAAAAAAAAAAAP/+AAAAAAAAAPD/wAAAAAAAAAAAAAAAAAH///gEAAAAAAAg/4AAAAAAAAAAAAAAAAAB///8PgAAAAAA4PgAAAAAAAAAAAAAAAAAAf///PgAAAAAADAAAAAAAAAAAAAAAAAAAAH////4AAAAAAAYEwAAAAAAAAAAAAAAAAAB////4AAAAAAAAD/4AAAAAAAAAAAAAAAAAP///8AAAAAAABgf+AAAAAAAAAAAAAAAAAD////AAAAAAAAACgAAHAAAAAAAAAAAAAAAf///gAAAAADgAAAAAB8AAAAAAAAAAAAAAB///wAAAAAB4AAAAAA/AAAAAAAAAAAAAAAAf/4AAAAAA8AAAHAAf4AAAAAAAAAAAAAAAC5iAAAAAAMAAAH8A/+AwAAAAAAAAAAAAAAEAwAAAAAOAAAA/wH/4cAAAAAAAAAAAAAAAAAAAAAACAAAAP8D//uAAAAAAAAAAAAAAAAAAAAAABAAAAB/gD/5AAAAAAAAABAAAAAAAAAAAAAQAAAAP+A//QcAAAAAAAAEAAAAAAAAAAAAAAAAAD/gD/ASAAAAAAAAAAAAAAAAAAAAAAAAAAAeAA/gNgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHwB0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4AegAAAAAAAAAAAAAAAAAAAAAAD8AAAAAOBGIAAAAAAAAAAAAAAABAAAAAAA/AAAAALAAEAAAAAAAAAAAAAAAAgAAAAAAPgAAAAAwASAAAAAAAAAAAAAAAAcAAAAAAH4AAAAAAAEAAAAAAAAAAAAAAAAHwAAAAAAYAAAAAAAAgMAAAAAAAAAAAAAAB8AAAAAAAAAaAAAABoGCAAAAAAAAAAAAAA/gAAAAAAAAHgAAAAPDwQAAAAAAAAAAAAAHgAAAAAAAAB4AAAABz5kAAAAAAAAAAAAAAcAAAAAAAAAeAAAAAMe4YAAAAAAAAAAAAAAAAAAAAAAABAAAAABjs7wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAICAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4AJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAvEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfzgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAH///AAAAAAAAAAAAAAAAAAAAAAAAAAAAAB///4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAf//+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAH///gAAAAAAAAAAAAAAAAAAAAAAAAAAAAA///4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAP9/+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4H/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"};
-  var COUNT = MARKETS.length + 1; // + home
-  var cv = document.getElementById('worldmap'); if (!cv) return;
-  var ctx = cv.getContext('2d');
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function unpack(s,n){ var b=atob(s), out=new Uint8Array(n); for(var i=0;i<n;i++) out[i]=(b.charCodeAt(i>>3)>>(7-(i&7)))&1; return out; }
-  var N = GRID.cols*GRID.rows, land = unpack(GRID.land,N), hl = unpack(GRID.hl,N);
-  var dots = [];
-  for (var r=0;r<GRID.rows;r++) for (var c=0;c<GRID.cols;c++){ var i=r*GRID.cols+c; if(land[i]) dots.push({lon:(c+0.5)/GRID.cols*360-180, lat:82-(r+0.5)/GRID.rows*140, hl:hl[i], ph:Math.random()*6.28}); }
-  var W,H,dpr,scale,ox,oy,mx=0,my=0,tmx=0,tmy=0;
-  function layout(){
-    dpr = Math.min(window.devicePixelRatio||1, 2);
-    var rect = cv.getBoundingClientRect(); W = rect.width; H = rect.height;
-    cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
-    var mobile = W < 700;
-    var mapW = mobile ? W*2.1 : Math.min(W*1.04, H*2.9);
-    scale = mapW/360;
-    ox = mobile ? (W - mapW)/2 - mapW*0.14 : W - mapW*0.99;
-    oy = mobile ? H*0.07 : Math.max(H*0.08, (H - 140*scale)/2);
-  }
-  function P(lon,lat){ return [ox + (lon+180)*scale + mx, oy + (82-lat)*scale + my]; }
-  // arcs from home to each market
-  var arcs = MARKETS.map(function(m,k){ return {m:m, start:k*0.9, dur:2.6}; });
-  var cycle = MARKETS.length*0.9 + 3;
-  function bez(a,b,t){
-    var mxp=(a[0]+b[0])/2, myp=(a[1]+b[1])/2, d=Math.hypot(b[0]-a[0],b[1]-a[1]);
-    var cx=mxp, cy=myp - d*0.35;
-    var u=1-t; return [u*u*a[0]+2*u*t*cx+t*t*b[0], u*u*a[1]+2*u*t*cy+t*t*b[1]];
-  }
-  var t0 = performance.now(), running = true;
+  var GRID = {"cols": 240, "rows": 94, "map": "........................................................########################################################.......................................###..########........##.......#####.......................................................................................................###.#.###################.###################################.................###########.............##.######.....................########..............................................................................................####...###########################################################..................##########..#............................................#######.......................................................................................##########.###################...#####################################.....................###...#........................######.............#...##.##########...................................................................................#############################............############################.................................................#######..........#..###################..............###########........................................................#######....###.#################.............#########################................................................####.......##.....##########################...####.......###............................................................##############.########.###########...........########################................................................####.......##########################################.#...########....................##..........eeeeeeeeee............##.##..##################.###############........#######################............................#######.............######....###############################################################............##........eeeeeeeeeeeeeeeee####################################.#############.......######################........................####gg##########.......##.#..######################################################################################....eeeeeeeeeeeeeeeeee########################################.###########......#################...........................###ggggg############.##################################################################################################.eeeeeeeeeeeeeeeeee########################################....#########.....##############......#######.................#ggggggg#########################################################################################################.###...eeeeeeeeeeeeeeeeee########################################.###########.......#########..........#######................##gggggg#########################################################################################################.....ee...eeeeeeeeeeeeeeee###################################.#######..######........########...........#####...............####gggggg##########################################################################################################.........eeeeeeeeeeeeeeeee#################################.....#.#.#########.........######.......................#.......#####gggg..########################################################################################################.#....e...eeeeeeeeeeeeeeeeeeee#############################...........#######.##..........####...........................a...#####ggggg###########################################################################################..#########.................eeeeeeee.......eeee###########################.........############....................................aaa.....####gggggg.#####################################################################################.####..####........................eeeee..........eee#############################.......###########....................................aaaa......##gggggg.################################################################################..........#####......................eeee.e.............eeee#############################...##############...................................aaaa......###ggg...##############################################################################...........######...................eeee.e.................ee#################################.###############...............................#aaaaaa.....ffffhhhhhhh##############################################################################.#.......#####..#............e...ee......................###################################.################..............................###aaaaa..#fffffhhhhhhh################################################################################........###........e.....eee..............................#################################################..............................##.aaaaa###ffffffhhhhhhjjjjjjjj########################################################################........##............ee..................................##################################################................................aa######fffff#hhhhhjjjjjjjjjjjj#####################################################################.......#....................................................#eeeeeeeeeeeeeeeeeeeeeeeee###############...#####...............................#########ffff#####jjjjjjjjjjjjj#####################################################################.............................................................eeeeeeeeeeeeeeeeeeeeeeeeeee#########ee#####..###.................................#######kkkk#####iiiiijjjjjjj###################################################################.##.............................................................eeeeeeeeeeeeeeeeeeeeeeeeeeee#####eeeeee#####......................................#####kkkkkk###iiiiiijj#jj#########.##########################################################..#...##.........................................................eeeeeeeeeeeeeeeeeeeeeeeeeeeee#eeeeeeee###....................................###..#####kkkkk######iiiii..#..#######.##########################################################...####...........................................................eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.......................................#########...##kkk.#######l...l....######.########################################################...####............................................................eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.........................................########...kk.kkkk#####llllllllllll#####.####################################################......##..............................................................eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee............................#.............##########..kk...kkk####lllllllllllll###..###################################################.......##..............................................................eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee..............................#............#######........kkk..####lllllllllllll###..##############################################..###.#...####...............................................................eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.................................#..........#####.########.kk...####llllllllllll#################oooo###############################..###...####.................................................................eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.............................................mmmm#########.......####..##########################oooocc###########################....##########.................................................................eeeeeeeeeeeeeeeeeeeeeeeeeeeee..............................................mmmmm#########...............#######################ooocccc############################...#.#####..#...................................................................eeeeeeeeeeeeeeeeeeeeeeeeee..............................................mmmmmmm###########..#####..##.#nnnn#################oooooccc#############################....##..........................................................................#######eeeeeeeeeeeeeeeee...............................................mmmmm###########################nnnn###############oooooccccc############################.....#...........................................................................#######eeeeeeeeeee..eeee.........................................#...mmmm###########################nnnnnnnnn########oooooooooccccc########ccc#################.................................................................................##########eee........eee........................................####mmmm############################nnnnnnnnnn.#######oooooocccccccccc#cc#cccc################.....#.............................................................................#########eee.........ee##.........................................mmm##############################.nnnnnnnnnn#######ooooooccccccccccccccccc################.....#...............................................................................##########..........ee###.......................................mmm################################nnnnnnnnnnn###..#oo.ooocccccccccccccccc###################.#..................................................................................#.#######.........###..##......................................mm#################################.nnnnnnnnnnnn###.....cccccccccccccccccc#####bbb########.#....................................................e.e................................#######.....############....................................mmm##################################.nnnnnnnnnnn###......cccccccccccccc#c######bbbb####....#......................................................ee................................#######...###......######...................................####################################.nnnnnnnnnnn##........ccccccccccc...####pp##bbb##.......#......................................................e.................................############.....##.########...............................#####################################.nnnnnnnn####.........ccccccccc.....###pppppb.##......##...............#..........................................................................##########......#.......###..............................#####################################..nnnn#####...........cccccccc......###pppppbb........##............................................................................................###########.............#.........................#...#######################################.#######..............ccccc........##.ppppppbb......###...............#................................................................................#######..............#............................###############rr###r########################................ccccc...........ppppppbb.......###.............#....................................................................................####......tt.#...##............................##############rrrrrrrr#####################....#.............ccccc.......c...#ppp##bb......##.##..................................................................................................###....tttt##....#.............................#############rrrrrrrr#########################...............cccc.......c...#p.p#bbb......#.###..................................................................................................######.ttt########..............................############rrrrrrr#########################................cccc...........pp..bbb......##.###....................................................................................................####tttt#########..............................##########rrrrrrrr#########################.................c.##..........pp..bb.......#..####....................................................................................................##.ttttttt#######.............................##########rrrrrrr#########################....................##.......c...pp.........qq..####....................#......#...........................................................................ttttttt###########...........................########..rrr#################s#########..............................dddqqq.......qqqq#..#........................................................................................................ttttttt###########............................#.........r#################ssssss####................................dddqq...d..qqdq.....d......................................................................................................ttttttttt###########.......................................#################sssss###................................ddddqqqd.dqqqddd......d....................................................................................................#ttttttt#############.......................................################ssssss##..................................dddddd..dddddddddddddd.............................................................................................#......####tttt################...................................#################ssssss#....................................ddddd..ddddddddddd.ddddddd.........................#.....................................................................#####ttt##################..................................#################sssss.....................................ddddddddddddd.ddd.d.dd.dddddd...##.#.....................................................................................#######t#####################................................##################ss.......................................dddddd..dddd.ddd..dddddddddd###....#...................................................................................################################..............................####################.........................................ddd........ddd.......ddddd########.#..................................................................................###############################...............................###################...........................................ddddddd...d......d.d..dd#######..##..................................................................................##############################...............................###################............................................dddddddddddd#dddd...ddd#####.....####.......................................#.......................................##############################...............................###################..................................................dddd.dd..........##.#####....##.......................................#........................................############################.................................##################.#....................................................dd...uuu.uu..uu....#.#....#...#............................................................................###########################.................................###################.....##....................................................uuuuu...uu............................##...............................................................#########################..................................####################...###.................................................uuuuuuuu...uuu............................................................................................#########################.................................####################...####.................................................uuuuuuuuu..uuu..............#............................#...#..............................................#######################.................................####################..#####...............................................uuuuuuuuuuuuuuuuu.............##.....##........................................................................######################.................................##################....####................................................uuuuuuuuuuuuuuuuu....................##.........................................................................#####################..................................################.....####.............................................uuuuuuuuuuuuuuuuuuuuu..........#..#..........#.....................................................................####################....................................###############....#####...#.......................................uuuuuuuuuuuuuuuuuuuuuuuu.........###.................................................................................###################.....................................###############....####...........................................uuuuuuuuuuuuuuuuuuuuuuuuuu.....................................................#......................................################........................................###############.....###...........................................uuuuuuuuuuuuuuuuuuuuuuuuuuuu.........................................................................................################.........................................#############........#............................................uuuuuuuuuuuuuuuuuuuuuuuuuuu..........................................................................................################..........................................############.....................................................uuuuuuuuuuuuuuuuuuuuuuuuuuuu.........................................................................................################..........................................############......................................................uuuuuuuuuuuuuuuuuuuuuuuuuuu.........................................................................................###############............................................##########.......................................................uuuuuuuuuuuuuuuuuuuuuuuuuuu.........................................................................................##############..............................................########.........................................................uuuuuuuuuuuuuuuuuuuuuuuuu..........................................................................................#############...............................................#######.........................................................uuuuuuuu.....uuuuuuuuuuuuu.........................................................................................#############................................................###..............................................................uuu..........uuuuuuuuuuu..............##..........................................................................############................................................................................................................................uuuuuuuuu...............###.........................................................................###########...................................................................................................................................uuuuuuu................###.......................................................................##########.......................................................................................................................................u.uu................####.......................................................................#########.........................................................................................................................................uuu...............####........................................................................########..........................................................................................................................................uuu..............###......#...................................................................#######............................................................................................................................................uu.............####.........................................................................########..........................................................................................................................................................###...........................................................................########....................................................................#........#............................................................................###...........................................................................########........................................................................................#...............................................................................................................................................######..........................................................................................##..............................................................................................................................................#####.....###....................................................................................................................................................................................................................................#####............................................................................................................................................................................................................................................#######.................#.........................................................................................................................................................................................................................###...................................................................................................................................................................................................................................................................................................................................................................................................................."};
+  var cv=document.getElementById('worldmap'); if(!cv) return;
+  var ctx=cv.getContext('2d'), tip=document.getElementById('reach-tip'), list=document.getElementById('reach-list');
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('reach-count').textContent=MARKETS.length;
+  document.getElementById('reach-updated').textContent=UPDATED;
+  var maxN=Math.max.apply(null,MARKETS.map(function(m){return m.n||0;}));
+  function weight(m){ return maxN ? 0.35+0.65*((m.n||0)/maxN) : (m.top?1:0.55); }
+  var C=GRID.cols, R=GRID.rows, cells=[];
+  for(var i=0;i<C*R;i++){ var ch=GRID.map[i]; if(ch==='.') continue; cells.push({c:i%C, r:(i/C|0), m: ch==='#'?-1:ch.charCodeAt(0)-97, ph:Math.random()*6.28}); }
+  // chips (sorted: home, top, by n, then name)
+  var order=MARKETS.map(function(m,i){return i;}).sort(function(a,b){var A=MARKETS[a],B=MARKETS[b];
+    return (B.home|0)-(A.home|0)||(B.top|0)-(A.top|0)||(B.n||0)-(A.n||0)||A.name.localeCompare(B.name);});
+  var chips=[];
+  order.forEach(function(i){ var m=MARKETS[i], el=document.createElement('span');
+    el.className='reach-chip'+(m.top||m.home?' top':''); el.innerHTML=m.name+(m.n?'<b>'+m.n+'</b>':(m.top?'<b>#1</b>':''));
+    el.addEventListener('mouseenter',function(){hover=i;}); el.addEventListener('mouseleave',function(){hover=-1;});
+    list.appendChild(el); chips[i]=el; });
+  var W,H,dpr,cw,chh,mobile;
+  var LON0=-180, LON1=180;
+  function layout(){ dpr=Math.min(window.devicePixelRatio||1,2); var r=cv.getBoundingClientRect(); W=r.width; H=r.height;
+    cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    mobile = W/H < 2.2;               // crop Americas' far west + Pacific on narrow screens
+    var c0 = mobile ? 30 : 0, c1 = mobile ? 232 : C; colStart=c0; cw=W/(c1-c0); chh=H/R; }
+  var colStart=0;
+  function cx(c){return (c-colStart+0.5)*cw;} function cy(r){return (r+0.5)*chh;}
+  function lonlat(m){ return [ (( (m.lon+180)/360*C )-colStart)*cw, (82-m.lat)/140*R*chh ]; }
+  var hover=-1, spot=0, spotT=0, t0=performance.now(), mouse=null, running=true;
   function frame(now){
-    if (!running) return;
-    var t = (now - t0)/1000;
-    mx += (tmx-mx)*0.04; my += (tmy-my)*0.04;
+    if(!running) return; var t=(now-t0)/1000;
+    if(!reduce && t-spotT>2.2){ spotT=t; spot=(spot+1)%MARKETS.length; }
+    var focus = hover>=0 ? hover : (reduce?-1:order[spot]);
+    chips.forEach(function(el,i){ el.classList.toggle('on', i===focus); });
     ctx.clearRect(0,0,W,H);
-    var ds = Math.max(1.1, scale*0.62);
-    for (var i=0;i<dots.length;i++){
-      var d=dots[i], p=P(d.lon,d.lat);
-      if (p[0]<-4||p[0]>W+4) continue;
-      var tw = reduce ? 0.5 : 0.5+0.5*Math.sin(t*1.3+d.ph);
-      if (d.hl){ ctx.fillStyle='rgba(91,141,239,'+(0.55+0.35*tw).toFixed(3)+')'; ctx.fillRect(p[0]-ds/2-0.2,p[1]-ds/2-0.2,ds+0.4,ds+0.4); }
-      else { ctx.fillStyle='rgba(240,240,238,'+(0.07+0.06*tw).toFixed(3)+')'; ctx.fillRect(p[0]-ds/2,p[1]-ds/2,ds,ds); }
+    var sz=Math.max(1.3,Math.min(cw,chh)*0.66);
+    var sweep = reduce ? -1 : ((t*0.12)%1.25)*W;  // scan line
+    for(var k=0;k<cells.length;k++){ var d=cells[k], x=cx(d.c), y=cy(d.r); if(x<-2||x>W+2) continue;
+      var near = sweep>0 ? Math.max(0,1-Math.abs(x-sweep)/60) : 0;
+      if(d.m<0){ ctx.fillStyle='rgba(240,240,238,'+(0.13+0.18*near).toFixed(3)+')'; ctx.fillRect(x-sz/2,y-sz/2,sz,sz); continue; }
+      var m=MARKETS[d.m], w=weight(m), tw=reduce?0.5:0.5+0.5*Math.sin(t*1.6+d.ph), f=(d.m===focus);
+      if(m.home) ctx.fillStyle='rgba(240,240,238,'+(0.75+0.25*tw).toFixed(3)+')';
+      else if(m.top||w>0.85) ctx.fillStyle='rgba(157,184,245,'+(0.8+0.2*tw).toFixed(3)+')';
+      else ctx.fillStyle='rgba(37,99,235,'+(0.55+0.3*w+0.15*tw+0.3*near).toFixed(3)+')';
+      if(f) ctx.fillStyle='#cfdcfb';
+      var s2=f?sz*1.25:sz; ctx.fillRect(x-s2/2,y-s2/2,s2,s2);
     }
-    var home = P(HOME.lon,HOME.lat), tc = reduce ? 1e9 : t % cycle;
-    // arcs
-    arcs.forEach(function(a){
-      var b = P(a.m.lon,a.m.lat), lt = reduce ? 1 : (tc - a.start)/a.dur;
-      var alpha = reduce ? 0.18 : (lt<0 ? 0.06 : lt<1 ? 0.35 : Math.max(0.06, 0.35 - (lt-1)*0.12));
-      ctx.beginPath(); for (var s=0;s<=1.0001;s+=0.04){ var q=bez(home,b,s); s===0?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1]); }
-      ctx.strokeStyle='rgba(91,141,239,'+alpha.toFixed(3)+')'; ctx.lineWidth=1; ctx.stroke();
-      if (!reduce && lt>0 && lt<1){
-        var e = 1-Math.pow(1-lt,2);
-        for (var k=0;k<10;k++){ var tt=e-k*0.018; if(tt<0)break; var q=bez(home,b,tt); ctx.fillStyle='rgba(157,184,245,'+(0.9-k*0.09).toFixed(2)+')'; ctx.beginPath(); ctx.arc(q[0],q[1],2.2-k*0.17,0,6.283); ctx.fill(); }
-      }
-      if (!reduce && lt>=1 && lt<1.8){ var rr=(lt-1)/0.8; ctx.strokeStyle='rgba(91,141,239,'+(0.8*(1-rr)).toFixed(3)+')'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(b[0],b[1],4+rr*22,0,6.283); ctx.stroke(); }
-    });
-    // markers
-    MARKETS.concat([{name:HOME.name,lat:HOME.lat,lon:HOME.lon,tier:4}]).forEach(function(m,k){
-      var p=P(m.lon,m.lat), base = m.tier===4?3.6:m.tier===3?4.2:m.tier===2?3.2:2.4;
-      var pulse = reduce ? 0 : ((t*0.6 + k*0.37) % 1);
-      ctx.strokeStyle = 'rgba(91,141,239,'+(0.55*(1-pulse)).toFixed(3)+')'; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.arc(p[0],p[1], base + pulse*(m.tier>=3?18:11), 0, 6.283); ctx.stroke();
-      ctx.fillStyle = m.tier===4 ? '#f0f0ee' : (m.tier===3 ? '#9db8f5' : '#5B8DEF');
-      ctx.shadowColor='rgba(91,141,239,0.9)'; ctx.shadowBlur = m.tier>=3?14:8;
-      ctx.beginPath(); ctx.arc(p[0],p[1],base*0.6,0,6.283); ctx.fill(); ctx.shadowBlur=0;
-    });
+    MARKETS.forEach(function(m,i){ var p=lonlat(m); if(p[0]<0||p[0]>W) return;
+      var pulse=reduce?0:((t*0.55+i*0.29)%1), big=m.top||i===focus;
+      ctx.strokeStyle='rgba(91,141,239,'+(0.6*(1-pulse)).toFixed(3)+')'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(p[0],p[1],3+pulse*(big?20:10),0,6.283); ctx.stroke();
+      ctx.fillStyle=m.home?'#f0f0ee':'#9db8f5'; ctx.shadowColor='rgba(91,141,239,0.9)'; ctx.shadowBlur=big?14:6;
+      ctx.beginPath(); ctx.arc(p[0],p[1],big?3.4:2.2,0,6.283); ctx.fill(); ctx.shadowBlur=0; });
+    // labels: always for top/home on desktop, plus focused country
+    MARKETS.forEach(function(m,i){ if(!(i===focus || (!mobile && (m.top||m.home)))) return; var p=lonlat(m);
+      var txt=(m.name+(m.n?'  '+m.n:'')).toUpperCase(); ctx.font='700 10px "Space Mono", monospace';
+      var tw2=ctx.measureText(txt).width+14, lx=Math.min(W-tw2-4,Math.max(4,p[0]+10)), ly=p[1]-24;
+      ctx.fillStyle='rgba(8,8,8,0.88)'; ctx.fillRect(lx,ly,tw2,18); ctx.strokeStyle=i===focus?'rgba(91,141,239,0.9)':'rgba(37,99,235,0.35)'; ctx.strokeRect(lx+0.5,ly+0.5,tw2-1,17);
+      ctx.fillStyle=i===focus?'#f0f0ee':'#9db8f5'; ctx.fillText(txt,lx+7,ly+12.5);
+      ctx.strokeStyle='rgba(91,141,239,0.5)'; ctx.beginPath(); ctx.moveTo(p[0]+3,p[1]-3); ctx.lineTo(lx,ly+18); ctx.stroke(); });
     requestAnimationFrame(frame);
   }
-  layout(); window.addEventListener('resize', layout);
-  if (!reduce) window.addEventListener('mousemove', function(e){ tmx=(e.clientX/window.innerWidth-0.5)*-18; tmy=(e.clientY/window.innerHeight-0.5)*-10; });
-  if ('IntersectionObserver' in window){ new IntersectionObserver(function(en){ var v=en[0].isIntersecting; if(v&&!running){running=true;requestAnimationFrame(frame);} running=v; }).observe(cv); }
+  function cellAt(e){ var r=cv.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top;
+    var c=Math.floor(x/cw)+colStart, rr=Math.floor(y/chh); if(c<0||c>=C||rr<0||rr>=R) return null;
+    // nearest market dot within 1 cell
+    for(var dr=0;dr<=1;dr++) for(var dc=0;dc<=1;dc++) for(var sr=-1;sr<=1;sr+=2) for(var sc=-1;sc<=1;sc+=2){
+      var i=(rr+dr*sr)*C+(c+dc*sc), ch=GRID.map[i]; if(ch&&ch!=='.'&&ch!=='#') return {m:ch.charCodeAt(0)-97,x:x,y:y}; }
+    return {m:-1,x:x,y:y}; }
+  function move(e){ var h=cellAt(e); if(!h||h.m<0){ hover=-1; tip.style.opacity=0; return; }
+    var m=MARKETS[h.m]; hover=h.m; tip.innerHTML=m.name+' &middot; <span>'+(m.home?'Home market':m.n?m.n+' downloads':m.top?'Most downloads':'Downloaded')+'</span>';
+    tip.style.left=h.x+'px'; tip.style.top=h.y+'px'; tip.style.opacity=1; }
+  cv.addEventListener('mousemove',move); cv.addEventListener('click',move);
+  cv.addEventListener('mouseleave',function(){hover=-1; tip.style.opacity=0;});
+  layout(); window.addEventListener('resize',layout);
+  if('IntersectionObserver' in window) new IntersectionObserver(function(en){ var v=en[0].isIntersecting; if(v&&!running){running=true;requestAnimationFrame(frame);} running=v; }).observe(cv);
   requestAnimationFrame(frame);
-  // reach chip
-  var cnt=document.getElementById('reach-count'), now=document.getElementById('reach-now');
-  if (cnt) cnt.textContent = COUNT;
-  if (now){ var names=[HOME.name].concat(MARKETS.map(function(m){return m.name;})), j=0;
-    now.textContent=names[0];
-    if(!reduce) setInterval(function(){ j=(j+1)%names.length; now.style.opacity=0; setTimeout(function(){ now.textContent=names[j]; now.style.opacity=1; },350); }, 2200); }
 })();
 </script>
 </body>
