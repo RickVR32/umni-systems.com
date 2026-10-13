@@ -144,6 +144,17 @@
     .footer-r { text-align: right; }
     .footer-r a, .footer-l a { color: var(--muted); text-decoration: none; transition: color 0.15s; }
     .footer-r a:hover, .footer-l a:hover { color: var(--text); }
+    .pay { margin-top: 0.9rem; }
+    .pay-label { display: block; opacity: 0.8; }
+    .pay-label a { color: var(--fx2) !important; }
+    .pay-row { display: flex; flex-wrap: wrap; gap: 0.35rem; justify-content: flex-end; margin-top: 0.35rem; }
+    .pay-chip { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); border: 1px solid var(--rule); background: var(--bg3); padding: 0.2rem 0.5rem; line-height: 1.6; }
+    .pay-chip { display: inline-flex; align-items: center; gap: 0.35rem; height: 30px; transition: border-color 0.2s, background 0.2s; }
+    .pay-chip:hover { border-color: var(--fx-border); background: var(--fx-soft); }
+    .pay-logo { padding: 0 0.75rem; }
+    .pay-logo img { height: 20px; width: auto; display: block; filter: invert(1) brightness(0.92); opacity: 0.9; }
+    .pay-txt svg { width: 13px; height: 13px; color: var(--fx2); flex-shrink: 0; }
+    @media (max-width: 640px) { .pay-row { justify-content: flex-start; } }
     .footer-credit { display: block; margin-top: 0.4rem; opacity: 0.55; }
     .footer-credit a { color: var(--muted); border-bottom: 1px dotted var(--rule); }
     .footer-credit a:hover { color: var(--fx2); border-bottom-color: var(--fx-border); }
@@ -230,7 +241,7 @@
     .reach-sub { font-size: 0.85rem; color: var(--muted); margin-top: 0.4rem; }
     .reach-legend { display: flex; gap: 1.1rem; flex-wrap: wrap; font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
     .reach-legend i { display: inline-block; width: 9px; height: 9px; margin-right: 0.45rem; vertical-align: -1px; }
-    .lg-top { background: #9db8f5; box-shadow: 0 0 8px #5B8DEF; } .lg-dl { background: #2563EB; } .lg-home { background: #f0f0ee; border-radius: 50%; } .lg-none { background: rgba(240,240,238,0.16); }
+    .lg-top { background: #38e8ff; box-shadow: 0 0 8px #38e8ff; } .lg-dl { background: #4d8cff; } .lg-home { background: #fff; border-radius: 50%; } .lg-none { background: rgba(150,160,185,0.4); }
     .reach-map { position: relative; border: 1px solid var(--rule); background: radial-gradient(ellipse 70% 60% at 60% 40%, rgba(37,99,235,0.07), transparent 70%), linear-gradient(160deg, #0b0b10, #080808); aspect-ratio: 240 / 94; }
     #worldmap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; }
     .reach-tip { position: absolute; pointer-events: none; transform: translate(-50%, calc(-100% - 12px)); background: rgba(8,8,8,0.92); border: 1px solid var(--fx-border); padding: 0.4rem 0.65rem; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; color: var(--text); white-space: nowrap; opacity: 0; transition: opacity 0.15s; }
@@ -298,12 +309,12 @@
   </div>
   </div>
   <div class="stats-bar"><div class="stats-inner">
-    <div class="stat"><div class="stat-number">10</div><div class="stat-label">Live on MQL5 now</div></div>
+    <div class="stat"><div class="stat-number">14</div><div class="stat-label">Live on MQL5 now</div></div>
     <div class="stat"><div class="stat-number">24</div><div class="stat-label">Tools by 16 November</div></div>
     <div class="stat"><div class="stat-number">MT4+5</div><div class="stat-label">Every tool, both platforms</div></div>
   </div></div>
   <div class="mql5-note"><div class="mql5-strip">
-    <div class="mql5-strip-text">Published on the <strong>MQL5 Marketplace</strong>, the official MetaQuotes store. Five tools are live now on MT4 and MT5. A <strong>new tool releases every Monday</strong> through to the Trade Agent launch on 16 November.</div>
+    <div class="mql5-strip-text">Published on the <strong>MQL5 Marketplace</strong>, the official MetaQuotes store. Seven tools are live now on MT4 and MT5. A <strong>new tool releases every Monday</strong> through to the Trade Agent launch on 16 November.</div>
     <a href="https://www.mql5.com/en/users/mrrickielee/seller" target="_blank" rel="noopener" class="mql5-strip-link">Seller profile &rarr;</a>
   </div></div>
 
@@ -314,9 +325,9 @@
     <p class="schedule-intro">Each tool ships on MT5 and MT4 on its release day. Every tool can be bought outright or rented, and there's a free tool (NTFY) to start with.</p>
     <ol class="schedule-list">
       <li class="schedule-row"><div class="schedule-date">Mon 28 Sep<small>Released</small></div><div class="schedule-icon">📰</div><div class="schedule-name">UMNi-NEWS<span>Economic calendar alerts via Telegram. Live on MT5 and MT4.</span></div><div class="schedule-price">$49<small>Live now</small></div></li>
-      <li class="schedule-row is-next"><div class="schedule-date">Mon 5 Oct<small>Next release</small></div><div class="schedule-icon">🛡️</div><div class="schedule-name">UMNi-RISK<span>Exposure, drawdown and daily-limit guard. Built for prop firm accounts.</span></div><div class="schedule-price">$79<small>or rent</small></div></li>
-      <li class="schedule-row"><div class="schedule-date">Mon 12 Oct</div><div class="schedule-icon">📊</div><div class="schedule-name">UMNi-STATE<span>Market condition classification.</span></div><div class="schedule-price">$49<small>or rent</small></div></li>
-      <li class="schedule-row"><div class="schedule-date">Mon 19 Oct</div><div class="schedule-icon">🔗</div><div class="schedule-name">UMNi-SYNC<span>Multi-account trade copier via Telegram.</span></div><div class="schedule-price">$79<small>or rent</small></div></li>
+      <li class="schedule-row"><div class="schedule-date">Mon 5 Oct<small>Released</small></div><div class="schedule-icon">🛡️</div><div class="schedule-name">UMNi-RISK<span>Exposure, drawdown and daily-limit guard. Live on MT5 and MT4.</span></div><div class="schedule-price">$79<small>Live now</small></div></li>
+      <li class="schedule-row"><div class="schedule-date">Mon 12 Oct<small>Released</small></div><div class="schedule-icon">📊</div><div class="schedule-name">UMNi-STATE<span>Market condition classification. Live on MT5 and MT4.</span></div><div class="schedule-price">$49<small>Live now</small></div></li>
+      <li class="schedule-row is-next"><div class="schedule-date">Mon 19 Oct<small>Next release</small></div><div class="schedule-icon">🔗</div><div class="schedule-name">UMNi-SYNC<span>Multi-account trade copier via Telegram.</span></div><div class="schedule-price">$79<small>or rent</small></div></li>
       <li class="schedule-row"><div class="schedule-date">Mon 26 Oct</div><div class="schedule-icon">🏥</div><div class="schedule-name">UMNi-HLTH<span>Execution and broker health monitoring.</span></div><div class="schedule-price">$49<small>or rent</small></div></li>
       <li class="schedule-row"><div class="schedule-date">Mon 2 Nov</div><div class="schedule-icon">🌊</div><div class="schedule-name">UMNi-FLOW<span>Order flow and buy/sell pressure awareness.</span></div><div class="schedule-price">$69<small>or rent</small></div></li>
       <li class="schedule-row"><div class="schedule-date">Mon 9 Nov</div><div class="schedule-icon">🔲</div><div class="schedule-name">UMNi-GRID<span>Grid and basket position manager.</span></div><div class="schedule-price">$69<small>or rent</small></div></li>
@@ -339,16 +350,16 @@
         <div class="section-kicker"><span class="num">02</span></div>
         <span class="products-label">MT5 product range</span>
       </div>
-      <span class="products-count">5 live &middot; 7 scheduled &middot; MetaTrader 5</span>
+      <span class="products-count">7 live &middot; 5 scheduled &middot; MetaTrader 5</span>
     </div>
     <a href="https://www.mql5.com/en/market/product/171240" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">🔔</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NTFY</span><span class="product-badge badge-free">Free</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Lightweight Telegram notifications. Online / offline alerts, trade open and close, session summaries. The free way into the UMNi range.</p></div><div class="product-price">FREE<span class="sub">Start here</span></div></a>
     <a href="https://www.mql5.com/en/market/product/171329" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">📡</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-ALRT</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Detailed trade alerts via Telegram. MFE / MAE and exit efficiency, session context, trade summaries and session-level reporting.</p></div><div class="product-price">$33<span class="sub">12-month rental</span></div></a>
     <a href="https://www.mql5.com/en/market/product/171472" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">🛰️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-CMND</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Full Telegram telemetry and remote control. Live account panel, trade-by-trade reporting, MFE/MAE efficiency, remote /buy /sell /close commands. The terminal replacement.</p></div><div class="product-price">$66<span class="sub">12-month rental</span></div></a>
     <a href="https://www.mql5.com/en/market/product/179369" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">🕐</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SESH</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Session briefing and open/close alerts. Pre-session market overview, day range, bias, spread &mdash; know what you're walking into before every session.</p></div><div class="product-price">$49<span class="sub">or $35 / 6 months</span></div></a>
     <a href="https://www.mql5.com/en/market/product/179402" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">📰</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NEWS</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Economic calendar awareness. High-impact event alerts at 30 and 5 minutes. News live alerts, post-news spread checks, daily briefings via Telegram.</p></div><div class="product-price">$49<span class="sub">or $35 / 6 months</span></div></a>
-    <div class="product-card"><div class="product-emoji-wrap">🛡️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-RISK</span><span class="product-badge badge-next">5 Oct</span></div><p class="product-desc">Risk guard. Live exposure and drawdown tracking, daily loss limits, equity danger-zone alerts. Built with prop firm rules in mind.</p></div><div class="product-price">$79<span class="sub">Releasing 5 Oct</span></div></div>
-    <div class="product-card"><div class="product-emoji-wrap">📊</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-STATE</span><span class="product-badge badge-date">12 Oct</span></div><p class="product-desc">Real-time market condition classification. Trending, choppy, volatile, stable &mdash; know the environment before entering.</p></div><div class="product-price">$49<span class="sub">Releasing 12 Oct</span></div></div>
-    <div class="product-card"><div class="product-emoji-wrap">🔗</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SYNC</span><span class="product-badge badge-date">19 Oct</span></div><p class="product-desc">Multi-account trade copier via Telegram. Master broadcasts signals, subscribers execute instantly. Lot multiplier control, SL/TP copy, confirmation alerts.</p></div><div class="product-price">$79<span class="sub">Releasing 19 Oct</span></div></div>
+    <a href="https://www.mql5.com/en/market/product/179414" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">🛡️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-RISK</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Risk guard. Live exposure and drawdown tracking, daily loss limits, equity danger-zone alerts. Built with prop firm rules in mind.</p></div><div class="product-price">$79<span class="sub">or rent</span></div></a>
+    <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">📊</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-STATE</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Real-time market condition classification. Trending, choppy, volatile, stable &mdash; know the environment before entering.</p></div><div class="product-price">$49<span class="sub">or $30 / 6 months</span></div></a>
+    <div class="product-card"><div class="product-emoji-wrap">🔗</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SYNC</span><span class="product-badge badge-next">19 Oct</span></div><p class="product-desc">Multi-account trade copier via Telegram. Master broadcasts signals, subscribers execute instantly. Lot multiplier control, SL/TP copy, confirmation alerts.</p></div><div class="product-price">$79<span class="sub">Releasing 19 Oct</span></div></div>
     <div class="product-card"><div class="product-emoji-wrap">🏥</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-HLTH</span><span class="product-badge badge-date">26 Oct</span></div><p class="product-desc">Execution health monitoring. Latency, spread spikes, broker response timing and execution quality grades. See what your broker hides.</p></div><div class="product-price">$49<span class="sub">Releasing 26 Oct</span></div></div>
     <div class="product-card"><div class="product-emoji-wrap">🌊</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-FLOW</span><span class="product-badge badge-date">2 Nov</span></div><p class="product-desc">Order flow and volume delta awareness. Buy/sell pressure percentage, large order detection, tick speed monitoring. See the pressure before the move.</p></div><div class="product-price">$69<span class="sub">Releasing 2 Nov</span></div></div>
     <div class="product-card"><div class="product-emoji-wrap">🔲</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-GRID</span><span class="product-badge badge-date">9 Nov</span></div><p class="product-desc">Grid and basket position manager. Automated level placement, lot multiplier progression, average entry tracking, basket take profit and drawdown protection.</p></div><div class="product-price">$69<span class="sub">Releasing 9 Nov</span></div></div>
@@ -436,6 +447,10 @@
     <div class="footer-r">
       <a href="https://t.me/UmniSystems" target="_blank" rel="noopener">Telegram</a> &middot; <a href="https://www.tiktok.com/@UmniSystems" target="_blank" rel="noopener">TikTok</a> &middot; <a href="https://www.instagram.com/umni.systems/" target="_blank" rel="noopener">Instagram</a><br/>
       <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" rel="noopener">MQL5</a> &middot; <a href="https://sourcecodeholdings.org" target="_blank" rel="noopener">Source Code Holdings</a>
+      <div class="pay">
+        <span class="pay-label">Secure checkout via <a href="https://www.mql5.com/en/articles/302" target="_blank" rel="noopener">MQL5</a> &middot; USD</span>
+        <div class="pay-row"><span class="pay-chip pay-logo" title="Visa"><img src="https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/visa.svg" alt="Visa" width="34" height="16" loading="lazy" /></span><span class="pay-chip pay-logo" title="Mastercard"><img src="https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/mastercard.svg" alt="Mastercard" width="34" height="16" loading="lazy" /></span><span class="pay-chip pay-logo" title="JCB"><img src="https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/jcb.svg" alt="JCB" width="34" height="16" loading="lazy" /></span><span class="pay-chip pay-txt" title="UnionPay"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 9.5h19" stroke="currentColor" stroke-width="2"/></svg>UnionPay</span><span class="pay-chip pay-txt" title="Pay from your MQL5 account balance"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a1 1 0 0 1-1-1V7zm0 0 11-3v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="16" cy="13" r="1.3" fill="currentColor"/></svg>MQL5 balance</span><span class="pay-chip pay-txt" title="Regional payment systems, depending on your country"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 12h17M12 3.5c2.6 2.5 2.6 14.5 0 17M12 3.5c-2.6 2.5-2.6 14.5 0 17" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>Local methods</span></div>
+      </div>
     </div>
   </footer>
 
@@ -532,7 +547,7 @@ function toggleMobileNav() {
   const FAQ = [
     {
       test: /when|release|launch|coming|date|schedule|next|new/i,
-      reply: "A new tool releases every Monday on MT5 and MT4. NEWS is live now. Next up: RISK 5 Oct, STATE 12 Oct, SYNC 19 Oct, HLTH 26 Oct, FLOW 2 Nov, GRID 9 Nov. The Trade Agent launches 16 Nov at a $79 launch price."
+      reply: "A new tool releases every Monday on MT5 and MT4. NEWS, RISK and STATE are live now. Next up: SYNC 19 Oct, HLTH 26 Oct, FLOW 2 Nov, GRID 9 Nov. The Trade Agent launches 16 Nov at a $79 launch price."
     },
     {
       test: /custom|bespoke|build me|hire|my strategy|develop/i,
@@ -540,11 +555,11 @@ function toggleMobileNav() {
     },
     {
       test: /price|cost|how much|fee|rent|buy/i,
-      reply: "NTFY is free. SESH is $49 to buy or $35 for 6 months. ALRT is $33 and CMND is $66, both as 12-month rentals. NEWS is $49 to buy or $35 for 6 months. New tools are $49–$79 to buy, with rental options. The Trade Agent is $149, with a $79 launch price on 16 Nov."
+      reply: "NTFY is free. SESH is $49 to buy or $35 for 6 months. ALRT is $33 and CMND is $66, both as 12-month rentals. NEWS is $49 to buy or $35 for 6 months. RISK is $79 and STATE is $49, both with rental options. New tools are $49–$79 to buy, with rental options. The Trade Agent is $149, with a $79 launch price on 16 Nov."
     },
     {
       test: /product|mql5|tool|range|agent/i,
-      reply: "5 tools are live on MT4 and MT5 now: NTFY (free), ALRT, CMND, SESH and NEWS. RISK, STATE, SYNC, HLTH, FLOW and GRID release weekly from 5 Oct, and the Trade Agent brings everything together on 16 Nov."
+      reply: "7 tools are live on MT4 and MT5 now: NTFY (free), ALRT, CMND, SESH, NEWS, RISK and STATE. SYNC, HLTH, FLOW and GRID release weekly from 19 Oct, and the Trade Agent brings everything together on 16 Nov."
     },
     {
       test: /support|help|problem|issue|broken|not working|setup|install/i,
@@ -706,19 +721,19 @@ function toggleMobileNav() {
     var sweep = reduce ? -1 : ((t*0.12)%1.25)*W;  // scan line
     for(var k=0;k<cells.length;k++){ var d=cells[k], x=cx(d.c), y=cy(d.r); if(x<-2||x>W+2) continue;
       var near = sweep>0 ? Math.max(0,1-Math.abs(x-sweep)/60) : 0;
-      if(d.m<0){ ctx.fillStyle='rgba(240,240,238,'+(0.13+0.18*near).toFixed(3)+')'; ctx.fillRect(x-sz/2,y-sz/2,sz,sz); continue; }
+      if(d.m<0){ ctx.fillStyle='rgba(150,160,185,'+(0.32+0.25*near).toFixed(3)+')'; ctx.fillRect(x-sz/2,y-sz/2,sz,sz); continue; }
       var m=MARKETS[d.m], w=weight(m), tw=reduce?0.5:0.5+0.5*Math.sin(t*1.6+d.ph), f=(d.m===focus);
       if(m.home) ctx.fillStyle='rgba(240,240,238,'+(0.75+0.25*tw).toFixed(3)+')';
-      else if(m.top||w>0.85) ctx.fillStyle='rgba(157,184,245,'+(0.8+0.2*tw).toFixed(3)+')';
-      else ctx.fillStyle='rgba(37,99,235,'+(0.55+0.3*w+0.15*tw+0.3*near).toFixed(3)+')';
-      if(f) ctx.fillStyle='#cfdcfb';
+      else if(m.top||w>0.85) ctx.fillStyle='rgba(56,232,255,'+(0.85+0.15*tw).toFixed(3)+')';
+      else ctx.fillStyle='rgba(77,140,255,'+Math.min(1,0.8+0.15*w+0.1*tw+0.2*near).toFixed(3)+')';
+      if(f) ctx.fillStyle='#ffffff';
       var s2=f?sz*1.25:sz; ctx.fillRect(x-s2/2,y-s2/2,s2,s2);
     }
     MARKETS.forEach(function(m,i){ var p=lonlat(m); if(p[0]<0||p[0]>W) return;
       var pulse=reduce?0:((t*0.55+i*0.29)%1), big=m.top||i===focus;
       ctx.strokeStyle='rgba(91,141,239,'+(0.6*(1-pulse)).toFixed(3)+')'; ctx.lineWidth=1;
       ctx.beginPath(); ctx.arc(p[0],p[1],3+pulse*(big?20:10),0,6.283); ctx.stroke();
-      ctx.fillStyle=m.home?'#f0f0ee':'#9db8f5'; ctx.shadowColor='rgba(91,141,239,0.9)'; ctx.shadowBlur=big?14:6;
+      ctx.fillStyle=m.home?'#ffffff':(m.top?'#38e8ff':'#bcd2ff'); ctx.shadowColor=m.top?'rgba(56,232,255,0.95)':'rgba(91,141,239,0.9)'; ctx.shadowBlur=big?14:6;
       ctx.beginPath(); ctx.arc(p[0],p[1],big?3.4:2.2,0,6.283); ctx.fill(); ctx.shadowBlur=0; });
     // labels: always for top/home on desktop, plus focused country
     MARKETS.forEach(function(m,i){ if(!(i===focus || (!mobile && (m.top||m.home)))) return; var p=lonlat(m);
