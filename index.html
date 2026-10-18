@@ -20,6 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/site.css" />
   <style>
     :root {
       --bg: #080808; --bg2: #0d0d0d; --bg3: #121218;
@@ -258,6 +259,9 @@
       .reach-map { aspect-ratio: 240 / 120; }
     }
     @media (prefers-reduced-motion: reduce) { .reach, .reach-label .live { animation: none; } }
+      .home-products { max-width: 1180px !important; }
+    .home-products .pgrid { margin-top: 0.5rem; }
+    body { line-height: normal; }
   </style>
 </head>
 <body>
@@ -265,7 +269,7 @@
   <header>
     <a class="logo" href="/"><img src="umni-sigil.png" class="logo-mark" alt="UMNi Systems logo" width="36" height="36" /><span class="logo-text">UMNi-<span style="color:#2563EB;">SYSTEMS&#8482;</span></span></a>
     <nav>
-      <a href="#products" class="active">Products</a>
+      <a href="/products/" class="active">Products</a>
       <a href="#releases">Releases</a>
       <a href="/reports/">Reports</a>
       <a href="#about">About</a>
@@ -275,7 +279,7 @@
     <button id="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Menu"><span></span></button>
   </header>
   <div id="mobile-nav-panel">
-    <a href="#products" onclick="toggleMobileNav()">Products</a>
+    <a href="/products/" onclick="toggleMobileNav()">Products</a>
     <a href="#releases" onclick="toggleMobileNav()">Releases</a>
     <a href="/reports/">Reports</a>
     <a href="#about" onclick="toggleMobileNav()">About</a>
@@ -344,43 +348,111 @@
     <span class="legend-item"><span class="product-badge badge-free">Free</span> No cost</span>
   </div></div>
 
-  <div class="products" id="products">
+  <div class="products home-products" id="products">
     <div class="products-header">
       <div>
         <div class="section-kicker"><span class="num">02</span></div>
-        <span class="products-label">MT5 product range</span>
+        <span class="products-label">The UMNi range</span>
       </div>
-      <span class="products-count">7 live &middot; 5 scheduled &middot; MetaTrader 5</span>
+      <a class="products-count" href="/products/" style="text-decoration:none">7 live &middot; 6 coming &middot; MT4 + MT5 &middot; View all &rarr;</a>
     </div>
-    <a href="https://www.mql5.com/en/market/product/171240" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">🔔</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NTFY</span><span class="product-badge badge-free">Free</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Lightweight Telegram notifications. Online / offline alerts, trade open and close, session summaries. The free way into the UMNi range.</p></div><div class="product-price">FREE<span class="sub">Start here</span></div></a>
-    <a href="https://www.mql5.com/en/market/product/171329" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">📡</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-ALRT</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Detailed trade alerts via Telegram. MFE / MAE and exit efficiency, session context, trade summaries and session-level reporting.</p></div><div class="product-price">$33<span class="sub">12-month rental</span></div></a>
-    <a href="https://www.mql5.com/en/market/product/171472" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">🛰️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-CMND</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Full Telegram telemetry and remote control. Live account panel, trade-by-trade reporting, MFE/MAE efficiency, remote /buy /sell /close commands. The terminal replacement.</p></div><div class="product-price">$66<span class="sub">12-month rental</span></div></a>
-    <a href="https://www.mql5.com/en/market/product/179369" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">🕐</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SESH</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Session briefing and open/close alerts. Pre-session market overview, day range, bias, spread &mdash; know what you're walking into before every session.</p></div><div class="product-price">$49<span class="sub">or $35 / 6 months</span></div></a>
-    <a href="https://www.mql5.com/en/market/product/179402" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">📰</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NEWS</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Economic calendar awareness. High-impact event alerts at 30 and 5 minutes. News live alerts, post-news spread checks, daily briefings via Telegram.</p></div><div class="product-price">$49<span class="sub">or $35 / 6 months</span></div></a>
-    <a href="https://www.mql5.com/en/market/product/179414" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">🛡️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-RISK</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Risk guard. Live exposure and drawdown tracking, daily loss limits, equity danger-zone alerts. Built with prop firm rules in mind.</p></div><div class="product-price">$79<span class="sub">or rent</span></div></a>
-    <a href="https://www.mql5.com/en/users/mrrickielee/seller#!category=7" target="_blank" rel="noopener" class="product-card"><div class="product-emoji-wrap">📊</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-STATE</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">Real-time market condition classification. Trending, choppy, volatile, stable &mdash; know the environment before entering.</p></div><div class="product-price">$49<span class="sub">or $30 / 6 months</span></div></a>
-    <div class="product-card"><div class="product-emoji-wrap">🔗</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SYNC</span><span class="product-badge badge-next">19 Oct</span></div><p class="product-desc">Multi-account trade copier via Telegram. Master broadcasts signals, subscribers execute instantly. Lot multiplier control, SL/TP copy, confirmation alerts.</p></div><div class="product-price">$79<span class="sub">Releasing 19 Oct</span></div></div>
-    <div class="product-card"><div class="product-emoji-wrap">🏥</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-HLTH</span><span class="product-badge badge-date">26 Oct</span></div><p class="product-desc">Execution health monitoring. Latency, spread spikes, broker response timing and execution quality grades. See what your broker hides.</p></div><div class="product-price">$49<span class="sub">Releasing 26 Oct</span></div></div>
-    <div class="product-card"><div class="product-emoji-wrap">🌊</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-FLOW</span><span class="product-badge badge-date">2 Nov</span></div><p class="product-desc">Order flow and volume delta awareness. Buy/sell pressure percentage, large order detection, tick speed monitoring. See the pressure before the move.</p></div><div class="product-price">$69<span class="sub">Releasing 2 Nov</span></div></div>
-    <div class="product-card"><div class="product-emoji-wrap">🔲</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-GRID</span><span class="product-badge badge-date">9 Nov</span></div><p class="product-desc">Grid and basket position manager. Automated level placement, lot multiplier progression, average entry tracking, basket take profit and drawdown protection.</p></div><div class="product-price">$69<span class="sub">Releasing 9 Nov</span></div></div>
-    <div class="product-card"><div class="product-emoji-wrap">🤖</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi Trade Agent</span><span class="product-badge badge-date">16 Nov</span></div><p class="product-desc">The unified intelligence layer. Telemetry, risk, market state, news, sessions, flow and the trade journal in one tool, controlled from Telegram.</p></div><div class="product-price">$149<span class="sub">Launch price $79</span></div></div>
+    <div class="pgrid"><a class="pcard rv" href="/products/ntfy/" style="--c:#22c55e" data-status="live">
+  <div class="pcard-img"><img src="/assets/products/ntfy.svg" alt="UMNi-NTFY preview" loading="lazy" width="1200" height="820" /></div>
+  <div class="pcard-b">
+    <div class="pcard-top"><span class="pcard-n">🔔 UMNi-NTFY</span><span class="pill live"><i></i>Live now</span></div>
+    <div class="pcard-t">Your terminal, in your pocket.</div>
+    <p class="pcard-d">Lightweight Telegram notifications for every trade, plus online / offline status and session summaries.</p>
+    <div class="pcard-f"><strong>Free</strong><span>View product &rarr;</span></div>
   </div>
-
-  <div class="section-divider"><div class="divider-line"></div><span class="divider-label">MT4 Versions</span><div class="divider-line"></div></div>
-  <div class="products">
-    <div class="products-header"><span class="products-label">MT4 product range</span><span class="products-count">5 live &middot; 6 scheduled &middot; MetaTrader 4</span></div>
-    <a href="https://www.mql5.com/en/market/product/179558" target="_blank" rel="noopener" class="product-card product-card--mt4"><div class="product-emoji-wrap">🔔</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NTFY <span class="platform-tag">MT4</span></span><span class="product-badge badge-free">Free</span><span class="product-badge badge-live">Live</span></div><p class="product-desc">MT4 version. Lightweight Telegram notifications. Online / offline alerts, trade open and close, session summaries.</p></div><div class="product-price">FREE<span class="sub">MT4</span></div></a>
-    <a href="https://www.mql5.com/en/market/product/179561" target="_blank" rel="noopener" class="product-card product-card--mt4"><div class="product-emoji-wrap">📡</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-ALRT <span class="platform-tag">MT4</span></span><span class="product-badge badge-live">Live</span></div><p class="product-desc">MT4 version. Detailed trade alerts via Telegram with MFE / MAE, session context and trade summaries.</p></div><div class="product-price">$33<span class="sub">12-month rental</span></div></a>
-    <a href="https://www.mql5.com/en/market/product/179559" target="_blank" rel="noopener" class="product-card product-card--mt4"><div class="product-emoji-wrap">🛰️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-CMND <span class="platform-tag">MT4</span></span><span class="product-badge badge-live">Live</span></div><p class="product-desc">MT4 version. Full Telegram telemetry and remote control. Live account panel, trade-by-trade reporting, remote commands.</p></div><div class="product-price">$66<span class="sub">12-month rental</span></div></a>
-    <a href="https://www.mql5.com/en/market/product/179560" target="_blank" rel="noopener" class="product-card product-card--mt4"><div class="product-emoji-wrap">🕐</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SESH <span class="platform-tag">MT4</span></span><span class="product-badge badge-live">Live</span></div><p class="product-desc">MT4 version. Session briefing and open/close alerts. Know what you're walking into before every session.</p></div><div class="product-price">$49<span class="sub">or $35 / 6 months</span></div></a>
-    <a href="https://www.mql5.com/en/market/product/179563" target="_blank" rel="noopener" class="product-card product-card--mt4"><div class="product-emoji-wrap">📰</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-NEWS <span class="platform-tag">MT4</span></span><span class="product-badge badge-live">Live</span></div><p class="product-desc">MT4 version. Economic calendar downloads automatically. Pre-news warnings, live alerts and daily briefings via Telegram.</p></div><div class="product-price">$49<span class="sub">MT4</span></div></a>
-    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🛡️</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-RISK <span class="platform-tag">MT4</span></span><span class="product-badge badge-next">5 Oct</span></div><p class="product-desc">MT4 version. Exposure, drawdown and daily-limit guard with equity danger-zone alerts.</p></div><div class="product-price">$79<span class="sub">MT4</span></div></div>
-    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">📊</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-STATE <span class="platform-tag">MT4</span></span><span class="product-badge badge-date">12 Oct</span></div><p class="product-desc">MT4 version. Real-time market condition classification. Know the environment before entering.</p></div><div class="product-price">$49<span class="sub">MT4</span></div></div>
-    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🔗</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-SYNC <span class="platform-tag">MT4</span></span><span class="product-badge badge-date">19 Oct</span></div><p class="product-desc">MT4 version. Multi-account trade copier via Telegram. Lot multiplier control, SL/TP copy, confirmation alerts.</p></div><div class="product-price">$79<span class="sub">MT4</span></div></div>
-    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🏥</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-HLTH <span class="platform-tag">MT4</span></span><span class="product-badge badge-date">26 Oct</span></div><p class="product-desc">MT4 version. Execution health monitoring. Latency, spread spikes, execution quality grades.</p></div><div class="product-price">$49<span class="sub">MT4</span></div></div>
-    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🌊</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-FLOW <span class="platform-tag">MT4</span></span><span class="product-badge badge-date">2 Nov</span></div><p class="product-desc">MT4 version. Order flow and volume delta awareness. Buy/sell pressure percentage, large order detection.</p></div><div class="product-price">$69<span class="sub">MT4</span></div></div>
-    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🔲</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi-GRID <span class="platform-tag">MT4</span></span><span class="product-badge badge-date">9 Nov</span></div><p class="product-desc">MT4 version. Grid and basket position manager. Automated levels, lot progression, basket take profit, drawdown protection.</p></div><div class="product-price">$69<span class="sub">MT4</span></div></div>
-    <div class="product-card product-card--mt4"><div class="product-emoji-wrap">🤖</div><div class="product-info"><div class="product-header"><span class="product-name">UMNi Trade Agent <span class="platform-tag">MT4</span></span><span class="product-badge badge-soon">Planned</span></div><p class="product-desc">MT4 version of the Trade Agent. Follows the MT5 launch.</p></div><div class="product-price">TBC<span class="sub">MT4</span></div></div>
+</a><a class="pcard rv" href="/products/alrt/" style="--c:#3b82f6" data-status="live">
+  <div class="pcard-img"><img src="/assets/products/alrt.svg" alt="UMNi-ALRT preview" loading="lazy" width="1200" height="820" /></div>
+  <div class="pcard-b">
+    <div class="pcard-top"><span class="pcard-n">📡 UMNi-ALRT</span><span class="pill live"><i></i>Live now</span></div>
+    <div class="pcard-t">Every trade, fully explained.</div>
+    <p class="pcard-d">Detailed Telegram trade alerts with MFE / MAE, exit efficiency, session context and session reports.</p>
+    <div class="pcard-f"><strong>$33</strong><span>View product &rarr;</span></div>
+  </div>
+</a><a class="pcard rv" href="/products/cmnd/" style="--c:#06b6d4" data-status="live">
+  <div class="pcard-img"><img src="/assets/products/cmnd.svg" alt="UMNi-CMND preview" loading="lazy" width="1200" height="820" /></div>
+  <div class="pcard-b">
+    <div class="pcard-top"><span class="pcard-n">🛰️ UMNi-CMND</span><span class="pill live"><i></i>Live now</span></div>
+    <div class="pcard-t">Run your terminal from Telegram.</div>
+    <p class="pcard-d">Full Telegram telemetry and remote control: live account panel, trade reporting and /buy /sell /close commands.</p>
+    <div class="pcard-f"><strong>$66</strong><span>View product &rarr;</span></div>
+  </div>
+</a><a class="pcard rv" href="/products/sesh/" style="--c:#f59e0b" data-status="live">
+  <div class="pcard-img"><img src="/assets/products/sesh.svg" alt="UMNi-SESH preview" loading="lazy" width="1200" height="820" /></div>
+  <div class="pcard-b">
+    <div class="pcard-top"><span class="pcard-n">🕐 UMNi-SESH</span><span class="pill live"><i></i>Live now</span></div>
+    <div class="pcard-t">Know the session before it starts.</div>
+    <p class="pcard-d">Pre-session market briefings and open / close alerts: day range, bias and spread before every session.</p>
+    <div class="pcard-f"><strong>$49</strong><span>View product &rarr;</span></div>
+  </div>
+</a><a class="pcard rv" href="/products/news/" style="--c:#f97316" data-status="live">
+  <div class="pcard-img"><img src="/assets/products/news.svg" alt="UMNi-NEWS preview" loading="lazy" width="1200" height="820" /></div>
+  <div class="pcard-b">
+    <div class="pcard-top"><span class="pcard-n">📰 UMNi-NEWS</span><span class="pill live"><i></i>Live now</span></div>
+    <div class="pcard-t">Never get caught by the calendar.</div>
+    <p class="pcard-d">High-impact economic event alerts at 30 and 5 minutes, live releases, post-news spread checks and daily briefings.</p>
+    <div class="pcard-f"><strong>$49</strong><span>View product &rarr;</span></div>
+  </div>
+</a><a class="pcard rv" href="/products/risk/" style="--c:#ef4444" data-status="live">
+  <div class="pcard-img"><img src="/assets/products/risk.svg" alt="UMNi-RISK preview" loading="lazy" width="1200" height="820" /></div>
+  <div class="pcard-b">
+    <div class="pcard-top"><span class="pcard-n">🛡️ UMNi-RISK</span><span class="pill live"><i></i>Live now</span></div>
+    <div class="pcard-t">The guard rail for prop-firm accounts.</div>
+    <p class="pcard-d">Live exposure and drawdown tracking, daily loss limits and equity danger-zone alerts, built around prop firm rules.</p>
+    <div class="pcard-f"><strong>$79</strong><span>View product &rarr;</span></div>
+  </div>
+</a><a class="pcard rv" href="/products/state/" style="--c:#a855f7" data-status="live">
+  <div class="pcard-img"><img src="/assets/products/state.svg" alt="UMNi-STATE preview" loading="lazy" width="1200" height="820" /></div>
+  <div class="pcard-b">
+    <div class="pcard-top"><span class="pcard-n">📊 UMNi-STATE</span><span class="pill live"><i></i>Live now</span></div>
+    <div class="pcard-t">Know the market you&#x27;re in.</div>
+    <p class="pcard-d">Real-time market condition classification using ATR, ADX and Bollinger Bands, with alerts when the state changes.</p>
+    <div class="pcard-f"><strong>$49</strong><span>View product &rarr;</span></div>
+  </div>
+</a><a class="pcard rv" href="/products/sync/" style="--c:#14b8a6" data-status="next">
+  <div class="pcard-img"><img src="/assets/products/sync.svg" alt="UMNi-SYNC preview" loading="lazy" width="1200" height="820" /></div>
+  <div class="pcard-b">
+    <div class="pcard-top"><span class="pcard-n">🔗 UMNi-SYNC</span><span class="pill next"><i></i>Releasing Mon 19 Oct</span></div>
+    <div class="pcard-t">One signal. Every account.</div>
+    <p class="pcard-d">Multi-account trade copier via Telegram: the master broadcasts, subscribers execute with lot multipliers and SL / TP copy.</p>
+    <div class="pcard-f"><strong>$79</strong><span>View product &rarr;</span></div>
+  </div>
+</a><a class="pcard rv" href="/products/hlth/" style="--c:#84cc16" data-status="soon">
+  <div class="pcard-img"><img src="/assets/products/hlth.svg" alt="UMNi-HLTH preview" loading="lazy" width="1200" height="820" /></div>
+  <div class="pcard-b">
+    <div class="pcard-top"><span class="pcard-n">🏥 UMNi-HLTH</span><span class="pill soon"><i></i>Releasing Mon 26 Oct</span></div>
+    <div class="pcard-t">See what your broker hides.</div>
+    <p class="pcard-d">Execution health monitoring: latency, spread spikes, broker response times and execution quality grades.</p>
+    <div class="pcard-f"><strong>$49</strong><span>View product &rarr;</span></div>
+  </div>
+</a><a class="pcard rv" href="/products/flow/" style="--c:#0ea5e9" data-status="soon">
+  <div class="pcard-img"><img src="/assets/products/flow.svg" alt="UMNi-FLOW preview" loading="lazy" width="1200" height="820" /></div>
+  <div class="pcard-b">
+    <div class="pcard-top"><span class="pcard-n">🌊 UMNi-FLOW</span><span class="pill soon"><i></i>Releasing Mon 2 Nov</span></div>
+    <div class="pcard-t">See the pressure before the move.</div>
+    <p class="pcard-d">Order flow and volume delta awareness: buy / sell pressure, large order detection and tick speed monitoring.</p>
+    <div class="pcard-f"><strong>$69</strong><span>View product &rarr;</span></div>
+  </div>
+</a><a class="pcard rv" href="/products/grid/" style="--c:#6366f1" data-status="soon">
+  <div class="pcard-img"><img src="/assets/products/grid.svg" alt="UMNi-GRID preview" loading="lazy" width="1200" height="820" /></div>
+  <div class="pcard-b">
+    <div class="pcard-top"><span class="pcard-n">🔲 UMNi-GRID</span><span class="pill soon"><i></i>Releasing Mon 9 Nov</span></div>
+    <div class="pcard-t">Grids, managed properly.</div>
+    <p class="pcard-d">Grid and basket position manager: level placement, lot progression, average entry tracking, basket TP and drawdown protection.</p>
+    <div class="pcard-f"><strong>$69</strong><span>View product &rarr;</span></div>
+  </div>
+</a><a class="pcard rv" href="/products/trade-agent/" style="--c:#eab308" data-status="launch">
+  <div class="pcard-img"><img src="/assets/products/trade-agent.svg" alt="UMNi Trade Agent preview" loading="lazy" width="1200" height="820" /></div>
+  <div class="pcard-b">
+    <div class="pcard-top"><span class="pcard-n">🤖 UMNi Trade Agent</span><span class="pill launch"><i></i>Launching Mon 16 Nov</span></div>
+    <div class="pcard-t">Every UMNi module. One agent.</div>
+    <p class="pcard-d">The unified intelligence layer: telemetry, risk, market state, news, sessions, flow and the trade journal in one tool.</p>
+    <div class="pcard-f"><strong>$149</strong><span>View product &rarr;</span></div>
+  </div>
+</a></div>
   </div>
 
   <div class="team" id="team">
@@ -760,5 +832,6 @@ function toggleMobileNav() {
   requestAnimationFrame(frame);
 })();
 </script>
+<script src="/assets/site.js" defer></script>
 </body>
 </html>
