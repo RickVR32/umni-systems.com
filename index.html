@@ -331,8 +331,8 @@
       <li class="schedule-row"><div class="schedule-date">Mon 28 Sep<small>Released</small></div><div class="schedule-icon">📰</div><div class="schedule-name">UMNi-NEWS<span>Economic calendar alerts via Telegram. Live on MT5 and MT4.</span></div><div class="schedule-price">$49<small>Live now</small></div></li>
       <li class="schedule-row"><div class="schedule-date">Mon 5 Oct<small>Released</small></div><div class="schedule-icon">🛡️</div><div class="schedule-name">UMNi-RISK<span>Exposure, drawdown and daily-limit guard. Live on MT5 and MT4.</span></div><div class="schedule-price">$79<small>Live now</small></div></li>
       <li class="schedule-row"><div class="schedule-date">Mon 12 Oct<small>Released</small></div><div class="schedule-icon">📊</div><div class="schedule-name">UMNi-STATE<span>Market condition classification. Live on MT5 and MT4.</span></div><div class="schedule-price">$49<small>Live now</small></div></li>
-      <li class="schedule-row is-next"><div class="schedule-date">Mon 19 Oct<small>Next release</small></div><div class="schedule-icon">🔗</div><div class="schedule-name">UMNi-SYNC<span>Multi-account trade copier via Telegram.</span></div><div class="schedule-price">$79<small>or rent</small></div></li>
-      <li class="schedule-row"><div class="schedule-date">Mon 26 Oct</div><div class="schedule-icon">🏥</div><div class="schedule-name">UMNi-HLTH<span>Execution and broker health monitoring.</span></div><div class="schedule-price">$49<small>or rent</small></div></li>
+      <li class="schedule-row is-next"><div class="schedule-date">Mon 19 Oct<small>Releasing today</small></div><div class="schedule-icon">🏥</div><div class="schedule-name">UMNi-HLTH<span>Ping, connection drops, spread spikes and slippage, graded A to D.</span></div><div class="schedule-price">$49<small>or rent</small></div></li>
+      <li class="schedule-row"><div class="schedule-date">Mon 26 Oct</div><div class="schedule-icon">🔗</div><div class="schedule-name">UMNi-SYNC<span>Multi-account trade copier.</span></div><div class="schedule-price">$79<small>or rent</small></div></li>
       <li class="schedule-row"><div class="schedule-date">Mon 2 Nov</div><div class="schedule-icon">🌊</div><div class="schedule-name">UMNi-FLOW<span>Order flow and buy/sell pressure awareness.</span></div><div class="schedule-price">$69<small>or rent</small></div></li>
       <li class="schedule-row"><div class="schedule-date">Mon 9 Nov</div><div class="schedule-icon">🔲</div><div class="schedule-name">UMNi-GRID<span>Grid and basket position manager.</span></div><div class="schedule-price">$69<small>or rent</small></div></li>
       <li class="schedule-row is-launch"><div class="schedule-date">Mon 16 Nov<small>Flagship launch</small></div><div class="schedule-icon">🤖</div><div class="schedule-name">UMNi Trade Agent<span>Every UMNi module in one tool, including the trade journal.</span></div><div class="schedule-price">$149<small>Launch price $79</small></div></li>
@@ -412,21 +412,21 @@
     <p class="pcard-d">Real-time market condition classification using ATR, ADX and Bollinger Bands, with alerts when the state changes.</p>
     <div class="pcard-f"><strong>$49</strong><span>View product &rarr;</span></div>
   </div>
-</a><a class="pcard rv" href="/products/sync/" style="--c:#14b8a6" data-status="next">
+</a><a class="pcard rv" href="/products/hlth/" style="--c:#84cc16" data-status="next">
+  <div class="pcard-img"><img src="/assets/products/hlth.svg" alt="UMNi-HLTH preview" loading="lazy" width="1200" height="820" /></div>
+  <div class="pcard-b">
+    <div class="pcard-top"><span class="pcard-n">🏥 UMNi-HLTH</span><span class="pill next"><i></i>Releasing Mon 19 Oct</span></div>
+    <div class="pcard-t">See what your broker hides.</div>
+    <p class="pcard-d">Execution health monitoring: real ping to the trade server, connection drops, spread spikes and slippage on your fills, graded A to D.</p>
+    <div class="pcard-f"><strong>$49</strong><span>View product &rarr;</span></div>
+  </div>
+</a><a class="pcard rv" href="/products/sync/" style="--c:#14b8a6" data-status="soon">
   <div class="pcard-img"><img src="/assets/products/sync.svg" alt="UMNi-SYNC preview" loading="lazy" width="1200" height="820" /></div>
   <div class="pcard-b">
-    <div class="pcard-top"><span class="pcard-n">🔗 UMNi-SYNC</span><span class="pill next"><i></i>Releasing Mon 19 Oct</span></div>
+    <div class="pcard-top"><span class="pcard-n">🔗 UMNi-SYNC</span><span class="pill soon"><i></i>Releasing Mon 26 Oct</span></div>
     <div class="pcard-t">One signal. Every account.</div>
     <p class="pcard-d">Multi-account trade copier via Telegram: the master broadcasts, subscribers execute with lot multipliers and SL / TP copy.</p>
     <div class="pcard-f"><strong>$79</strong><span>View product &rarr;</span></div>
-  </div>
-</a><a class="pcard rv" href="/products/hlth/" style="--c:#84cc16" data-status="soon">
-  <div class="pcard-img"><img src="/assets/products/hlth.svg" alt="UMNi-HLTH preview" loading="lazy" width="1200" height="820" /></div>
-  <div class="pcard-b">
-    <div class="pcard-top"><span class="pcard-n">🏥 UMNi-HLTH</span><span class="pill soon"><i></i>Releasing Mon 26 Oct</span></div>
-    <div class="pcard-t">See what your broker hides.</div>
-    <p class="pcard-d">Execution health monitoring: latency, spread spikes, broker response times and execution quality grades.</p>
-    <div class="pcard-f"><strong>$49</strong><span>View product &rarr;</span></div>
   </div>
 </a><a class="pcard rv" href="/products/flow/" style="--c:#0ea5e9" data-status="soon">
   <div class="pcard-img"><img src="/assets/products/flow.svg" alt="UMNi-FLOW preview" loading="lazy" width="1200" height="820" /></div>
@@ -619,7 +619,7 @@ function toggleMobileNav() {
   const FAQ = [
     {
       test: /when|release|launch|coming|date|schedule|next|new/i,
-      reply: "A new tool releases every Monday on MT5 and MT4. NEWS, RISK and STATE are live now. Next up: SYNC 19 Oct, HLTH 26 Oct, FLOW 2 Nov, GRID 9 Nov. The Trade Agent launches 16 Nov at a $79 launch price."
+      reply: "A new tool releases every Monday on MT5 and MT4. NEWS, RISK and STATE are live now. Next up: HLTH 19 Oct, SYNC 26 Oct, FLOW 2 Nov, GRID 9 Nov. The Trade Agent launches 16 Nov at a $79 launch price."
     },
     {
       test: /custom|bespoke|build me|hire|my strategy|develop/i,
@@ -631,7 +631,7 @@ function toggleMobileNav() {
     },
     {
       test: /product|mql5|tool|range|agent/i,
-      reply: "7 tools are live on MT4 and MT5 now: NTFY (free), ALRT, CMND, SESH, NEWS, RISK and STATE. SYNC, HLTH, FLOW and GRID release weekly from 19 Oct, and the Trade Agent brings everything together on 16 Nov."
+      reply: "7 tools are live on MT4 and MT5 now: NTFY (free), ALRT, CMND, SESH, NEWS, RISK and STATE. HLTH, SYNC, FLOW and GRID release weekly from 19 Oct, and the Trade Agent brings everything together on 16 Nov."
     },
     {
       test: /support|help|problem|issue|broken|not working|setup|install/i,
